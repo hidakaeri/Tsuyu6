@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 選択時の設定 -->
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <!-- 背景色 -->
+            <solid android:color="@color/future" />
+            <!-- 枠色 -->
+            <stroke
+                android:width="1dp"
+                android:color="@color/line" />
+            <!-- 角度 -->
+            <corners
+                android:bottomLeftRadius="4dp"
+                android:topLeftRadius="4dp"
+                android:bottomRightRadius="4dp"
+                android:topRightRadius="4dp"/>
+        </shape>
+    </item>
+
+    <!-- 非選択時の設定 -->
+    <item android:state_checked="false">
+        <shape android:shape="rectangle">
+            <!-- 背景色 -->
+            <solid android:color="@color/white" />
+            <!-- 枠色 -->
+            <stroke
+                android:width="1dp"
+                android:color="@color/line" />
+            <!-- 角度 -->
+            <corners
+                android:bottomLeftRadius="4dp"
+                android:topLeftRadius="4dp"
+                android:bottomRightRadius="4dp"
+                android:topRightRadius="4dp"/>
+
+        </shape>
+    </item>
+</selector>
