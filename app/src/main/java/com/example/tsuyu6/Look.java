@@ -138,7 +138,7 @@ public class Look extends AppCompatActivity {
                     menu.put("_id", _id);
                     menu.put("date", sdate);
                     menu.put("item", item);
-                    menu.put("amount",String.format("%,d",amount));
+                    menu.put("amount",amount);
                     menu.put("memo", "(" + memo + ")");
                     menuList.add(menu);
 
@@ -194,6 +194,7 @@ public class Look extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Map<String, Object> item = (Map<String, Object>)parent.getItemAtPosition(position);
 
+            String _id = item.get("_id").toString();
             String fixDate = item.get("date").toString();
             String fixItem = item.get("item").toString();
             String fixMemo = item.get("memo").toString();
@@ -202,6 +203,7 @@ public class Look extends AppCompatActivity {
             // fix画面に送るデータの格納
             Intent intent = new Intent(Look.this, Fix.class);
 
+            intent.putExtra("listId",_id);
             intent.putExtra("fixDate", fixDate);
             intent.putExtra("fixItem", fixItem);
             intent.putExtra("fixMemo", fixMemo);

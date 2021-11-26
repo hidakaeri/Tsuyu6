@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -51,6 +53,21 @@ public class DeleteDialog extends DialogFragment {
                 case DialogInterface.BUTTON_POSITIVE:
                     // DELETE文実行
                     Fix fix = new Fix();
+
+                    String listid = fix._id;
+
+                    // DBの更新処理(DELETE)
+                    int _id = Integer.parseInt(listid);
+                    DatabaseHelper helper = new DatabaseHelper(getActivity());
+                    SQLiteDatabase db = helper.getWritableDatabase();
+
+                    try {
+                        String sqlDelete = "DELETE FROM tsuyu6 WHERE _id = " + _id;
+                        SQLiteStatement stmt = db.compileStatement(sqlDelete);
+                        stmt.executeUpdateDelete();
+                    }finally {
+                        db.close();
+                    }
 
                     // 画面遷移
                     Intent intent = new Intent(getActivity(), Look.class);

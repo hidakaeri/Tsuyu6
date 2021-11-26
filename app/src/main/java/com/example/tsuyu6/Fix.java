@@ -41,6 +41,7 @@ public class Fix extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        _id = intent.getStringExtra("listId");
         fixDate = intent.getStringExtra("fixDate");
         fixItem = intent.getStringExtra("fixItem");
         fixAmount = intent.getStringExtra("fixAmount");
@@ -87,7 +88,7 @@ public class Fix extends AppCompatActivity {
         fixMemoText.setText(fixMemo);
 
         // DBの日時の分割（初期値用）
-        String[] strDate = fixDate.split("/");
+        String[] strDate = fixDate.split(" / ");
         newYear = Integer.parseInt(strDate[0]);
         int Month = Integer.parseInt(strDate[1]);
         newMonth = Month - 1;
@@ -207,7 +208,7 @@ public class Fix extends AppCompatActivity {
                     SQLiteDatabase db = helper.getWritableDatabase();
 
                     try {
-                        String sqlUpdate = "UPDATE tsuyu5 SET date = ?, item = ?, amount = ?, memo = ? WHERE _id = " + id;
+                        String sqlUpdate = "UPDATE tsuyu6 SET date = ?, item = ?, amount = ?, memo = ? WHERE _id = " + id;
                         SQLiteStatement stmt = db.compileStatement(sqlUpdate);
                         stmt.bindString(1, fixDate);
                         stmt.bindString(2, fixItem);
