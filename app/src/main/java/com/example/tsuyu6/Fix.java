@@ -232,7 +232,7 @@ public class Fix extends AppCompatActivity {
         }
     }
 
-    // 削除ボタンを押した場合の処理
+    // 削除ボタンを押した場合の処理ええええ
     private class DeleteClickListener implements View.OnClickListener {
         @Override
         public void onClick (View view) {
