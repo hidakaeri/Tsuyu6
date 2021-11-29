@@ -19,7 +19,6 @@
             android:id="@+id/display_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:textSize="15sp"
             android:text = "@string/date"/>
 

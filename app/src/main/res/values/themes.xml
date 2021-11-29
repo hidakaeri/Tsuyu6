@@ -33,4 +33,8 @@
         <item name="colorOnPrimary">@color/text</item>
 
     </style>
+
+    <style name="splash_screen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
 </resources>

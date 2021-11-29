@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
@@ -31,6 +32,7 @@ public class Look extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.currently);
         setContentView(R.layout.activity_look);
 
         ListView lvMenu = findViewById(R.id.look_list);
@@ -65,6 +67,10 @@ public class Look extends AppCompatActivity {
 
         TextView year_month = findViewById(R.id.year_month);
         year_month.setText(displayYear + "年" + displayMonth + "月");
+
+        // ListView の背景設定
+        ImageView imageView = findViewById(R.id.flower);
+        imageView.setBackgroundResource(R.drawable.splash);
 
         // 合計、収入、支出の変数定義、初期値設定
         int total = 0;
