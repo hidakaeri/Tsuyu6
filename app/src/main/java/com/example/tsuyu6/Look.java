@@ -166,13 +166,20 @@ public class Look extends AppCompatActivity {
                     amount = cur.getString(idxAmount);
                     memo = cur.getString(idxMemo);
 
+                    if(memo.equals("")) {
+
+                    } else {
+                        memo = "(" + memo + ")";
+                    }
+
+
                     //取得したデータをリストのmapに入れる
                     menu = new HashMap<>();
                     menu.put("_id", _id);
                     menu.put("date", sdate);
                     menu.put("item", item);
                     menu.put("amount",amount);
-                    menu.put("memo", "(" + memo + ")");
+                    menu.put("memo", memo);
                     menuList.add(menu);
 
                     cur.moveToFirst();
