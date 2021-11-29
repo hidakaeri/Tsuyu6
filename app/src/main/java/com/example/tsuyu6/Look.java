@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -64,13 +66,46 @@ public class Look extends AppCompatActivity {
         TextView year_month = findViewById(R.id.year_month);
         year_month.setText(displayYear + "年" + displayMonth + "月");
 
-
-        // displayYearとDisplayMonthでDB検索してください。
-
         // 合計、収入、支出の変数定義、初期値設定
         int total = 0;
         int income = 0;
         int expenditure = 0;
+
+        //DB接続準備
+        DatabaseHelper helper = new DatabaseHelper(Look.this);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        //月を二桁表示
+        Format f = new DecimalFormat("00");
+
+        //年、月ごとにDB検索(合計)
+        String totalSql = "SELECT TOTAL(amount) FROM tsuyu6 " +
+                "WHERE date >= '" + displayYear + " / " + f.format(displayMonth) + " / 01'" +
+                "AND date <= '" + displayYear + " / " + f.format(displayMonth)  + " / 31'";
+
+        Cursor cur = db.rawQuery(totalSql,null);
+        cur.moveToFirst();
+        total = cur.getInt(0);
+
+        //年、月ごとにDB検索(収入)
+        String incomeSql = "SELECT TOTAL(amount) FROM tsuyu6 " +
+                "WHERE amount > 0 " +
+                "AND date >= '" + displayYear + " / " + f.format(displayMonth) + " / 01'" +
+                "AND date <= '" + displayYear + " / " + f.format(displayMonth)  + " / 31'";
+
+        cur = db.rawQuery(incomeSql,null);
+        cur.moveToFirst();
+        income = cur.getInt(0);
+
+        //年、月ごとにDB検索(支出)
+        String expenditureSql = "SELECT TOTAL(amount) FROM tsuyu6 " +
+                "WHERE amount < 0 " +
+                "AND date >= '" + displayYear + " / " + f.format(displayMonth) + " / 01'" +
+                "AND date <= '" + displayYear + " / " + f.format(displayMonth)  + " / 31'";
+
+        cur = db.rawQuery(expenditureSql,null);
+        cur.moveToFirst();
+        expenditure = cur.getInt(0);
 
         // 合計、収入、支出のTextView取得
         TextView totalText = findViewById(R.id.look_total);
@@ -83,11 +118,7 @@ public class Look extends AppCompatActivity {
         expenditureText.setText(String.format("%,d", expenditure));
 
 
-        //DB接続準備
-        DatabaseHelper helper = new DatabaseHelper(Look.this);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-
+        //DB操作(SELECT)
         if(helper == null){
             helper = new DatabaseHelper(getApplicationContext());
         }
@@ -97,7 +128,7 @@ public class Look extends AppCompatActivity {
         try {
 
             String sql = "SELECT * FROM tsuyu6";
-            Cursor cur = db.rawQuery(sql,null);
+            cur = db.rawQuery(sql,null);
 
             //DBの_idをリストに渡す
             String[] from = {"_id","date","item","memo","amount"};
@@ -105,33 +136,35 @@ public class Look extends AppCompatActivity {
             SimpleCursorAdapter adapter = new SimpleCursorAdapter(Look.this, R.layout.row, cur, from, to,0);
             lvMenu.setAdapter(adapter);
 
-
             //1行ずつDBからリストへ
             long Count = DatabaseUtils.queryNumEntries(db,"tsuyu6", null,null);
             for (int i = 0; i <= Count; i++){
 
-                String selectSql = "SELECT * FROM tsuyu6 LIMIT " + i + "," + 1;
-                Cursor cursor = db.rawQuery(selectSql, null);
+                String selectSql = "SELECT * FROM tsuyu6 " +
+                        "WHERE date >= '" + displayYear + " / " + f.format(displayMonth) + " / 01'" +
+                        "AND date <= '" + displayYear + " / " + f.format(displayMonth)  + " / 31'" +
+                        " LIMIT " + i + "," + 1;
+                cur = db.rawQuery(selectSql, null);
                 String _id = "";
                 String sdate = "";
                 String item = "";
                 String amount = "";
                 String memo = "";
 
-                while(cursor.moveToNext()){
+                while(cur.moveToNext()){
                     //DBの列番号(index)を取得
-                    int idxId = cursor.getColumnIndex("_id");
-                    int idxDate = cursor.getColumnIndex("date");
-                    int idxItem = cursor.getColumnIndex("item");
-                    int idxAmount = cursor.getColumnIndex("amount");
-                    int idxMemo = cursor.getColumnIndex("memo");
+                    int idxId = cur.getColumnIndex("_id");
+                    int idxDate = cur.getColumnIndex("date");
+                    int idxItem = cur.getColumnIndex("item");
+                    int idxAmount = cur.getColumnIndex("amount");
+                    int idxMemo = cur.getColumnIndex("memo");
 
                     //列番号(index)にあるデータを取得
-                    _id = cursor.getString(idxId);
-                    sdate = cursor.getString(idxDate);
-                    item = cursor.getString(idxItem);
-                    amount = cursor.getString(idxAmount);
-                    memo = cursor.getString(idxMemo);
+                    _id = cur.getString(idxId);
+                    sdate = cur.getString(idxDate);
+                    item = cur.getString(idxItem);
+                    amount = cur.getString(idxAmount);
+                    memo = cur.getString(idxMemo);
 
                     //取得したデータをリストのmapに入れる
                     menu = new HashMap<>();
@@ -142,7 +175,7 @@ public class Look extends AppCompatActivity {
                     menu.put("memo", "(" + memo + ")");
                     menuList.add(menu);
 
-                    cursor.moveToFirst();
+                    cur.moveToFirst();
                 }
             }
 
