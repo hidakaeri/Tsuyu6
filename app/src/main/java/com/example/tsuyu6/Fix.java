@@ -197,6 +197,7 @@ public class Fix extends AppCompatActivity {
                     SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy / MM / dd");
                     Date inputDate = sdFormat.parse(fixDateString);
 
+
                     // 金額の符号を設定
                     if (text.equals("支出")) {
                         fixAmount *= -1;
@@ -210,7 +211,7 @@ public class Fix extends AppCompatActivity {
                     try {
                         String sqlUpdate = "UPDATE tsuyu6 SET date = ?, item = ?, amount = ?, memo = ? WHERE _id = " + id;
                         SQLiteStatement stmt = db.compileStatement(sqlUpdate);
-                        stmt.bindString(1, String.valueOf(inputDate));
+                        stmt.bindString(1, fixDateString);
                         stmt.bindString(2, fixItem);
                         stmt.bindLong(3, fixAmount);
                         stmt.bindString(4, fixMemo);

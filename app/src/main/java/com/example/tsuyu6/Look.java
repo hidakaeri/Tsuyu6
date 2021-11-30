@@ -177,7 +177,8 @@ public class Look extends AppCompatActivity {
                 String selectSql = "SELECT * FROM tsuyu6 " +
                         "WHERE date >= '" + displayYear + " / " + f.format(displayMonth) + " / 01'" +
                         "AND date <= '" + displayYear + " / " + f.format(displayMonth)  + " / 31'" +
-                        " LIMIT " + i + "," + 1;
+                        "ORDER BY date " +
+                        "LIMIT " + i + "," + 1;
                 cur = db.rawQuery(selectSql, null);
                 String _id = "";
                 String sdate = "";
