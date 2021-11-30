@@ -33,6 +33,8 @@ public class Fix extends AppCompatActivity {
     String fixAmount = "";
     String fixMemo = "";
 
+    static int month;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +92,8 @@ public class Fix extends AppCompatActivity {
         // DBの日時の分割（初期値用）
         String[] strDate = fixDate.split(" / ");
         newYear = Integer.parseInt(strDate[0]);
-        int Month = Integer.parseInt(strDate[1]);
-        newMonth = Month - 1;
+        month = Integer.parseInt(strDate[1]);
+        newMonth = month - 1;
         newDay = Integer.parseInt(strDate[2]);
 
         //EditTextにリスナーをつける
@@ -188,46 +190,44 @@ public class Fix extends AppCompatActivity {
                 TextView fixItemText = findViewById(R.id.fixItem);
                 TextView fixMemoText = findViewById(R.id.fixMemo);
 
-                String fixDateString = fixDateText.getText().toString();
+                String fixDate = fixDateText.getText().toString();
                 String fixItem = fixItemText.getText().toString();
                 int fixAmount = Integer.parseInt(fixAmountString);
                 String fixMemo = fixMemoText.getText().toString();
 
-                try {
-                    SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy / MM / dd");
-                    Date inputDate = sdFormat.parse(fixDateString);
+                // 入力された月を取得
+                String[] strDate = fixDate.split(" / ");
+                month = Integer.parseInt(strDate[1]);
 
 
-                    // 金額の符号を設定
-                    if (text.equals("支出")) {
-                        fixAmount *= -1;
-                    }
-
-                    // DB更新処理(UPDATE)
-                    int id = Integer.parseInt(_id);
-                    DatabaseHelper helper = new DatabaseHelper(Fix.this);
-                    SQLiteDatabase db = helper.getWritableDatabase();
-
-                    try {
-                        String sqlUpdate = "UPDATE tsuyu6 SET date = ?, item = ?, amount = ?, memo = ? WHERE _id = " + id;
-                        SQLiteStatement stmt = db.compileStatement(sqlUpdate);
-                        stmt.bindString(1, fixDateString);
-                        stmt.bindString(2, fixItem);
-                        stmt.bindLong(3, fixAmount);
-                        stmt.bindString(4, fixMemo);
-
-                        stmt.executeInsert();
-
-                    }finally {
-                        db.close();
-                    }
-
-                    Intent intent = new Intent(Fix.this, Look.class);
-                    startActivity(intent);
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                // 金額の符号を設定
+                if (text.equals("支出")) {
+                    fixAmount *= -1;
                 }
+
+                // DB更新処理(UPDATE)
+                int id = Integer.parseInt(_id);
+                DatabaseHelper helper = new DatabaseHelper(Fix.this);
+                SQLiteDatabase db = helper.getWritableDatabase();
+
+                try {
+                    String sqlUpdate = "UPDATE tsuyu6 SET date = ?, item = ?, amount = ?, memo = ? WHERE _id = " + id;
+                    SQLiteStatement stmt = db.compileStatement(sqlUpdate);
+                    stmt.bindString(1, fixDate);
+                    stmt.bindString(2, fixItem);
+                    stmt.bindLong(3, fixAmount);
+                    stmt.bindString(4, fixMemo);
+
+                    stmt.executeInsert();
+
+                }finally {
+                    db.close();
+                }
+
+                Intent intent = new Intent(Fix.this, Look.class);
+                intent.putExtra("month", month);
+                startActivity(intent);
+
                 finish();
             }
         }

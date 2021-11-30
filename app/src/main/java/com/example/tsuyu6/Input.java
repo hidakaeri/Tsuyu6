@@ -132,58 +132,56 @@ public class Input extends AppCompatActivity {
                 TextView inputMemoText = findViewById(R.id.inputMemo);
 
 
-                String inputDateString = inputDateText.getText().toString();
+                String inputDate = inputDateText.getText().toString();
                 String inputItem = inputItemText.getText().toString();
                 String inputMemo = inputMemoText.getText().toString();
 
-                try {
-                    SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy / MM / dd");
-                    Date inputDate = sdFormat.parse(inputDateString);
+                // 入力された月を取得
+                String[] strDate = inputDate.split(" / ");
+                int month = Integer.parseInt(strDate[1]);
 
-                    // 選択されているラジオボタンの取得
-                    RadioButton radioButton = (RadioButton) findViewById(checkedId);
+                // 選択されているラジオボタンの取得
+                RadioButton radioButton = (RadioButton) findViewById(checkedId);
 
-                    // ラジオボタンのテキストを取得
-                    String text = radioButton.getText().toString();
+                // ラジオボタンのテキストを取得
+                String text = radioButton.getText().toString();
 
-                    // 金額をint型に変換
-                    int inputAmount = Integer.parseInt(inputAmountString);
+                // 金額をint型に変換
+                int inputAmount = Integer.parseInt(inputAmountString);
 
 
-                    // 金額の符号を設定
-                    if(text.equals("支出")) {
-                        inputAmount *= -1;
-                    }
-
-                    // DBの更新処理(INSERT)
-                    DatabaseHelper helper = new DatabaseHelper(Input.this);
-                    SQLiteDatabase db = helper.getWritableDatabase();
-
-                    if(helper == null){
-                        helper = new DatabaseHelper(getApplicationContext());
-                    }
-
-                    if(db == null){
-                        db = helper.getReadableDatabase();
-                    }
-                    try {
-                        String sqlInsert = "INSERT INTO tsuyu6 (_id, date, item, amount, memo) VALUES (?,?,?,?,?)";
-                        SQLiteStatement stmt = db.compileStatement(sqlInsert);
-                        stmt.bindString(2, inputDateString);
-                        stmt.bindString(3, inputItem);
-                        stmt.bindLong(4, inputAmount);
-                        stmt.bindString(5, inputMemo);
-
-                        stmt.executeInsert();
-                    }finally {
-                        db.close();
-                    }
-                    Intent intent = new Intent(Input.this, Look.class);
-                    startActivity(intent);
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                // 金額の符号を設定
+                if(text.equals("支出")) {
+                    inputAmount *= -1;
                 }
+
+                // DBの更新処理(INSERT)
+                DatabaseHelper helper = new DatabaseHelper(Input.this);
+                SQLiteDatabase db = helper.getWritableDatabase();
+
+                if(helper == null){
+                    helper = new DatabaseHelper(getApplicationContext());
+                }
+
+                if(db == null){
+                    db = helper.getReadableDatabase();
+                }
+                try {
+                    String sqlInsert = "INSERT INTO tsuyu6 (_id, date, item, amount, memo) VALUES (?,?,?,?,?)";
+                    SQLiteStatement stmt = db.compileStatement(sqlInsert);
+                    stmt.bindString(2, inputDate);
+                    stmt.bindString(3, inputItem);
+                    stmt.bindLong(4, inputAmount);
+                    stmt.bindString(5, inputMemo);
+
+                    stmt.executeInsert();
+                }finally {
+                    db.close();
+                }
+                Intent intent = new Intent(Input.this, Look.class);
+                intent.putExtra("month", month);
+                startActivity(intent);
+
             }
         }
     }

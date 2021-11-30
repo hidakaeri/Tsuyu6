@@ -43,6 +43,7 @@ public class Look extends AppCompatActivity {
         // intentを受け取る
         Intent intent = getIntent();
         month_count = intent.getIntExtra("month_count",0);
+        int month = intent.getIntExtra("month",-1);
 
         // 現在の年月を取得
         Calendar date = Calendar.getInstance();
@@ -64,6 +65,11 @@ public class Look extends AppCompatActivity {
             }
         }
         int displayYear = nowYear+year_count;
+
+        // 追加、編集画面から戻ってきた場合
+        if(month != -1) {
+            displayMonth = month;
+        }
 
 
         TextView year_month = findViewById(R.id.year_month);
