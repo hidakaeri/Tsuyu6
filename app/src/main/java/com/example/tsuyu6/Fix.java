@@ -210,7 +210,7 @@ public class Fix extends AppCompatActivity {
                     try {
                         String sqlUpdate = "UPDATE tsuyu6 SET date = ?, item = ?, amount = ?, memo = ? WHERE _id = " + id;
                         SQLiteStatement stmt = db.compileStatement(sqlUpdate);
-                        stmt.bindString(1, fixDate);
+                        stmt.bindString(1, String.valueOf(inputDate));
                         stmt.bindString(2, fixItem);
                         stmt.bindLong(3, fixAmount);
                         stmt.bindString(4, fixMemo);

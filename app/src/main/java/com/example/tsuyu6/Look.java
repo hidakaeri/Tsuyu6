@@ -81,7 +81,8 @@ public class Look extends AppCompatActivity {
         //年、月ごとにDB検索(合計)
         String totalSql = "SELECT TOTAL(amount) FROM tsuyu6 " +
                 "WHERE date >= '" + displayYear + " / " + f.format(displayMonth) + " / 01'" +
-                "AND date <= '" + displayYear + " / " + f.format(displayMonth)  + " / 31'";
+                "AND date <= '" + displayYear + " / " + f.format(displayMonth)  + " / 31'" +
+                "ORDER BY date";
 
         Cursor cur = db.rawQuery(totalSql,null);
         cur.moveToFirst();
