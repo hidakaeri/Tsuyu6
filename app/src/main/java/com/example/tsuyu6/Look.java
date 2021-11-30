@@ -317,6 +317,7 @@ public class Look extends AppCompatActivity {
             Intent intent = new Intent(Look.this, Look.class);
             intent.putExtra("month_count", month_count);
             startActivity(intent);
+            finish();
         }
     }
 
@@ -329,6 +330,7 @@ public class Look extends AppCompatActivity {
             Intent intent = new Intent(Look.this, Look.class);
             intent.putExtra("month_count", month_count);
             startActivity(intent);
+            finish();
         }
     }
 
@@ -339,6 +341,7 @@ public class Look extends AppCompatActivity {
 
             Intent intent = new Intent(Look.this, FuLook.class);
             startActivity(intent);
+            finish();
 
         }
     }

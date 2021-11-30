@@ -182,6 +182,8 @@ public class Input extends AppCompatActivity {
                 intent.putExtra("month", month);
                 startActivity(intent);
 
+                finish();
+
             }
         }
     }

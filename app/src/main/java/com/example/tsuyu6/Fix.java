@@ -227,7 +227,6 @@ public class Fix extends AppCompatActivity {
                 Intent intent = new Intent(Fix.this, Look.class);
                 intent.putExtra("month", month);
                 startActivity(intent);
-
                 finish();
             }
         }
