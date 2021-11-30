@@ -31,6 +31,7 @@ public class Look extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setTheme(R.style.currently);
         setContentView(R.layout.activity_look);
@@ -70,7 +71,33 @@ public class Look extends AppCompatActivity {
 
         // ListView の背景設定
         ImageView imageView = findViewById(R.id.flower);
-        imageView.setBackgroundResource(R.drawable.splash);
+        if(displayMonth == 1) {
+            imageView.setBackgroundResource(R.drawable.jan);
+        } else if (displayMonth == 2) {
+            imageView.setBackgroundResource(R.drawable.feb);
+        } else if (displayMonth == 3) {
+            imageView.setBackgroundResource(R.drawable.mar);
+        } else if (displayMonth == 4) {
+            imageView.setBackgroundResource(R.drawable.apr);
+        } else if (displayMonth == 5) {
+            imageView.setBackgroundResource(R.drawable.may);
+        } else if (displayMonth == 6) {
+            imageView.setBackgroundResource(R.drawable.jun);
+        } else if (displayMonth == 7) {
+            imageView.setBackgroundResource(R.drawable.jul);
+        } else if (displayMonth == 8) {
+            imageView.setBackgroundResource(R.drawable.aug);
+        } else if (displayMonth == 9) {
+            imageView.setBackgroundResource(R.drawable.sep);
+        } else if (displayMonth == 10) {
+            imageView.setBackgroundResource(R.drawable.out);
+        } else if (displayMonth == 11) {
+            imageView.setBackgroundResource(R.drawable.nov);
+        } else if (displayMonth == 12) {
+            imageView.setBackgroundResource(R.drawable.dec);
+        }
+
+
 
         // 合計、収入、支出の変数定義、初期値設定
         int total = 0;
