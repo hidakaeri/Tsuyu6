@@ -1,5 +1,7 @@
 package com.example.tsuyu6;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,13 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-public class Fix extends AppCompatActivity {
+public class FuFix extends AppCompatActivity {
 
     int newYear;
     int newMonth;
@@ -32,16 +28,13 @@ public class Fix extends AppCompatActivity {
     String fixItem = "";
     String fixAmount = "";
     String fixMemo = "";
-    static int displayMonth;
-    static int displayYear;
-
-
+    static int FuDisplayMonth;
+    static int FuDisplayYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fix);
-
+        setContentView(R.layout.activity_fu_fix);
         Intent intent = getIntent();
 
         _id = intent.getStringExtra("listId");
@@ -49,8 +42,8 @@ public class Fix extends AppCompatActivity {
         fixItem = intent.getStringExtra("fixItem");
         fixAmount = intent.getStringExtra("fixAmount");
         fixMemo = intent.getStringExtra("fixMemo");
-        displayMonth = intent.getIntExtra("displayMonth",0);
-        displayYear = intent.getIntExtra("displayYear",0);
+        FuDisplayMonth = intent.getIntExtra("FuDisplayMonth",0);
+        FuDisplayYear = intent.getIntExtra("FuDisplayYear",0);
 
 
         TextView fixDateText = findViewById(R.id.fixDate);
@@ -106,7 +99,7 @@ public class Fix extends AppCompatActivity {
 
                 //DatePickerDialogインスタンスを取得
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        Fix.this,
+                        FuFix.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -133,14 +126,14 @@ public class Fix extends AppCompatActivity {
         // 修正ボタンの取得
         Button fixClick = findViewById(R.id.fixClick);
         // 修正ボタンのリスナクラスのインスタンスを作成
-        FixClickListenerListener fix_listener = new FixClickListenerListener();
+        FuFix.FixClickListenerListener fix_listener = new FuFix.FixClickListenerListener();
         // 修正ボタンにリスナを設定
         fixClick.setOnClickListener(fix_listener);
 
         // 削除ボタンの取得
         Button deleteClick = findViewById(R.id.deleteClick);
         // 削除ボタンのリスナクラスのインスタンスを作成
-        DeleteClickListener delete_listener = new DeleteClickListener();
+        FuFix.DeleteClickListener delete_listener = new FuFix.DeleteClickListener();
         // 削除ボタンにリスナを設定
         deleteClick.setOnClickListener(delete_listener);
 
@@ -161,9 +154,9 @@ public class Fix extends AppCompatActivity {
     // 戻るボタンを押した場合の処理
     public void onBackButtonClick(View view) {
 
-        Intent intent = new Intent(Fix.this, Look.class);
-        intent.putExtra("displayMonth", displayMonth);
-        intent.putExtra("displayYear", displayYear);
+        Intent intent = new Intent(FuFix.this, FuLook.class);
+        intent.putExtra("FuDisplayMonth", FuDisplayMonth);
+        intent.putExtra("FuDisplayYear", FuDisplayYear);
         startActivity(intent);
         finish();
     }
@@ -180,7 +173,7 @@ public class Fix extends AppCompatActivity {
             if (fixAmountString.equals("")){
                 // 金額が入力されていない場合の処理
                 // トーストを表示
-                Toast.makeText(Fix.this, R.string.toast_amount, Toast.LENGTH_LONG).show();
+                Toast.makeText(FuFix.this, R.string.toast_amount, Toast.LENGTH_LONG).show();
             } else {
                 // 選択されているラジオボタンの取得
                 RadioGroup radioGroup = (RadioGroup) findViewById(R.id.flgIncomeExpenditure);
@@ -215,7 +208,7 @@ public class Fix extends AppCompatActivity {
 
                 // DB更新処理(UPDATE)
                 int id = Integer.parseInt(_id);
-                DatabaseHelper helper = new DatabaseHelper(Fix.this);
+                DatabaseHelper helper = new DatabaseHelper(FuFix.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
 
                 try {
@@ -232,9 +225,9 @@ public class Fix extends AppCompatActivity {
                     db.close();
                 }
 
-                Intent intent = new Intent(Fix.this, Look.class);
-                intent.putExtra("displayYear", year);
-                intent.putExtra("displayMonth", month);
+                Intent intent = new Intent(FuFix.this, FuLook.class);
+                intent.putExtra("FuDisplayYear", year);
+                intent.putExtra("FuDisplayMonth", month);
                 startActivity(intent);
 
                 finish();

@@ -1,5 +1,7 @@
 package com.example.tsuyu6;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,36 +17,29 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
-public class Input extends AppCompatActivity {
+public class FuInput extends AppCompatActivity {
 
     int newYear;
     int newMonth;
     int newDay;
-    static int displayYear;
-    static int displayMonth;
-
+    static int FuDisplayYear;
+    static int FuDisplayMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_input);
-
+        setContentView(R.layout.activity_fu_input);
         Intent intent = getIntent();
 
-        displayYear = intent.getIntExtra("displayYear",0);
-        displayMonth = intent.getIntExtra("displayMonth",0);
+        FuDisplayYear = intent.getIntExtra("FuDisplayYear",0);
+        FuDisplayMonth = intent.getIntExtra("FuDisplayMonth",0);
 
         // 保存ボタンの取得
         Button inputClick = findViewById(R.id.inputClick);
         // 保存ボタンのリスナクラスのインスタンスを作成
-        InputClickListener input_listener = new InputClickListener();
+        FuInput.InputClickListener input_listener = new FuInput.InputClickListener();
         // 保存ボタンにリスナを設定
         inputClick.setOnClickListener(input_listener);
 
@@ -66,7 +61,7 @@ public class Input extends AppCompatActivity {
 
                 //DatePickerDialogインスタンスを取得
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        Input.this,
+                        FuInput.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -106,9 +101,9 @@ public class Input extends AppCompatActivity {
     // 戻るボタンを押した場合の処理
     public void onBackButtonClick(View view) {
 
-        Intent intent = new Intent(Input.this, Look.class);
-        intent.putExtra("displayYear", displayYear);
-        intent.putExtra("displayMonth", displayMonth);
+        Intent intent = new Intent(FuInput.this, FuLook.class);
+        intent.putExtra("FuDisplayYear", FuDisplayYear);
+        intent.putExtra("FuDisplayMonth", FuDisplayMonth);
         startActivity(intent);
 
         finish();
@@ -132,11 +127,11 @@ public class Input extends AppCompatActivity {
             if (checkedId == -1) {
                 // ラジオボタンが選択されていない場合の処理
                 // トーストを表示
-                Toast.makeText(Input.this, R.string.toast_radio, Toast.LENGTH_LONG).show();
+                Toast.makeText(FuInput.this, R.string.toast_radio, Toast.LENGTH_LONG).show();
             } else if (inputAmountString.equals("")){
                 // 金額が入力されていない場合の処理
                 // トーストを表示
-                Toast.makeText(Input.this, R.string.toast_amount, Toast.LENGTH_LONG).show();
+                Toast.makeText(FuInput.this, R.string.toast_amount, Toast.LENGTH_LONG).show();
             } else {
 
                 // 入力された内容を取得
@@ -170,7 +165,7 @@ public class Input extends AppCompatActivity {
                 }
 
                 // DBの更新処理(INSERT)
-                DatabaseHelper helper = new DatabaseHelper(Input.this);
+                DatabaseHelper helper = new DatabaseHelper(FuInput.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
 
                 if(helper == null){
@@ -192,9 +187,9 @@ public class Input extends AppCompatActivity {
                 }finally {
                     db.close();
                 }
-                Intent intent = new Intent(Input.this, Look.class);
-                intent.putExtra("displayYear", year);
-                intent.putExtra("displayMonth", month);
+                Intent intent = new Intent(FuInput.this, FuLook.class);
+                intent.putExtra("FuDisplayYear", year);
+                intent.putExtra("FuDisplayMonth", month);
                 startActivity(intent);
                 finish();
 

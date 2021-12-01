@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:layout_weight="1">
+
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/future">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text = "@string/edit"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:background="@color/future_accent"/>
+
+        <TextView
+            android:id="@+id/fixDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="40dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/part_design"
+            android:textSize="25sp"
+            android:inputType="none"
+            android:hint="@string/date"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <requestFocus/>
+        </TextView>
+
+
+        <EditText
+            android:id="@+id/fixItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/part_design"
+            android:textSize="25sp"
+            android:textColor="@color/text"
+            android:hint="@string/item"/>
+
+        <RadioGroup
+            android:id="@+id/flgIncomeExpenditure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/flgExpenditure"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/radio_future"
+                android:textColor="@color/text"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/expenditure"/>
+
+            <RadioButton
+                android:id="@+id/flgIncome"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/radio_future"
+                android:textColor="@color/text"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/income"/>
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/part_design"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/fixAmount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textSize="25sp"
+                android:textColor="@color/text"
+                android:background="#00000000"
+                android:inputType="number"
+                android:hint="@string/amount"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_gravity="right"
+                android:textSize="25sp"
+                android:textColor="@color/text"
+                android:text="円"/>
+
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/fixMemo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/part_design"
+            android:textSize="25sp"
+            android:textColor="@color/text"
+            android:hint="@string/memo"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="0dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/back_to_look"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="20dp"
+                android:onClick="onBackButtonClick"
+                android:text="@string/back_button"/>
+
+            <Button
+                android:id="@+id/fixClick"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/fix"/>
+
+            <Button
+                android:id="@+id/deleteClick"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/delete"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

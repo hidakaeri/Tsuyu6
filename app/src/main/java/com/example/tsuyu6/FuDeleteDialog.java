@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 
 
-public class DeleteDialog extends DialogFragment {
+public class FuDeleteDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class DeleteDialog extends DialogFragment {
         TextView titleView = new TextView(getActivity());
         titleView.setText(getResources().getText(R.string.dialog_title));
         titleView.setTextSize(20);
-        titleView.setBackgroundColor(getResources().getColor(R.color.currently));
+        titleView.setBackgroundColor(getResources().getColor(R.color.future));
         titleView.setPadding(80, 20, 20, 20);
 
         // メッセージのデザインを作成
@@ -52,11 +52,12 @@ public class DeleteDialog extends DialogFragment {
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
                     // DELETE文実行
-                    Fix fix = new Fix();
+                    FuFix fufix = new FuFix();
 
-                    String listid = fix._id;
-                    int displayMonth = fix.displayMonth;
-                    int displayYear = fix.displayYear;
+                    String listid = fufix._id;
+                    int FuDisplayYear = fufix.FuDisplayYear;
+                    int FuDisplayMonth = fufix.FuDisplayMonth;
+
 
                     // DBの更新処理(DELETE)
                     int _id = Integer.parseInt(listid);
@@ -73,10 +74,10 @@ public class DeleteDialog extends DialogFragment {
 
                     // 画面遷移
                     Intent intent = new Intent(getActivity(), Look.class);
-                    intent.putExtra("displayYear", displayYear);
-                    intent.putExtra("displayMonth", displayMonth);
+                    intent.putExtra("FuDisplayYear", FuDisplayYear);
+                    intent.putExtra("FuDisplayMonth", FuDisplayMonth);
                     startActivity(intent);
-                    fix.Finish();
+                    // fufix.Finish();
 
                     break;
 

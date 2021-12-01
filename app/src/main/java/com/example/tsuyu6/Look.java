@@ -28,6 +28,8 @@ import java.util.Map;
 public class Look extends AppCompatActivity {
 
     static int month_count;
+    static int displayMonth;
+    static int displayYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,32 +45,36 @@ public class Look extends AppCompatActivity {
         // intentを受け取る
         Intent intent = getIntent();
         month_count = intent.getIntExtra("month_count",0);
-        int month = intent.getIntExtra("month",-1);
+        int displayReturnMonth = intent.getIntExtra("displayMonth",-1);
+        int displayReturnYear = intent.getIntExtra("displayYear",-1);
 
         // 現在の年月を取得
         Calendar date = Calendar.getInstance();
         int nowMonth = date.get(Calendar.MONTH)+1;
         int nowYear = date.get(Calendar.YEAR);
 
-        // 表示したい月
-        int displayMonth = nowMonth+month_count;
-        int year_count = 0;
-        if(displayMonth > 12) {
-            while(displayMonth > 12){
-                displayMonth -= 12;
-                year_count++;
-            }
-        } else if (displayMonth < 1){
-            while(displayMonth < 1){
-                displayMonth += 12;
-                year_count--;
-            }
-        }
-        int displayYear = nowYear+year_count;
+
 
         // 追加、編集画面から戻ってきた場合
-        if(month != -1) {
-            displayMonth = month;
+        if(displayReturnMonth != -1) {
+            displayMonth = displayReturnMonth;
+            displayYear = displayReturnYear;
+        } else {
+            // 表示したい月
+            displayMonth = nowMonth+month_count;
+            int year_count = 0;
+            if(displayMonth > 12) {
+                while(displayMonth > 12){
+                    displayMonth -= 12;
+                    year_count++;
+                }
+            } else if (displayMonth < 1){
+                while(displayMonth < 1){
+                    displayMonth += 12;
+                    year_count--;
+                }
+            }
+            displayYear = nowYear+year_count;
         }
 
 
@@ -290,8 +296,11 @@ public class Look extends AppCompatActivity {
             intent.putExtra("fixMemo", fixMemo);
             intent.putExtra("fixAmount", fixAmount);
 
-            startActivity(intent);
+            intent.putExtra("displayMonth", displayMonth);
+            intent.putExtra("displayYear", displayYear);
 
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -300,11 +309,12 @@ public class Look extends AppCompatActivity {
         @Override
         public void onClick (View view) {
 
-            // DBの更新処理
-
             // 入力画面に遷移
             Intent intent = new Intent(Look.this, Input.class);
+            intent.putExtra("displayMonth", displayMonth);
+            intent.putExtra("displayYear", displayYear);
             startActivity(intent);
+            finish();
         }
     }
 
