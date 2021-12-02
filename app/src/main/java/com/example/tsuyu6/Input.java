@@ -133,10 +133,14 @@ public class Input extends AppCompatActivity {
                 // ラジオボタンが選択されていない場合の処理
                 // トーストを表示
                 Toast.makeText(Input.this, R.string.toast_radio, Toast.LENGTH_LONG).show();
-            } else if (inputAmountString.equals("")){
+            } else if (inputAmountString.equals("")) {
                 // 金額が入力されていない場合の処理
                 // トーストを表示
                 Toast.makeText(Input.this, R.string.toast_amount, Toast.LENGTH_LONG).show();
+            /*} else if (Double.parseDouble(inputAmountString) % 1 != 0){
+                // 金額が小数の場合
+                // トーストを表示
+                Toast.makeText(Input.this, R.string.toast_double, Toast.LENGTH_LONG).show();*/
             } else {
 
                 // 入力された内容を取得
@@ -159,6 +163,8 @@ public class Input extends AppCompatActivity {
 
                 // ラジオボタンのテキストを取得
                 String text = radioButton.getText().toString();
+
+
 
                 // 金額をint型に変換
                 int inputAmount = Integer.parseInt(inputAmountString);
