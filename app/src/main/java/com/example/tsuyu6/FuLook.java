@@ -249,6 +249,8 @@ public class FuLook extends AppCompatActivity {
             db.close();
         }
 
+
+
         String[] from = {"_id","date","item","memo","amount"};
         int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount};
         SimpleAdapter adapter = new SimpleAdapter(FuLook.this,menuList,R.layout.row,from,to);
