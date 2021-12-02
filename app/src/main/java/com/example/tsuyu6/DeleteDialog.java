@@ -76,7 +76,7 @@ public class DeleteDialog extends DialogFragment {
                     intent.putExtra("displayYear", displayYear);
                     intent.putExtra("displayMonth", displayMonth);
                     startActivity(intent);
-                    fix.Finish();
+                    getActivity().finish();
 
                     break;
 

@@ -73,11 +73,11 @@ public class FuDeleteDialog extends DialogFragment {
                     }
 
                     // 画面遷移
-                    Intent intent = new Intent(getActivity(), Look.class);
+                    Intent intent = new Intent(getActivity(), FuLook.class);
                     intent.putExtra("FuDisplayYear", FuDisplayYear);
                     intent.putExtra("FuDisplayMonth", FuDisplayMonth);
                     startActivity(intent);
-                    // fufix.Finish();
+                    getActivity().finish();
 
                     break;
 

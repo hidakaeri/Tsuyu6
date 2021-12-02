@@ -11,8 +11,8 @@
     <color name="currently">#eff7ff</color>
     <color name="currently_accent">#add6ff</color>
 
-    <color name="future">#ffeff7</color>
-    <color name="future_accent">#ffadd6</color>
+    <color name="future">#fff4f9</color>
+    <color name="future_accent">#ffcce5</color>
 
     <color name="line">#f1f1f1</color>
 

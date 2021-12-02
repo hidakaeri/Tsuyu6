@@ -81,30 +81,43 @@ public class FuLook extends AppCompatActivity {
 
         // ListView の背景設定
         ImageView imageView = findViewById(R.id.flower);
-        if(FuDisplayMonth == 1) {
-            imageView.setBackgroundResource(R.drawable.jan);
-        } else if (FuDisplayMonth == 2) {
-            imageView.setBackgroundResource(R.drawable.feb);
-        } else if (FuDisplayMonth == 3) {
-            imageView.setBackgroundResource(R.drawable.mar);
-        } else if (FuDisplayMonth == 4) {
-            imageView.setBackgroundResource(R.drawable.apr);
-        } else if (FuDisplayMonth == 5) {
-            imageView.setBackgroundResource(R.drawable.may);
-        } else if (FuDisplayMonth == 6) {
-            imageView.setBackgroundResource(R.drawable.jun);
-        } else if (FuDisplayMonth == 7) {
-            imageView.setBackgroundResource(R.drawable.jul);
-        } else if (FuDisplayMonth == 8) {
-            imageView.setBackgroundResource(R.drawable.aug);
-        } else if (FuDisplayMonth == 9) {
-            imageView.setBackgroundResource(R.drawable.sep);
-        } else if (FuDisplayMonth == 10) {
-            imageView.setBackgroundResource(R.drawable.out);
-        } else if (FuDisplayMonth == 11) {
-            imageView.setBackgroundResource(R.drawable.nov);
-        } else if (FuDisplayMonth == 12) {
-            imageView.setBackgroundResource(R.drawable.dec);
+        switch (FuDisplayMonth) {
+            case 1:
+                imageView.setBackgroundResource(R.drawable.jan);
+                break;
+            case 2:
+                imageView.setBackgroundResource(R.drawable.feb);
+                break;
+            case 3:
+                imageView.setBackgroundResource(R.drawable.mar);
+                break;
+            case 4:
+                imageView.setBackgroundResource(R.drawable.apr);
+                break;
+            case 5:
+                imageView.setBackgroundResource(R.drawable.may);
+                break;
+            case 6:
+                imageView.setBackgroundResource(R.drawable.jun);
+                break;
+            case 7:
+                imageView.setBackgroundResource(R.drawable.jul);
+                break;
+            case 8:
+                imageView.setBackgroundResource(R.drawable.aug);
+                break;
+            case 9:
+                imageView.setBackgroundResource(R.drawable.sep);
+                break;
+            case 10:
+                imageView.setBackgroundResource(R.drawable.out);
+                break;
+            case 11:
+                imageView.setBackgroundResource(R.drawable.nov);
+                break;
+            case 12:
+                imageView.setBackgroundResource(R.drawable.dec);
+                break;
         }
 
 

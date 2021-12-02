@@ -174,6 +174,11 @@ public class FuFix extends AppCompatActivity {
                 // 金額が入力されていない場合の処理
                 // トーストを表示
                 Toast.makeText(FuFix.this, R.string.toast_amount, Toast.LENGTH_LONG).show();
+
+            } else if (Double.parseDouble(fixAmountString) % 1 != 0){
+                // 金額が小数の場合
+                // トーストを表示
+                Toast.makeText(FuFix.this, R.string.toast_double, Toast.LENGTH_LONG).show();
             } else {
                 // 選択されているラジオボタンの取得
                 RadioGroup radioGroup = (RadioGroup) findViewById(R.id.flgIncomeExpenditure);
@@ -240,12 +245,8 @@ public class FuFix extends AppCompatActivity {
         @Override
         public void onClick (View view) {
             // ダイアログを開く
-            DeleteDialog dialogFragment = new DeleteDialog();
-            dialogFragment.show(getSupportFragmentManager(),"DeleteDialog");
+            FuDeleteDialog dialogFragment = new FuDeleteDialog();
+            dialogFragment.show(getSupportFragmentManager(),"FuDeleteDialog");
         }
-    }
-
-    public void Finish() {
-        finish();
     }
 }
