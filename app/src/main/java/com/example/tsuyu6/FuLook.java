@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
@@ -251,12 +252,17 @@ public class FuLook extends AppCompatActivity {
 
 
 
+
         String[] from = {"_id","date","item","memo","amount"};
         int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount};
         SimpleAdapter adapter = new SimpleAdapter(FuLook.this,menuList,R.layout.row,from,to);
         lvMenu.setAdapter(adapter);
 
         lvMenu.setOnItemClickListener(new FuLook.ListItemClickListener());
+
+        /*LinearLayout row_background = findViewById(R.id.row_background);
+        row_background.setBackgroundResource(R.color.black);*/
+
 
         // 追加ボタンの取得
         Button addClick = findViewById(R.id.addClick);
