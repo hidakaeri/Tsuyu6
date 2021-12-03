@@ -314,11 +314,12 @@ public class FuLook extends AppCompatActivity {
             fixAmount = item.get("amount").toString();
             String fixFlg = item.get("flg").toString();
 
+
             if(fixFlg.equals("家計簿")) {
                 // 家計簿の時の処理
                 // ダイアログを開く
-                /*TimeDialog dialogFragment = new TimeDialog();
-                dialogFragment.show(getSupportFragmentManager(),"TimeDialog");*/
+                TimeDialog dialogFragment = new TimeDialog();
+                dialogFragment.show(getSupportFragmentManager(),"TimeDialog");
 
             } else {
                // シミュレーションの時の処理
@@ -335,8 +336,9 @@ public class FuLook extends AppCompatActivity {
                 intent.putExtra("FuDisplayYear", FuDisplayYear);
 
                 startActivity(intent);
+
+                finish();
             }
-            finish();
         }
     }
 

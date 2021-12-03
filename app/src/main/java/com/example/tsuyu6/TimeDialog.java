@@ -4,8 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
+
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -49,7 +48,6 @@ public class TimeDialog extends DialogFragment {
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
-                    // DELETE文実行
                     FuLook fulook = new FuLook();
 
                     String _id = fulook._id;

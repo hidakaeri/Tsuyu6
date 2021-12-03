@@ -262,6 +262,7 @@ public class Fix extends AppCompatActivity {
             // ダイアログを開く
             DeleteDialog dialogFragment = new DeleteDialog();
             dialogFragment.show(getSupportFragmentManager(),"DeleteDialog");
+
         }
     }
 
