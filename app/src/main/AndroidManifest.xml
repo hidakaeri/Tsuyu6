@@ -34,9 +34,6 @@
             android:theme="@style/currently"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".Look"
             android:exported="true"
             android:theme="@style/splash_screen">

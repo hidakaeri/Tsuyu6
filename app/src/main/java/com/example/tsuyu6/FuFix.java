@@ -86,14 +86,14 @@ public class FuFix extends AppCompatActivity {
         fixMemoText.setText(fixMemo);
 
         // DBの日時の分割（初期値用）
-        String[] strDate = fixDate.split(" / ");
+        /*String[] strDate = fixDate.split(" / ");
         newYear = Integer.parseInt(strDate[0]);
         int month = Integer.parseInt(strDate[1]);
         newMonth = month - 1;
-        newDay = Integer.parseInt(strDate[2]);
+        newDay = Integer.parseInt(strDate[2]);*/
 
         //EditTextにリスナーをつける
-        fixDateText.setOnClickListener(new View.OnClickListener() {
+        /*fixDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -120,7 +120,7 @@ public class FuFix extends AppCompatActivity {
                 datePickerDialog.show();
             }
 
-        });
+        });*/
 
 
         // 修正ボタンの取得
@@ -148,6 +148,13 @@ public class FuFix extends AppCompatActivity {
                 inputMethodMgr.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
+
+        // simulation radio buttonの取得
+        RadioButton HouseholdAccountBookClick = findViewById(R.id.flgHouseholdAccountBook);
+        // simulation radio buttonのリスナクラスのインスタンスを作成
+        FuFix.HouseholdAccountBookClickListener HouseholdAccountBook_Listener = new FuFix.HouseholdAccountBookClickListener();
+        // simulation radio buttonにリスナを設定
+        HouseholdAccountBookClick.setOnClickListener(HouseholdAccountBook_Listener);
 
     }
 
@@ -247,6 +254,25 @@ public class FuFix extends AppCompatActivity {
             // ダイアログを開く
             FuDeleteDialog dialogFragment = new FuDeleteDialog();
             dialogFragment.show(getSupportFragmentManager(),"FuDeleteDialog");
+        }
+    }
+
+    private class HouseholdAccountBookClickListener implements View.OnClickListener {
+        @Override
+        public void onClick (View view) {
+            Intent intent = new Intent(FuFix.this, Fix.class);
+
+            intent.putExtra("listId",_id);
+            intent.putExtra("fixDate", fixDate);
+            intent.putExtra("fixItem", fixItem);
+            intent.putExtra("fixMemo", fixMemo);
+            intent.putExtra("fixAmount", fixAmount);
+
+            intent.putExtra("displayMonth", FuDisplayMonth);
+            intent.putExtra("displayYear", FuDisplayYear);
+
+            startActivity(intent);
+            finish();
         }
     }
 }

@@ -93,14 +93,14 @@ public class Fix extends AppCompatActivity {
         fixMemoText.setText(fixMemo);
 
         // DBの日時の分割（初期値用）
-        String[] strDate = fixDate.split(" / ");
+        /*String[] strDate = fixDate.split(" / ");
         newYear = Integer.parseInt(strDate[0]);
         int month = Integer.parseInt(strDate[1]);
         newMonth = month - 1;
-        newDay = Integer.parseInt(strDate[2]);
+        newDay = Integer.parseInt(strDate[2]);*/
 
         //EditTextにリスナーをつける
-        fixDateText.setOnClickListener(new View.OnClickListener() {
+        /*fixDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -127,7 +127,7 @@ public class Fix extends AppCompatActivity {
                 datePickerDialog.show();
             }
 
-        });
+        });*/
 
 
         // 修正ボタンの取得
@@ -155,6 +155,13 @@ public class Fix extends AppCompatActivity {
                 inputMethodMgr.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
+
+        // simulation radio buttonの取得
+        RadioButton simulationClick = findViewById(R.id.flgSimulation);
+        // simulation radio buttonのリスナクラスのインスタンスを作成
+        Fix.SimulationClickListener simulation_Listener = new Fix.SimulationClickListener();
+        // simulation radio buttonにリスナを設定
+        simulationClick.setOnClickListener(simulation_Listener);
 
     }
 
@@ -255,6 +262,28 @@ public class Fix extends AppCompatActivity {
             // ダイアログを開く
             DeleteDialog dialogFragment = new DeleteDialog();
             dialogFragment.show(getSupportFragmentManager(),"DeleteDialog");
+        }
+    }
+
+    // simulationボタンを押した場合の処理
+    private class SimulationClickListener implements View.OnClickListener {
+        @Override
+        public void onClick (View view) {
+
+            Intent intent = new Intent(Fix.this, FuFix.class);
+
+            intent.putExtra("listId",_id);
+            intent.putExtra("fixDate", fixDate);
+            intent.putExtra("fixItem", fixItem);
+            intent.putExtra("fixMemo", fixMemo);
+            intent.putExtra("fixAmount", fixAmount);
+
+            intent.putExtra("FuDisplayMonth", displayMonth);
+            intent.putExtra("FuDisplayYear", displayYear);
+
+            startActivity(intent);
+            finish();
+
         }
     }
 }

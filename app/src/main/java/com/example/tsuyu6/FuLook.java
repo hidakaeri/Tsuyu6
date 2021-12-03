@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -36,10 +37,6 @@ public class FuLook extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fu_look);
-
-        ListView lvMenu = findViewById(R.id.look_list);
-        List<Map<String,Object>> menuList = new ArrayList<>();
-        Map<String,Object> menu = new HashMap<>();
 
         // intentを受け取る
         Intent intent = getIntent();
@@ -177,7 +174,7 @@ public class FuLook extends AppCompatActivity {
 
 
         //DB操作(SELECT)
-        if(helper == null){
+        /*if(helper == null){
             helper = new DatabaseHelper(getApplicationContext());
         }
         if(db == null){
@@ -248,20 +245,40 @@ public class FuLook extends AppCompatActivity {
 
         }finally {
             db.close();
-        }
+        }*/
 
 
 
+        ListView lvMenu = findViewById(R.id.look_list);
+        List<Map<String,Object>> menuList = new ArrayList<>();
 
-        String[] from = {"_id","date","item","memo","amount"};
-        int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount};
+        Map<String,Object> menu = new HashMap<>();
+        menu.put("_id", "1");
+        menu.put("date", "2021/12/21");
+        menu.put("item", "ごはん");
+        menu.put("amount","500");
+        menu.put("memo", "マック");
+        menu.put("flg", "シミュレーション");
+        menuList.add(menu);
+
+        menu = new HashMap<>();
+        menu.put("_id", "1");
+        menu.put("date", "2021/12/21");
+        menu.put("item", "ごはん");
+        menu.put("amount","500");
+        menu.put("memo", "すきや");
+        menu.put("flg", "家計簿");
+        menuList.add(menu);
+
+
+        String[] from = {"_id","date","item","memo","amount","flg"};
+        int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount, R.id.flg};
         SimpleAdapter adapter = new SimpleAdapter(FuLook.this,menuList,R.layout.row,from,to);
         lvMenu.setAdapter(adapter);
 
         lvMenu.setOnItemClickListener(new FuLook.ListItemClickListener());
 
-        /*LinearLayout row_background = findViewById(R.id.row_background);
-        row_background.setBackgroundResource(R.color.black);*/
+
 
 
         // 追加ボタンの取得
@@ -306,6 +323,7 @@ public class FuLook extends AppCompatActivity {
             String fixItem = item.get("item").toString();
             String fixMemo = item.get("memo").toString();
             String fixAmount = item.get("amount").toString();
+            String fixFlg = item.get("flg").toString();
 
             // fix画面に送るデータの格納
             Intent intent = new Intent(FuLook.this, FuFix.class);
@@ -315,6 +333,7 @@ public class FuLook extends AppCompatActivity {
             intent.putExtra("fixItem", fixItem);
             intent.putExtra("fixMemo", fixMemo);
             intent.putExtra("fixAmount", fixAmount);
+            intent.putExtra("fixFlg", fixFlg);
 
             intent.putExtra("FuDisplayMonth", FuDisplayMonth);
             intent.putExtra("FuDisplayYear", FuDisplayYear);

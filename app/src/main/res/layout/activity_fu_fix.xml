@@ -143,15 +143,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/back_to_look"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
@@ -163,7 +164,7 @@
             <Button
                 android:id="@+id/fixClick"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
@@ -174,7 +175,7 @@
             <Button
                 android:id="@+id/deleteClick"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
@@ -184,5 +185,39 @@
 
 
         </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/flgTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+
+            <RadioButton
+                android:id="@+id/flgHouseholdAccountBook"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/radio_currently"
+                android:textColor="@color/text"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/Household_account_book" />
+
+            <RadioButton
+                android:id="@+id/flgSimulation"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/radio_future"
+                android:textColor="@color/text"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/simulation"
+                android:checked="true"/>
+
+        </RadioGroup>
+
     </LinearLayout>
 </ScrollView>
