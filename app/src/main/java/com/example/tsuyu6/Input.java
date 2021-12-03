@@ -115,7 +115,7 @@ public class Input extends AppCompatActivity {
     }
 
 
-    // 保存ボタンを押した場合の処理
+    // 保存ボタンを押した場合の処理aaa
     private class InputClickListener implements View.OnClickListener {
         @Override
         public void onClick (View view) {
