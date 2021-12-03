@@ -33,6 +33,12 @@ public class FuLook extends AppCompatActivity {
     static int FuDisplayMonth;
     static int FuDisplayYear;
 
+    static String _id;
+    static String fixDate;
+    static String fixItem;
+    static String fixMemo;
+    static String fixAmount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,8 +179,13 @@ public class FuLook extends AppCompatActivity {
         expenditureText.setText(String.format("%,d", expenditure));
 
 
+        ListView lvMenu = findViewById(R.id.look_list);
+        List<Map<String,Object>> menuList = new ArrayList<>();
+
+        Map<String,Object> menu = new HashMap<>();
+
         //DB操作(SELECT)
-        /*if(helper == null){
+        if(helper == null){
             helper = new DatabaseHelper(getApplicationContext());
         }
         if(db == null){
@@ -236,6 +247,7 @@ public class FuLook extends AppCompatActivity {
                     menu.put("item", item);
                     menu.put("amount",amount);
                     menu.put("memo", memo);
+                    menu.put("flg","家計簿");
                     menuList.add(menu);
 
                     cur.moveToFirst();
@@ -245,30 +257,7 @@ public class FuLook extends AppCompatActivity {
 
         }finally {
             db.close();
-        }*/
-
-
-
-        ListView lvMenu = findViewById(R.id.look_list);
-        List<Map<String,Object>> menuList = new ArrayList<>();
-
-        Map<String,Object> menu = new HashMap<>();
-        menu.put("_id", "1");
-        menu.put("date", "2021/12/21");
-        menu.put("item", "ごはん");
-        menu.put("amount","500");
-        menu.put("memo", "マック");
-        menu.put("flg", "シミュレーション");
-        menuList.add(menu);
-
-        menu = new HashMap<>();
-        menu.put("_id", "1");
-        menu.put("date", "2021/12/21");
-        menu.put("item", "ごはん");
-        menu.put("amount","500");
-        menu.put("memo", "すきや");
-        menu.put("flg", "家計簿");
-        menuList.add(menu);
+        }
 
 
         String[] from = {"_id","date","item","memo","amount","flg"};
@@ -318,27 +307,35 @@ public class FuLook extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Map<String, Object> item = (Map<String, Object>)parent.getItemAtPosition(position);
 
-            String _id = item.get("_id").toString();
-            String fixDate = item.get("date").toString();
-            String fixItem = item.get("item").toString();
-            String fixMemo = item.get("memo").toString();
-            String fixAmount = item.get("amount").toString();
+            _id = item.get("_id").toString();
+            fixDate = item.get("date").toString();
+            fixItem = item.get("item").toString();
+            fixMemo = item.get("memo").toString();
+            fixAmount = item.get("amount").toString();
             String fixFlg = item.get("flg").toString();
 
-            // fix画面に送るデータの格納
-            Intent intent = new Intent(FuLook.this, FuFix.class);
+            if(fixFlg.equals("家計簿")) {
+                // 家計簿の時の処理
+                // ダイアログを開く
+                /*TimeDialog dialogFragment = new TimeDialog();
+                dialogFragment.show(getSupportFragmentManager(),"TimeDialog");*/
 
-            intent.putExtra("listId",_id);
-            intent.putExtra("fixDate", fixDate);
-            intent.putExtra("fixItem", fixItem);
-            intent.putExtra("fixMemo", fixMemo);
-            intent.putExtra("fixAmount", fixAmount);
-            intent.putExtra("fixFlg", fixFlg);
+            } else {
+               // シミュレーションの時の処理
+                // fix画面に送るデータの格納
+                Intent intent = new Intent(FuLook.this, FuFix.class);
 
-            intent.putExtra("FuDisplayMonth", FuDisplayMonth);
-            intent.putExtra("FuDisplayYear", FuDisplayYear);
+                intent.putExtra("listId",_id);
+                intent.putExtra("fixDate", fixDate);
+                intent.putExtra("fixItem", fixItem);
+                intent.putExtra("fixMemo", fixMemo);
+                intent.putExtra("fixAmount", fixAmount);
 
-            startActivity(intent);
+                intent.putExtra("FuDisplayMonth", FuDisplayMonth);
+                intent.putExtra("FuDisplayYear", FuDisplayYear);
+
+                startActivity(intent);
+            }
             finish();
         }
     }

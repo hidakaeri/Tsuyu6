@@ -26,7 +26,7 @@ public class FuDeleteDialog extends DialogFragment {
 
         // メッセージのデザインを作成
         TextView msgView = new TextView(getActivity());
-        msgView.setText(getResources().getText(R.string.dialog_msg));
+        msgView.setText(getResources().getText(R.string.delete_dialog_msg));
         msgView.setTextSize(16);
         msgView.setPadding(160, 60, 20, 20);
 

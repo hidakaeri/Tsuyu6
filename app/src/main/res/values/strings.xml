@@ -22,7 +22,8 @@
     <string name="toast_amount">金額を入力して下さい</string>
     <string name="toast_double">金額は整数で入力して下さい</string>
     <string name="dialog_title">確認</string>
-    <string name="dialog_msg">このデータを削除します。\nよろしいですか？</string>
+    <string name="delete_dialog_msg">このデータを削除します。\nよろしいですか？</string>
+    <string name="time_dialog_msg">家計簿の内容を編集します。\nよろしいですか？</string>
     <string name="simulation">シミュレーション</string>
     <string name="Household_account_book">家計簿</string>
 

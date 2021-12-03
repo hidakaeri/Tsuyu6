@@ -86,14 +86,14 @@ public class FuFix extends AppCompatActivity {
         fixMemoText.setText(fixMemo);
 
         // DBの日時の分割（初期値用）
-        /*String[] strDate = fixDate.split(" / ");
+        String[] strDate = fixDate.split(" / ");
         newYear = Integer.parseInt(strDate[0]);
         int month = Integer.parseInt(strDate[1]);
         newMonth = month - 1;
-        newDay = Integer.parseInt(strDate[2]);*/
+        newDay = Integer.parseInt(strDate[2]);
 
         //EditTextにリスナーをつける
-        /*fixDateText.setOnClickListener(new View.OnClickListener() {
+        fixDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -120,7 +120,7 @@ public class FuFix extends AppCompatActivity {
                 datePickerDialog.show();
             }
 
-        });*/
+        });
 
 
         // 修正ボタンの取得
