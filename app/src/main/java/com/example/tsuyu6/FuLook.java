@@ -5,10 +5,12 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
@@ -31,14 +33,16 @@ public class FuLook extends AppCompatActivity {
     static int FuDisplayMonth;
     static int FuDisplayYear;
 
+    static String _id;
+    static String fixDate;
+    static String fixItem;
+    static String fixMemo;
+    static String fixAmount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fu_look);
-
-        ListView lvMenu = findViewById(R.id.look_list);
-        List<Map<String,Object>> menuList = new ArrayList<>();
-        Map<String,Object> menu = new HashMap<>();
 
         // intentを受け取る
         Intent intent = getIntent();
@@ -81,30 +85,43 @@ public class FuLook extends AppCompatActivity {
 
         // ListView の背景設定
         ImageView imageView = findViewById(R.id.flower);
-        if(FuDisplayMonth == 1) {
-            imageView.setBackgroundResource(R.drawable.jan);
-        } else if (FuDisplayMonth == 2) {
-            imageView.setBackgroundResource(R.drawable.feb);
-        } else if (FuDisplayMonth == 3) {
-            imageView.setBackgroundResource(R.drawable.mar);
-        } else if (FuDisplayMonth == 4) {
-            imageView.setBackgroundResource(R.drawable.apr);
-        } else if (FuDisplayMonth == 5) {
-            imageView.setBackgroundResource(R.drawable.may);
-        } else if (FuDisplayMonth == 6) {
-            imageView.setBackgroundResource(R.drawable.jun);
-        } else if (FuDisplayMonth == 7) {
-            imageView.setBackgroundResource(R.drawable.jul);
-        } else if (FuDisplayMonth == 8) {
-            imageView.setBackgroundResource(R.drawable.aug);
-        } else if (FuDisplayMonth == 9) {
-            imageView.setBackgroundResource(R.drawable.sep);
-        } else if (FuDisplayMonth == 10) {
-            imageView.setBackgroundResource(R.drawable.out);
-        } else if (FuDisplayMonth == 11) {
-            imageView.setBackgroundResource(R.drawable.nov);
-        } else if (FuDisplayMonth == 12) {
-            imageView.setBackgroundResource(R.drawable.dec);
+        switch (FuDisplayMonth) {
+            case 1:
+                imageView.setBackgroundResource(R.drawable.jan);
+                break;
+            case 2:
+                imageView.setBackgroundResource(R.drawable.feb);
+                break;
+            case 3:
+                imageView.setBackgroundResource(R.drawable.mar);
+                break;
+            case 4:
+                imageView.setBackgroundResource(R.drawable.apr);
+                break;
+            case 5:
+                imageView.setBackgroundResource(R.drawable.may);
+                break;
+            case 6:
+                imageView.setBackgroundResource(R.drawable.jun);
+                break;
+            case 7:
+                imageView.setBackgroundResource(R.drawable.jul);
+                break;
+            case 8:
+                imageView.setBackgroundResource(R.drawable.aug);
+                break;
+            case 9:
+                imageView.setBackgroundResource(R.drawable.sep);
+                break;
+            case 10:
+                imageView.setBackgroundResource(R.drawable.out);
+                break;
+            case 11:
+                imageView.setBackgroundResource(R.drawable.nov);
+                break;
+            case 12:
+                imageView.setBackgroundResource(R.drawable.dec);
+                break;
         }
 
 
@@ -161,6 +178,11 @@ public class FuLook extends AppCompatActivity {
         incomeText.setText(String.format("%,d", income));
         expenditureText.setText(String.format("%,d", expenditure));
 
+
+        ListView lvMenu = findViewById(R.id.look_list);
+        List<Map<String,Object>> menuList = new ArrayList<>();
+
+        Map<String,Object> menu = new HashMap<>();
 
         //DB操作(SELECT)
         if(helper == null){
@@ -225,6 +247,7 @@ public class FuLook extends AppCompatActivity {
                     menu.put("item", item);
                     menu.put("amount",amount);
                     menu.put("memo", memo);
+                    menu.put("flg","家計簿");
                     menuList.add(menu);
 
                     cur.moveToFirst();
@@ -236,12 +259,16 @@ public class FuLook extends AppCompatActivity {
             db.close();
         }
 
-        String[] from = {"_id","date","item","memo","amount"};
-        int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount};
+
+        String[] from = {"_id","date","item","memo","amount","flg"};
+        int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount, R.id.flg};
         SimpleAdapter adapter = new SimpleAdapter(FuLook.this,menuList,R.layout.row,from,to);
         lvMenu.setAdapter(adapter);
 
         lvMenu.setOnItemClickListener(new FuLook.ListItemClickListener());
+
+
+
 
         // 追加ボタンの取得
         Button addClick = findViewById(R.id.addClick);
@@ -280,26 +307,38 @@ public class FuLook extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Map<String, Object> item = (Map<String, Object>)parent.getItemAtPosition(position);
 
-            String _id = item.get("_id").toString();
-            String fixDate = item.get("date").toString();
-            String fixItem = item.get("item").toString();
-            String fixMemo = item.get("memo").toString();
-            String fixAmount = item.get("amount").toString();
+            _id = item.get("_id").toString();
+            fixDate = item.get("date").toString();
+            fixItem = item.get("item").toString();
+            fixMemo = item.get("memo").toString();
+            fixAmount = item.get("amount").toString();
+            String fixFlg = item.get("flg").toString();
 
-            // fix画面に送るデータの格納
-            Intent intent = new Intent(FuLook.this, FuFix.class);
 
-            intent.putExtra("listId",_id);
-            intent.putExtra("fixDate", fixDate);
-            intent.putExtra("fixItem", fixItem);
-            intent.putExtra("fixMemo", fixMemo);
-            intent.putExtra("fixAmount", fixAmount);
+            if(fixFlg.equals("家計簿")) {
+                // 家計簿の時の処理
+                // ダイアログを開く
+                TimeDialog dialogFragment = new TimeDialog();
+                dialogFragment.show(getSupportFragmentManager(),"TimeDialog");
 
-            intent.putExtra("FuDisplayMonth", FuDisplayMonth);
-            intent.putExtra("FuDisplayYear", FuDisplayYear);
+            } else {
+               // シミュレーションの時の処理
+                // fix画面に送るデータの格納
+                Intent intent = new Intent(FuLook.this, FuFix.class);
 
-            startActivity(intent);
-            finish();
+                intent.putExtra("listId",_id);
+                intent.putExtra("fixDate", fixDate);
+                intent.putExtra("fixItem", fixItem);
+                intent.putExtra("fixMemo", fixMemo);
+                intent.putExtra("fixAmount", fixAmount);
+
+                intent.putExtra("FuDisplayMonth", FuDisplayMonth);
+                intent.putExtra("FuDisplayYear", FuDisplayYear);
+
+                startActivity(intent);
+
+                finish();
+            }
         }
     }
 

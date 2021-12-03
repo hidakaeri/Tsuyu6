@@ -149,6 +149,13 @@ public class FuFix extends AppCompatActivity {
             }
         });
 
+        // simulation radio buttonの取得
+        RadioButton HouseholdAccountBookClick = findViewById(R.id.flgHouseholdAccountBook);
+        // simulation radio buttonのリスナクラスのインスタンスを作成
+        FuFix.HouseholdAccountBookClickListener HouseholdAccountBook_Listener = new FuFix.HouseholdAccountBookClickListener();
+        // simulation radio buttonにリスナを設定
+        HouseholdAccountBookClick.setOnClickListener(HouseholdAccountBook_Listener);
+
     }
 
     // 戻るボタンを押した場合の処理
@@ -174,6 +181,11 @@ public class FuFix extends AppCompatActivity {
                 // 金額が入力されていない場合の処理
                 // トーストを表示
                 Toast.makeText(FuFix.this, R.string.toast_amount, Toast.LENGTH_LONG).show();
+
+            } else if (Double.parseDouble(fixAmountString) % 1 != 0){
+                // 金額が小数の場合
+                // トーストを表示
+                Toast.makeText(FuFix.this, R.string.toast_double, Toast.LENGTH_LONG).show();
             } else {
                 // 選択されているラジオボタンの取得
                 RadioGroup radioGroup = (RadioGroup) findViewById(R.id.flgIncomeExpenditure);
@@ -240,12 +252,27 @@ public class FuFix extends AppCompatActivity {
         @Override
         public void onClick (View view) {
             // ダイアログを開く
-            DeleteDialog dialogFragment = new DeleteDialog();
-            dialogFragment.show(getSupportFragmentManager(),"DeleteDialog");
+            FuDeleteDialog dialogFragment = new FuDeleteDialog();
+            dialogFragment.show(getSupportFragmentManager(),"FuDeleteDialog");
         }
     }
 
-    public void Finish() {
-        finish();
+    private class HouseholdAccountBookClickListener implements View.OnClickListener {
+        @Override
+        public void onClick (View view) {
+            Intent intent = new Intent(FuFix.this, Fix.class);
+
+            intent.putExtra("listId",_id);
+            intent.putExtra("fixDate", fixDate);
+            intent.putExtra("fixItem", fixItem);
+            intent.putExtra("fixMemo", fixMemo);
+            intent.putExtra("fixAmount", fixAmount);
+
+            intent.putExtra("displayMonth", FuDisplayMonth);
+            intent.putExtra("displayYear", FuDisplayYear);
+
+            startActivity(intent);
+            finish();
+        }
     }
 }

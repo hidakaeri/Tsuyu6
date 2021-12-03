@@ -132,6 +132,11 @@ public class FuInput extends AppCompatActivity {
                 // 金額が入力されていない場合の処理
                 // トーストを表示
                 Toast.makeText(FuInput.this, R.string.toast_amount, Toast.LENGTH_LONG).show();
+
+            } else if (Double.parseDouble(inputAmountString) % 1 != 0){
+                // 金額が小数の場合
+                // トーストを表示
+                Toast.makeText(FuInput.this, R.string.toast_double, Toast.LENGTH_LONG).show();
             } else {
 
                 // 入力された内容を取得

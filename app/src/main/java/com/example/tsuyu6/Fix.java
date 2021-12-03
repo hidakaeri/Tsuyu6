@@ -156,6 +156,13 @@ public class Fix extends AppCompatActivity {
             }
         });
 
+        // simulation radio buttonの取得
+        RadioButton simulationClick = findViewById(R.id.flgSimulation);
+        // simulation radio buttonのリスナクラスのインスタンスを作成
+        Fix.SimulationClickListener simulation_Listener = new Fix.SimulationClickListener();
+        // simulation radio buttonにリスナを設定
+        simulationClick.setOnClickListener(simulation_Listener);
+
     }
 
     // 戻るボタンを押した場合の処理
@@ -181,6 +188,12 @@ public class Fix extends AppCompatActivity {
                 // 金額が入力されていない場合の処理
                 // トーストを表示
                 Toast.makeText(Fix.this, R.string.toast_amount, Toast.LENGTH_LONG).show();
+
+            } else if (Double.parseDouble(fixAmountString) % 1 != 0){
+                // 金額が小数の場合
+                // トーストを表示
+                Toast.makeText(Fix.this, R.string.toast_double, Toast.LENGTH_LONG).show();
+
             } else {
                 // 選択されているラジオボタンの取得
                 RadioGroup radioGroup = (RadioGroup) findViewById(R.id.flgIncomeExpenditure);
@@ -249,10 +262,29 @@ public class Fix extends AppCompatActivity {
             // ダイアログを開く
             DeleteDialog dialogFragment = new DeleteDialog();
             dialogFragment.show(getSupportFragmentManager(),"DeleteDialog");
+
         }
     }
 
-    public void Finish() {
-        finish();
+    // simulationボタンを押した場合の処理
+    private class SimulationClickListener implements View.OnClickListener {
+        @Override
+        public void onClick (View view) {
+
+            Intent intent = new Intent(Fix.this, FuFix.class);
+
+            intent.putExtra("listId",_id);
+            intent.putExtra("fixDate", fixDate);
+            intent.putExtra("fixItem", fixItem);
+            intent.putExtra("fixMemo", fixMemo);
+            intent.putExtra("fixAmount", fixAmount);
+
+            intent.putExtra("FuDisplayMonth", displayMonth);
+            intent.putExtra("FuDisplayYear", displayYear);
+
+            startActivity(intent);
+            finish();
+
+        }
     }
 }

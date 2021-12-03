@@ -4,16 +4,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
+
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 
-
-public class DeleteDialog extends DialogFragment {
-
+public class TimeDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -21,12 +18,12 @@ public class DeleteDialog extends DialogFragment {
         TextView titleView = new TextView(getActivity());
         titleView.setText(getResources().getText(R.string.dialog_title));
         titleView.setTextSize(20);
-        titleView.setBackgroundColor(getResources().getColor(R.color.currently));
+        titleView.setBackgroundColor(getResources().getColor(R.color.future));
         titleView.setPadding(80, 20, 20, 20);
 
         // メッセージのデザインを作成
         TextView msgView = new TextView(getActivity());
-        msgView.setText(getResources().getText(R.string.delete_dialog_msg));
+        msgView.setText(getResources().getText(R.string.time_dialog_msg));
         msgView.setTextSize(16);
         msgView.setPadding(160, 60, 20, 20);
 
@@ -38,9 +35,9 @@ public class DeleteDialog extends DialogFragment {
         // ダイアログのメッセージを設定
         builder.setView(msgView);
         // Positive Buttonを設定。
-        builder.setPositiveButton(R.string.positive_button, new DialogButtonClickListener());
+        builder.setPositiveButton(R.string.positive_button, new TimeDialog.DialogButtonClickListener());
         // Negative Buttonを設定。
-        builder.setNegativeButton(R.string.negative_button, new DialogButtonClickListener());
+        builder.setNegativeButton(R.string.negative_button, new TimeDialog.DialogButtonClickListener());
         // ダイアログオブジェクトを生成し、リターン
         AlertDialog dialog = builder.create();
         return dialog;
@@ -51,30 +48,28 @@ public class DeleteDialog extends DialogFragment {
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
-                    // DELETE文実行
-                    Fix fix = new Fix();
+                    FuLook fulook = new FuLook();
 
-                    String listid = fix._id;
-                    int displayMonth = fix.displayMonth;
-                    int displayYear = fix.displayYear;
+                    String _id = fulook._id;
+                    String fixDate = fulook.fixDate;
+                    String fixItem = fulook.fixItem;
+                    String fixMemo = fulook.fixMemo;
+                    String fixAmount = fulook.fixAmount;
+                    int FuDisplayYear = fulook.FuDisplayYear;
+                    int FuDisplayMonth = fulook.FuDisplayMonth;
 
-                    // DBの更新処理(DELETE)
-                    int _id = Integer.parseInt(listid);
-                    DatabaseHelper helper = new DatabaseHelper(getActivity());
-                    SQLiteDatabase db = helper.getWritableDatabase();
-
-                    try {
-                        String sqlDelete = "DELETE FROM tsuyu6 WHERE _id = " + _id;
-                        SQLiteStatement stmt = db.compileStatement(sqlDelete);
-                        stmt.executeUpdateDelete();
-                    }finally {
-                        db.close();
-                    }
 
                     // 画面遷移
-                    Intent intent = new Intent(getActivity(), Look.class);
-                    intent.putExtra("displayYear", displayYear);
-                    intent.putExtra("displayMonth", displayMonth);
+                    Intent intent = new Intent(getActivity(), Fix.class);
+
+                    intent.putExtra("listId",_id);
+                    intent.putExtra("fixDate", fixDate);
+                    intent.putExtra("fixItem", fixItem);
+                    intent.putExtra("fixMemo", fixMemo);
+                    intent.putExtra("fixAmount", fixAmount);
+
+                    intent.putExtra("displayYear", FuDisplayYear);
+                    intent.putExtra("displayMonth", FuDisplayMonth);
                     startActivity(intent);
                     getActivity().finish();
 
