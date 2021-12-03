@@ -6,7 +6,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/icon_tsuyu"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon_tsuyu_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.main">
         <activity
