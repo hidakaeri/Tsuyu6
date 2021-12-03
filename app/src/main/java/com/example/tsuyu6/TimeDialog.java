@@ -68,8 +68,8 @@ public class TimeDialog extends DialogFragment {
                     intent.putExtra("fixMemo", fixMemo);
                     intent.putExtra("fixAmount", fixAmount);
 
-                    intent.putExtra("FuDisplayYear", FuDisplayYear);
-                    intent.putExtra("FuDisplayMonth", FuDisplayMonth);
+                    intent.putExtra("displayYear", FuDisplayYear);
+                    intent.putExtra("displayMonth", FuDisplayMonth);
                     startActivity(intent);
                     getActivity().finish();
 
