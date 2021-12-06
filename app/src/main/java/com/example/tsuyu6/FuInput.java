@@ -163,6 +163,7 @@ public class FuInput extends AppCompatActivity {
                 // 金額をint型に変換
                 int inputAmount = Integer.parseInt(inputAmountString);
 
+                String inputFlg = "シミュレーション";
 
                 // 金額の符号を設定
                 if(text.equals("支出")) {
@@ -181,12 +182,13 @@ public class FuInput extends AppCompatActivity {
                     db = helper.getReadableDatabase();
                 }
                 try {
-                    String sqlInsert = "INSERT INTO tsuyu6 (_id, date, item, amount, memo) VALUES (?,?,?,?,?)";
+                    String sqlInsert = "INSERT INTO tsuyu6 (_id, date, item, amount, memo, flag) VALUES (?,?,?,?,?,?)";
                     SQLiteStatement stmt = db.compileStatement(sqlInsert);
                     stmt.bindString(2, inputDate);
                     stmt.bindString(3, inputItem);
                     stmt.bindLong(4, inputAmount);
                     stmt.bindString(5, inputMemo);
+                    stmt.bindString(6,inputFlg);
 
                     stmt.executeInsert();
                 }finally {

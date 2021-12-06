@@ -214,6 +214,7 @@ public class Fix extends AppCompatActivity {
                 String fixItem = fixItemText.getText().toString();
                 int fixAmount = Integer.parseInt(fixAmountString);
                 String fixMemo = fixMemoText.getText().toString();
+                String flag = "家計簿";
 
                 // 入力された月を取得
                 String[] strDate = fixDate.split(" / ");
@@ -232,12 +233,13 @@ public class Fix extends AppCompatActivity {
                 SQLiteDatabase db = helper.getWritableDatabase();
 
                 try {
-                    String sqlUpdate = "UPDATE tsuyu6 SET date = ?, item = ?, amount = ?, memo = ? WHERE _id = " + id;
+                    String sqlUpdate = "UPDATE tsuyu6 SET date = ?, item = ?, amount = ?, memo = ?, flag = ? WHERE _id = " + id;
                     SQLiteStatement stmt = db.compileStatement(sqlUpdate);
                     stmt.bindString(1, fixDate);
                     stmt.bindString(2, fixItem);
                     stmt.bindLong(3, fixAmount);
                     stmt.bindString(4, fixMemo);
+                    stmt.bindString(5,flag);
 
                     stmt.executeInsert();
 

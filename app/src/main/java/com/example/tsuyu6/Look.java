@@ -139,7 +139,8 @@ public class Look extends AppCompatActivity {
 
         //年、月ごとにDB検索(合計)
         String totalSql = "SELECT TOTAL(amount) FROM tsuyu6 " +
-                "WHERE date >= '" + displayYear + " / " + f.format(displayMonth) + " / 01'" +
+                "WHERE flag = '家計簿' " +
+                "AND date >= '" + displayYear + " / " + f.format(displayMonth) + " / 01'" +
                 "AND date <= '" + displayYear + " / " + f.format(displayMonth)  + " / 31'" +
                 "ORDER BY date";
 
@@ -149,7 +150,7 @@ public class Look extends AppCompatActivity {
 
         //年、月ごとにDB検索(収入)
         String incomeSql = "SELECT TOTAL(amount) FROM tsuyu6 " +
-                "WHERE amount > 0 " +
+                "WHERE flag = '家計簿' AND amount > 0 " +
                 "AND date >= '" + displayYear + " / " + f.format(displayMonth) + " / 01'" +
                 "AND date <= '" + displayYear + " / " + f.format(displayMonth)  + " / 31'";
 
@@ -159,7 +160,7 @@ public class Look extends AppCompatActivity {
 
         //年、月ごとにDB検索(支出)
         String expenditureSql = "SELECT TOTAL(amount) FROM tsuyu6 " +
-                "WHERE amount < 0 " +
+                "WHERE flag = '家計簿' AND amount < 0 " +
                 "AND date >= '" + displayYear + " / " + f.format(displayMonth) + " / 01'" +
                 "AND date <= '" + displayYear + " / " + f.format(displayMonth)  + " / 31'";
 
@@ -187,12 +188,12 @@ public class Look extends AppCompatActivity {
         }
         try {
 
-            String sql = "SELECT * FROM tsuyu6";
+            String sql = "SELECT * FROM tsuyu6 WHERE flag = '家計簿' ";
             cur = db.rawQuery(sql,null);
 
             //DBの_idをリストに渡す
-            String[] from = {"_id","date","item","memo","amount"};
-            int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount};
+            String[] from = {"_id","date","item","memo","amount","flag"};
+            int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount, R.id.flg};
             SimpleCursorAdapter adapter = new SimpleCursorAdapter(Look.this, R.layout.row, cur, from, to,0);
             lvMenu.setAdapter(adapter);
 
@@ -201,7 +202,8 @@ public class Look extends AppCompatActivity {
             for (int i = 0; i <= Count; i++){
 
                 String selectSql = "SELECT * FROM tsuyu6 " +
-                        "WHERE date >= '" + displayYear + " / " + f.format(displayMonth) + " / 01'" +
+                        "WHERE flag = '家計簿' " +
+                        "AND date >= '" + displayYear + " / " + f.format(displayMonth) + " / 01'" +
                         "AND date <= '" + displayYear + " / " + f.format(displayMonth)  + " / 31'" +
                         "ORDER BY date " +
                         "LIMIT " + i + "," + 1;
@@ -211,6 +213,7 @@ public class Look extends AppCompatActivity {
                 String item = "";
                 String amount = "";
                 String memo = "";
+                String flg = "";
 
                 while(cur.moveToNext()){
                     //DBの列番号(index)を取得
@@ -219,6 +222,7 @@ public class Look extends AppCompatActivity {
                     int idxItem = cur.getColumnIndex("item");
                     int idxAmount = cur.getColumnIndex("amount");
                     int idxMemo = cur.getColumnIndex("memo");
+                    int idxFlg = cur.getColumnIndex("flag");
 
                     //列番号(index)にあるデータを取得
                     _id = cur.getString(idxId);
@@ -226,6 +230,7 @@ public class Look extends AppCompatActivity {
                     item = cur.getString(idxItem);
                     amount = cur.getString(idxAmount);
                     memo = cur.getString(idxMemo);
+                    flg = cur.getString(idxFlg);
 
                     if(memo.equals("")) {
 
@@ -241,6 +246,7 @@ public class Look extends AppCompatActivity {
                     menu.put("item", item);
                     menu.put("amount",amount);
                     menu.put("memo", memo);
+                    menu.put("flag", flg);
                     menuList.add(menu);
 
                     cur.moveToFirst();
@@ -252,8 +258,8 @@ public class Look extends AppCompatActivity {
             db.close();
         }
 
-        String[] from = {"_id","date","item","memo","amount"};
-        int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount};
+        String[] from = {"_id","date","item","memo","amount","flag"};
+        int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount, R.id.flg};
         SimpleAdapter adapter = new SimpleAdapter(Look.this,menuList,R.layout.row,from,to);
         lvMenu.setAdapter(adapter);
 
@@ -300,6 +306,7 @@ public class Look extends AppCompatActivity {
             String fixItem = item.get("item").toString();
             String fixMemo = item.get("memo").toString();
             String fixAmount = item.get("amount").toString();
+            String fixFlg = item.get("flag").toString();
 
             // fix画面に送るデータの格納
             Intent intent = new Intent(Look.this, Fix.class);
@@ -309,6 +316,7 @@ public class Look extends AppCompatActivity {
             intent.putExtra("fixItem", fixItem);
             intent.putExtra("fixMemo", fixMemo);
             intent.putExtra("fixAmount", fixAmount);
+            intent.putExtra("fixFlg", fixFlg);
 
             intent.putExtra("displayMonth", displayMonth);
             intent.putExtra("displayYear", displayYear);

@@ -115,7 +115,7 @@ public class Input extends AppCompatActivity {
     }
 
 
-    // 保存ボタンを押した場合の処理aaa
+    // 保存ボタンを押した場合の処理
     private class InputClickListener implements View.OnClickListener {
         @Override
         public void onClick (View view) {
@@ -152,6 +152,7 @@ public class Input extends AppCompatActivity {
                 String inputDate = inputDateText.getText().toString();
                 String inputItem = inputItemText.getText().toString();
                 String inputMemo = inputMemoText.getText().toString();
+                String inputFlg = "家計簿";
 
                 // 入力された月を取得
                 String[] strDate = inputDate.split(" / ");
@@ -187,12 +188,13 @@ public class Input extends AppCompatActivity {
                     db = helper.getReadableDatabase();
                 }
                 try {
-                    String sqlInsert = "INSERT INTO tsuyu6 (_id, date, item, amount, memo) VALUES (?,?,?,?,?)";
+                    String sqlInsert = "INSERT INTO tsuyu6 (_id, date, item, amount, memo, flag) VALUES (?,?,?,?,?,?)";
                     SQLiteStatement stmt = db.compileStatement(sqlInsert);
                     stmt.bindString(2, inputDate);
                     stmt.bindString(3, inputItem);
                     stmt.bindLong(4, inputAmount);
                     stmt.bindString(5, inputMemo);
+                    stmt.bindString(6,inputFlg);
 
                     stmt.executeInsert();
                 }finally {

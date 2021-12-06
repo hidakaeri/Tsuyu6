@@ -38,6 +38,7 @@ public class FuLook extends AppCompatActivity {
     static String fixItem;
     static String fixMemo;
     static String fixAmount;
+    static String fixFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,8 +198,8 @@ public class FuLook extends AppCompatActivity {
             cur = db.rawQuery(sql,null);
 
             //DBの_idをリストに渡す
-            String[] from = {"_id","date","item","memo","amount"};
-            int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount};
+            String[] from = {"_id","date","item","memo","amount","flag"};
+            int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount, R.id.flg};
             SimpleCursorAdapter adapter = new SimpleCursorAdapter(FuLook.this, R.layout.row, cur, from, to,0);
             lvMenu.setAdapter(adapter);
 
@@ -217,6 +218,7 @@ public class FuLook extends AppCompatActivity {
                 String item = "";
                 String amount = "";
                 String memo = "";
+                String flg = "";
 
                 while(cur.moveToNext()){
                     //DBの列番号(index)を取得
@@ -225,6 +227,7 @@ public class FuLook extends AppCompatActivity {
                     int idxItem = cur.getColumnIndex("item");
                     int idxAmount = cur.getColumnIndex("amount");
                     int idxMemo = cur.getColumnIndex("memo");
+                    int idxFlg = cur.getColumnIndex("flag");
 
                     //列番号(index)にあるデータを取得
                     _id = cur.getString(idxId);
@@ -232,6 +235,7 @@ public class FuLook extends AppCompatActivity {
                     item = cur.getString(idxItem);
                     amount = cur.getString(idxAmount);
                     memo = cur.getString(idxMemo);
+                    flg = cur.getString(idxFlg);
 
                     if(memo.equals("")) {
 
@@ -247,7 +251,7 @@ public class FuLook extends AppCompatActivity {
                     menu.put("item", item);
                     menu.put("amount",amount);
                     menu.put("memo", memo);
-                    menu.put("flg","家計簿");
+                    menu.put("flag",flg);
                     menuList.add(menu);
 
                     cur.moveToFirst();
@@ -260,7 +264,7 @@ public class FuLook extends AppCompatActivity {
         }
 
 
-        String[] from = {"_id","date","item","memo","amount","flg"};
+        String[] from = {"_id","date","item","memo","amount","flag"};
         int[] to = {R.id.display_id, R.id.display_date, R.id.display_item, R.id.display_memo, R.id.display_amount, R.id.flg};
         SimpleAdapter adapter = new SimpleAdapter(FuLook.this,menuList,R.layout.row,from,to);
         lvMenu.setAdapter(adapter);
@@ -312,10 +316,10 @@ public class FuLook extends AppCompatActivity {
             fixItem = item.get("item").toString();
             fixMemo = item.get("memo").toString();
             fixAmount = item.get("amount").toString();
-            String fixFlg = item.get("flg").toString();
+            fixFlag = item.get("flag").toString();
 
 
-            if(fixFlg.equals("家計簿")) {
+            if(fixFlag.equals("家計簿")) {
                 // 家計簿の時の処理
                 // ダイアログを開く
                 TimeDialog dialogFragment = new TimeDialog();

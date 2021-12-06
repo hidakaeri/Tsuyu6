@@ -21,7 +21,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb.append("date DATE,");
         sb.append("item TEXT,");
         sb.append("amount INTEGER,");
-        sb.append("memo TEXT");
+        sb.append("memo TEXT, ");
+        sb.append("flag TEXT");
         sb.append(");");
         String sql = sb.toString();
 
