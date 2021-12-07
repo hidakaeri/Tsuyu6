@@ -9,14 +9,16 @@
         android:roundIcon="@mipmap/icon_tsuyu_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.main">
+
         <activity
             android:name=".Saving"
             android:exported="false"
-            android:theme="@style/saving"/>
+            android:theme="@style/saving" />
         <activity
             android:name=".TargetSetting"
             android:exported="false"
-            android:theme="@style/saving"/>
+            android:theme="@style/saving"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".FuFix"
             android:exported="false"
@@ -43,8 +45,12 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Look"
+            android:exported="false"
+            android:theme="@style/currently"/>
+        <activity
+            android:name=".SplashScreen"
             android:exported="true"
-            android:theme="@style/splash_screen">
+            android:theme="@style/splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

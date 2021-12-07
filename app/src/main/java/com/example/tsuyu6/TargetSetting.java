@@ -2,17 +2,24 @@ package com.example.tsuyu6;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
 
 public class TargetSetting extends AppCompatActivity {
 
+    int newYear;
+    int newMonth;
+    int newDay;
     String TargetAmount;
     String TargetLimit;
 
@@ -28,8 +35,42 @@ public class TargetSetting extends AppCompatActivity {
         // すでに登録されているデータを表示
         EditText TargetAmountText = findViewById(R.id.target_amount);
         TargetAmountText.setText(TargetAmount);
-        EditText TargetLimitText = findViewById(R.id.target_amount);
+        TextView TargetLimitText = findViewById(R.id.target_limit);
         TargetLimitText.setText(TargetLimit);
+
+        // 現在日時の取得
+        Calendar date = Calendar.getInstance();
+        newYear = date.get(Calendar.YEAR);
+        newMonth = date.get(Calendar.MONTH);
+        newDay = date.get(Calendar.DATE);
+
+
+        //EditTextにリスナーをつける
+        TargetLimitText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //DatePickerDialogインスタンスを取得
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        TargetSetting.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                //setした日付を取得して表示
+                                TargetLimitText.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                                newYear = year;
+                                newMonth = month;
+                                newDay = dayOfMonth;
+                            }
+                        },
+                        newYear,newMonth,newDay
+                );
+
+                //dialogを表示
+                datePickerDialog.show();
+            }
+
+        });
 
         // 登録ボタンの取得
         Button registerClick = findViewById(R.id.registerClick);
@@ -44,6 +85,18 @@ public class TargetSetting extends AppCompatActivity {
         DeleteClickListener delete_listener = new DeleteClickListener();
         // 削除ボタンにリスナを設定
         deleteClick.setOnClickListener(delete_listener);
+
+        // 背景がタップされるとキーボードを閉じる
+        LinearLayout mainLayout = (LinearLayout)findViewById(R.id.mainLayout);
+
+        mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Whatever
+                InputMethodManager inputMethodMgr = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                inputMethodMgr.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
     }
 
     // 戻るボタンを押した場合の処理
@@ -66,28 +119,26 @@ public class TargetSetting extends AppCompatActivity {
 
 
             // 期限EditTextの取得
-            EditText TargetLimitText = findViewById(R.id.target_limit);
+            TextView TargetLimitText = findViewById(R.id.target_limit);
             TargetLimit = TargetLimitText.getText().toString();
 
             // 現在日時の取得
+            // 登録日用
             Calendar date = Calendar.getInstance();
-            int newYear = date.get(Calendar.YEAR);
-            int newMonth = date.get(Calendar.MONTH);
-            int newDay = date.get(Calendar.DATE);
+            newYear = date.get(Calendar.YEAR);
+            newMonth = date.get(Calendar.MONTH);
+            newDay = date.get(Calendar.DATE);
             String register_date = String.format("%d / %02d / %02d", newYear, newMonth+1, newDay);
-
-            // DB完成したら消す
-            TargetAmount = "120000";
-            TargetLimit = "2021/12/21";
 
             // 貯金目標額/月　の計算
             // 期限の分割
-            String[] strLimit = TargetLimit.split("/");
+            String[] strLimit = TargetLimit.split(" / ");
             int  limitYear = Integer.parseInt(strLimit[0]);
             int limitMonth = Integer.parseInt(strLimit[1]);
 
+
             // 登録日の分割
-            String[] strRegister = register_date.split("/");
+            String[] strRegister = register_date.split(" / ");
             int  registerYear = Integer.parseInt(strRegister[0]);
             int registerMonth = Integer.parseInt(strRegister[1]);
 
@@ -100,7 +151,6 @@ public class TargetSetting extends AppCompatActivity {
             }
 
             int oneMonth = Integer.parseInt(TargetAmount) / month_to_saving;
-
 
 
             // SQL
