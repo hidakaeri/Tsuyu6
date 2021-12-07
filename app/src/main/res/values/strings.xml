@@ -30,10 +30,11 @@
     <string name="target_amount">目標貯金額</string>
     <string name="register_date">目標設定日</string>
     <string name="target_limit">期限</string>
-    <string name="month_start">1日の総資産</string>
+    <string name="month_start">先月までの総資産</string>
     <string name="month_amount">今月の合計額</string>
     <string name="month_end">月末総資産</string>
     <string name="setting">設定</string>
     <string name="register">登録</string>
+    <string name="one_month">目標貯金額/月</string>
 
 </resources>

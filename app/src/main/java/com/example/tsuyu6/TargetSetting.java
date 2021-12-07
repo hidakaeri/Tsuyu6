@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.Calendar;
 
@@ -75,10 +76,38 @@ public class TargetSetting extends AppCompatActivity {
             int newDay = date.get(Calendar.DATE);
             String register_date = String.format("%d / %02d / %02d", newYear, newMonth+1, newDay);
 
+            // DB完成したら消す
+            TargetAmount = "120000";
+            TargetLimit = "2021/12/21";
+
+            // 貯金目標額/月　の計算
+            // 期限の分割
+            String[] strLimit = TargetLimit.split("/");
+            int  limitYear = Integer.parseInt(strLimit[0]);
+            int limitMonth = Integer.parseInt(strLimit[1]);
+
+            // 登録日の分割
+            String[] strRegister = register_date.split("/");
+            int  registerYear = Integer.parseInt(strRegister[0]);
+            int registerMonth = Integer.parseInt(strRegister[1]);
+
+            // 貯金月数を計算
+            int month_to_saving;
+            if((limitYear - registerYear) == 0) {
+                month_to_saving = limitMonth - registerMonth +1;
+            } else {
+                month_to_saving = (12 - registerMonth + 1) + limitMonth + 12 * (limitYear - registerYear - 1);
+            }
+
+            int oneMonth = Integer.parseInt(TargetAmount) / month_to_saving;
+
+
+
             // SQL
             // 目標金額　TargetAmount
             // 期限　TargetLimit
             // 登録日　register_date
+            // 貯金目標額（int型) oneMonth　
             // 該当のデータがあれば上書き、なければ新規登録お願いします。
 
             Intent intent = new Intent(TargetSetting.this, Saving.class);

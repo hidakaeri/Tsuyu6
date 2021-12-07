@@ -150,7 +150,7 @@ public class FuInput extends AppCompatActivity {
                 String inputMemo = inputMemoText.getText().toString();
 
                 // 入力された月を取得
-                String[] strDate = inputDate.split(" / ");
+                String[] strDate = inputDate.split("/");
                 int year = Integer.parseInt(strDate[0]);
                 int month = Integer.parseInt(strDate[1]);
 

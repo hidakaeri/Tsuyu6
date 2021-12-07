@@ -16,6 +16,7 @@ public class Saving extends AppCompatActivity {
     String TargetAmount;
     String TargetLimit;
     String RegisterDate;
+    int oneMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +25,13 @@ public class Saving extends AppCompatActivity {
 
         // 登録データの取得
         // SQLお願いします。
-        // TargetAmount TargetLimit, RegisterDate。
+        // TargetAmount TargetLimit, RegisterDate, oneMonth
 
-        TargetAmount = "100000";
-        TargetLimit = "2022/12/31";
-        RegisterDate = "2021/12/1";
+        // Db出来たら消す
+        TargetAmount = "120000";
+        TargetLimit = "2021 / 12 / 21";
+        RegisterDate = "2021 / 12 / 1";
+        oneMonth = 2000;
 
 
         // すでに登録されているデータを表示
@@ -36,8 +39,11 @@ public class Saving extends AppCompatActivity {
         TargetAmountText.setText(TargetAmount);
         TextView TargetLimitText = findViewById(R.id.target_limit);
         TargetLimitText.setText(TargetLimit);
-        TextView RedisterDateText = findViewById(R.id.register_date);
-        RedisterDateText.setText(RegisterDate);
+        TextView RegisterDateText = findViewById(R.id.register_date);
+        RegisterDateText.setText(RegisterDate);
+        TextView oneMonthText = findViewById(R.id.one_month);
+        oneMonthText.setText(Integer.toString(oneMonth));
+
 
         // 総資産の取得
         // 現在日時の取得
@@ -46,8 +52,10 @@ public class Saving extends AppCompatActivity {
         int newMonth = date.get(Calendar.MONTH);
 
         // newYear年newMonth月までの総資産を出して下さい。
-        int MonthStart = 11111;
         // MonthStartに総資産を入れてください。
+
+        // DB出来たら消す
+        int MonthStart = 11111;
 
 
         String MonthStartString = Integer.toString(MonthStart);
@@ -59,22 +67,23 @@ public class Saving extends AppCompatActivity {
         // newYear年(newMonth+1)月の合計を出して下さい。
         // 家計簿とシュミレーション両方
         // 支出は-でお願いします。
-        int MonthAmount = 22222;
-        // MonthAmountに総資産を入れてください。
 
+        // MonthAmountに合計を入れてください。
+
+        // DB出来たら消す
+        int MonthAmount = 22222;
+
+        // 月合計を表示
         String MonthAmountString = Integer.toString(MonthAmount);
         TextView MonthAmountText = findViewById(R.id.month_amount);
         MonthAmountText.setText(MonthAmountString);
 
 
         // 月末総資産計算
-
         int MonthEnd = MonthStart + MonthAmount;
         String MonthEndString = Integer.toString(MonthEnd);
         TextView MonthEndText = findViewById(R.id.month_end);
         MonthEndText.setText(MonthEndString);
-
-
 
 
         // settingボタンの取得
