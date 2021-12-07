@@ -297,12 +297,19 @@ public class FuLook extends AppCompatActivity {
 
 
 
-        // simulation radio buttonの取得
+        // HouseholdAccountBook radio buttonの取得
         RadioButton HouseholdAccountBookClick = findViewById(R.id.flgHouseholdAccountBook);
-        // simulation radio buttonのリスナクラスのインスタンスを作成
+        // HouseholdAccountBook radio buttonのリスナクラスのインスタンスを作成
         HouseholdAccountBookClickListener HouseholdAccountBook_Listener = new HouseholdAccountBookClickListener();
-        // simulation radio buttonにリスナを設定
+        // HouseholdAccountBook radio buttonにリスナを設定
         HouseholdAccountBookClick.setOnClickListener(HouseholdAccountBook_Listener);
+
+        // saving radio buttonの取得
+        RadioButton savingClick = findViewById(R.id.flgSaving);
+        // simulation radio buttonのリスナクラスのインスタンスを作成
+        SavingClickListener saving_Listener = new SavingClickListener();
+        // simulation radio buttonにリスナを設定
+        savingClick.setOnClickListener(saving_Listener);
     }
 
     //　リストがクリックされた時の処理
@@ -392,6 +399,18 @@ public class FuLook extends AppCompatActivity {
 
             Intent intent = new Intent(FuLook.this, Look.class);
             startActivity(intent);
+
+        }
+    }
+
+    // savingボタンを押した場合の処理
+    private class SavingClickListener implements View.OnClickListener {
+        @Override
+        public void onClick (View view) {
+
+            Intent intent = new Intent(FuLook.this, Saving.class);
+            startActivity(intent);
+            finish();
 
         }
     }

@@ -10,19 +10,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.main">
         <activity
+            android:name=".Saving"
+            android:exported="false"
+            android:theme="@style/saving"/>
+        <activity
+            android:name=".TargetSetting"
+            android:exported="false"
+            android:theme="@style/saving"/>
+        <activity
             android:name=".FuFix"
             android:exported="false"
             android:theme="@style/future"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".FuInput"
             android:exported="false"
             android:theme="@style/future"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".FuLook"
             android:exported="false"
-            android:theme="@style/future"/>
+            android:theme="@style/future" />
         <activity
             android:name=".Fix"
             android:exported="false"

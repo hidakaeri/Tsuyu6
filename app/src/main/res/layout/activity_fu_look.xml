@@ -179,6 +179,17 @@
             android:text="@string/simulation"
             android:checked="true"/>
 
+        <RadioButton
+            android:id="@+id/flgSaving"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radio_saving"
+            android:textColor="@color/text"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/saving"/>
+
     </RadioGroup>
 
 

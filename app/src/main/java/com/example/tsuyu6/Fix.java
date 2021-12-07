@@ -93,7 +93,7 @@ public class Fix extends AppCompatActivity {
         fixMemoText.setText(fixMemo);
 
         // DBの日時の分割（初期値用）
-        String[] strDate = fixDate.split(" / ");
+        String[] strDate = fixDate.split("/");
         newYear = Integer.parseInt(strDate[0]);
         int month = Integer.parseInt(strDate[1]);
         newMonth = month - 1;
@@ -217,7 +217,7 @@ public class Fix extends AppCompatActivity {
                 String flag = "家計簿";
 
                 // 入力された月を取得
-                String[] strDate = fixDate.split(" / ");
+                String[] strDate = fixDate.split("/");
                 int year = Integer.parseInt(strDate[0]);
                 int month = Integer.parseInt(strDate[1]);
 

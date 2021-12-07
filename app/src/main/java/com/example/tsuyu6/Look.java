@@ -293,6 +293,13 @@ public class Look extends AppCompatActivity {
         // simulation radio buttonにリスナを設定
         simulationClick.setOnClickListener(simulation_Listener);
 
+        // saving radio buttonの取得
+        RadioButton savingClick = findViewById(R.id.flgSaving);
+        // simulation radio buttonのリスナクラスのインスタンスを作成
+        SavingClickListener saving_Listener = new SavingClickListener();
+        // simulation radio buttonにリスナを設定
+        savingClick.setOnClickListener(saving_Listener);
+
     }
 
     //　リストがクリックされた時の処理
@@ -372,6 +379,18 @@ public class Look extends AppCompatActivity {
         public void onClick (View view) {
 
             Intent intent = new Intent(Look.this, FuLook.class);
+            startActivity(intent);
+            finish();
+
+        }
+    }
+
+    // savingボタンを押した場合の処理
+    private class SavingClickListener implements View.OnClickListener {
+        @Override
+        public void onClick (View view) {
+
+            Intent intent = new Intent(Look.this, Saving.class);
             startActivity(intent);
             finish();
 

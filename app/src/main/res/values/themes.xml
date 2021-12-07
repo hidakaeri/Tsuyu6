@@ -54,6 +54,25 @@
 
     </style>
 
+    <style name="saving" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!--action dar and button and cancel,ok-->
+        <item name="colorPrimary">@color/saving_accent</item>
+
+        <!--calendar-->
+        <item name="colorSecondary">@color/saving_accent</item>
+        <!--radio button-->
+        <item name="colorSecondaryVariant">@color/saving_accent</item>
+
+        <!--status bar-->
+        <item name="android:colorPrimaryDark">@color/dark</item>
+        <!--navigation bar-->
+        <item name="android:navigationBarColor">@color/dark</item>
+        <!--font-->
+        <item name="android:fontFamily">@font/font_regular</item>
+        <!-- button's text color -->
+        <item name="colorOnPrimary">@color/text</item>
+    </style>
+
     <style name="splash_screen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
