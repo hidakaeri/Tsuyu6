@@ -19,10 +19,7 @@ public class SplashScreen extends AppCompatActivity {
 
         wait_time();
 
-        Intent intent = new Intent(SplashScreen.this, Look.class);
-        startActivity(intent);
 
-        finish();
     }
 
     public void wait_time(){
@@ -32,7 +29,11 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 wait_time = true;
+                Intent intent = new Intent(SplashScreen.this, Look.class);
+                startActivity(intent);
+
+                finish();
             }
-        }, 999999999);
+        }, 1000);
     }
 }
