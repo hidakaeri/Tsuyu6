@@ -399,7 +399,7 @@ public class FuLook extends AppCompatActivity {
 
             Intent intent = new Intent(FuLook.this, Look.class);
             startActivity(intent);
-
+            finish();
         }
     }
 

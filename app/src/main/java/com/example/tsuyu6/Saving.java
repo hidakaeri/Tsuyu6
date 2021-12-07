@@ -29,8 +29,8 @@ public class Saving extends AppCompatActivity {
 
         // Db出来たら消す
         TargetAmount = "120000";
-        TargetLimit = "2021 / 12 / 21";
-        RegisterDate = "2021 / 12 / 1";
+        TargetLimit = "2021  /  12  /  21";
+        RegisterDate = "2021  /  12  /  1";
         oneMonth = 2000;
 
 
@@ -141,7 +141,7 @@ public class Saving extends AppCompatActivity {
 
             Intent intent = new Intent(Saving.this, Look.class);
             startActivity(intent);
-
+            finish();
         }
     }
 }
