@@ -28,8 +28,7 @@
             android:id="@+id/flg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text = "初期値"/>
+            android:textSize="15sp" />
 
     </LinearLayout>
 
