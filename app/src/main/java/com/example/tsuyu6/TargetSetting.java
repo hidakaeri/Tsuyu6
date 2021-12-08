@@ -172,12 +172,11 @@ public class TargetSetting extends AppCompatActivity {
         @Override
         public void onClick (View view) {
 
-            // 削除SQL
-            // DB削除してください。
+            // 削除SQLはSavingDeleteDialogに書いてください
 
-            Intent intent = new Intent(TargetSetting.this, Saving.class);
-            startActivity(intent);
-            finish();
+            // ダイアログを開く
+            SavingDeleteDialog dialogFragment = new SavingDeleteDialog();
+            dialogFragment.show(getSupportFragmentManager(),"SavingDeleteDialog");
 
         }
     }

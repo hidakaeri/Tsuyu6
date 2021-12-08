@@ -4,7 +4,6 @@
     <string name="income">収入</string>
     <string name="expenditure">支出</string>
     <string name="add">追加</string>
-    <string name="add_button">+</string>
     <string name="edit">編集</string>
     <string name="fix">修正</string>
     <string name="delete">削除</string>
@@ -33,8 +32,8 @@
     <string name="month_start">先月までの総資産</string>
     <string name="month_amount">今月の合計額</string>
     <string name="month_end">月末総資産</string>
-    <string name="setting">設定</string>
     <string name="register">登録</string>
     <string name="one_month">目標貯金額/月</string>
+    <string name="setting">設定</string>
 
 </resources>

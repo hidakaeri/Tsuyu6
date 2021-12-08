@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -36,13 +35,17 @@ public class Saving extends AppCompatActivity {
 
         // すでに登録されているデータを表示
         TextView TargetAmountText = findViewById(R.id.target_amount);
-        TargetAmountText.setText(TargetAmount);
+        int TargetAmountInt = Integer.parseInt(TargetAmount);
+        TargetAmountText.setText(String.format("%,d", TargetAmountInt));
+
         TextView TargetLimitText = findViewById(R.id.target_limit);
         TargetLimitText.setText(TargetLimit);
+
         TextView RegisterDateText = findViewById(R.id.register_date);
         RegisterDateText.setText(RegisterDate);
+
         TextView oneMonthText = findViewById(R.id.one_month);
-        oneMonthText.setText(Integer.toString(oneMonth));
+        oneMonthText.setText(String.format("%,d",oneMonth));
 
 
         // 総資産の取得
@@ -58,10 +61,8 @@ public class Saving extends AppCompatActivity {
         int MonthStart = 11111;
 
 
-        String MonthStartString = Integer.toString(MonthStart);
         TextView MonthStartText = findViewById(R.id.month_start);
-        MonthStartText.setText(MonthStartString);
-
+        MonthStartText.setText(String.format("%,d", MonthStart));
 
 
         // newYear年(newMonth+1)月の合計を出して下さい。
@@ -74,20 +75,18 @@ public class Saving extends AppCompatActivity {
         int MonthAmount = 22222;
 
         // 月合計を表示
-        String MonthAmountString = Integer.toString(MonthAmount);
         TextView MonthAmountText = findViewById(R.id.month_amount);
-        MonthAmountText.setText(MonthAmountString);
+        MonthAmountText.setText(String.format("%,d", MonthAmount));
 
 
         // 月末総資産計算
         int MonthEnd = MonthStart + MonthAmount;
-        String MonthEndString = Integer.toString(MonthEnd);
         TextView MonthEndText = findViewById(R.id.month_end);
-        MonthEndText.setText(MonthEndString);
+        MonthEndText.setText(String.format("%,d", MonthEnd));
 
 
         // settingボタンの取得
-        Button settingClick = findViewById(R.id.setting);
+        ImageButton settingClick = findViewById(R.id.setting);
         // 追加ボタンのリスナクラスのインスタンスを作成
         settingClickListener setting_listener = new settingClickListener();
         // 追加ボタンにリスナを設定
