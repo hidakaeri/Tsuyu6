@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -266,7 +267,7 @@ public class Look extends AppCompatActivity {
         lvMenu.setOnItemClickListener(new ListItemClickListener());
 
         // 追加ボタンの取得
-        Button addClick = findViewById(R.id.addClick);
+        ImageButton addClick = findViewById(R.id.addClick);
         // 追加ボタンのリスナクラスのインスタンスを作成
         AddClickListener add_listener = new AddClickListener();
         // 追加ボタンにリスナを設定

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -275,7 +276,7 @@ public class FuLook extends AppCompatActivity {
 
 
         // 追加ボタンの取得
-        Button addClick = findViewById(R.id.addClick);
+        ImageButton addClick = findViewById(R.id.addClick);
         // 追加ボタンのリスナクラスのインスタンスを作成
         FuLook.AddClickListener add_listener = new FuLook.AddClickListener();
         // 追加ボタンにリスナを設定

@@ -7,55 +7,40 @@
     android:orientation="vertical"
     android:background="@color/saving">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/saving_accent">
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:text="@string/saving"/>
-
-
-        <Button
-            android:id="@+id/setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:paddingLeft="10dp"
-            android:paddingTop="15dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="15dp"
-            android:text="@string/setting"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:background="@color/saving_accent"
+        android:text="@string/saving"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="22dp"
             android:text="@string/target_amount"/>
         <TextView
             android:id="@+id/target_amount"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="120000"/>
+            android:gravity="end"
+            android:textSize="22dp"
+            android:text=""/>
     </LinearLayout>
 
 
@@ -63,115 +48,203 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="22dp"
             android:text="@string/target_limit"/>
         <TextView
             android:id="@+id/target_limit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="2022/12/30"/>
+            android:gravity="end"
+            android:textSize="22dp"
+            android:text=""/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="22dp"
             android:text="@string/register_date"/>
         <TextView
             android:id="@+id/register_date"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="2021/12/20"/>
+            android:gravity="end"
+            android:textSize="22dp"
+            android:text=""/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="22dp"
             android:text="@string/one_month"/>
         <TextView
             android:id="@+id/one_month"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="end"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text=""/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="@string/month_start"/>
-        <TextView
-            android:id="@+id/month_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text=""/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="@string/month_amount"/>
-        <TextView
-            android:id="@+id/month_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text=""/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="@string/month_end"/>
-        <TextView
-            android:id="@+id/month_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="22dp"
             android:text=""/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/month_start"/>
+            <TextView
+                android:id="@+id/month_start"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textSize="22sp"
+                android:text=""/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/month_amount"/>
+            <TextView
+                android:id="@+id/month_amount"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textSize="22sp"
+                android:text=""/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/month_end"/>
+            <TextView
+                android:id="@+id/month_end"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:gravity="end"
+                android:text=""/>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/setting"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_saving"
+            android:src="@drawable/ic_baseline_settings_24"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/speech_bubble"
+                android:layout_width="180dp"
+                android:layout_height="120dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tsuyu_chan"
+                android:scaleType="centerInside"
+                android:src="@drawable/speech_bubble" />
+
+            <TextView
+                android:id="@+id/dialogue"
+                android:layout_width="180dp"
+                android:layout_height="120dp"
+                android:gravity="center"
+                android:paddingRight="10dp"
+                android:textSize="15sp"
+                app:layout_constraintTop_toTopOf="@+id/speech_bubble"
+                app:layout_constraintBottom_toBottomOf="@+id/speech_bubble"
+                app:layout_constraintStart_toStartOf="@+id/speech_bubble"
+                app:layout_constraintEnd_toEndOf="@+id/speech_bubble" />
+
+            <ImageView
+                android:id="@+id/tsuyu_chan"
+                android:scaleType="centerInside"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginEnd="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
 
     <RadioGroup
         android:id="@+id/flgTime"

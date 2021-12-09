@@ -5,15 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.Calendar;
 
 public class Saving extends AppCompatActivity {
-    String TargetAmount;
+    String TargetAmount = "";
     String TargetLimit;
     String RegisterDate;
     int oneMonth;
@@ -33,16 +33,27 @@ public class Saving extends AppCompatActivity {
         RegisterDate = "2021  /  12  /  1";
         oneMonth = 2000;
 
+        // 初期値
+        int TargetAmountInt = -1;
 
-        // すでに登録されているデータを表示
-        TextView TargetAmountText = findViewById(R.id.target_amount);
-        TargetAmountText.setText(TargetAmount);
-        TextView TargetLimitText = findViewById(R.id.target_limit);
-        TargetLimitText.setText(TargetLimit);
-        TextView RegisterDateText = findViewById(R.id.register_date);
-        RegisterDateText.setText(RegisterDate);
-        TextView oneMonthText = findViewById(R.id.one_month);
-        oneMonthText.setText(Integer.toString(oneMonth));
+        if(TargetAmount.equals("")) {
+
+        } else {
+            // データがあったら
+            // すでに登録されているデータを表示
+            TextView TargetAmountText = findViewById(R.id.target_amount);
+            TargetAmountInt = Integer.parseInt(TargetAmount);
+            TargetAmountText.setText(String.format("%,d", TargetAmountInt));
+
+            TextView TargetLimitText = findViewById(R.id.target_limit);
+            TargetLimitText.setText(TargetLimit);
+
+            TextView RegisterDateText = findViewById(R.id.register_date);
+            RegisterDateText.setText(RegisterDate);
+
+            TextView oneMonthText = findViewById(R.id.one_month);
+            oneMonthText.setText(String.format("%,d",oneMonth));
+        }
 
 
         // 総資産の取得
@@ -58,10 +69,8 @@ public class Saving extends AppCompatActivity {
         int MonthStart = 11111;
 
 
-        String MonthStartString = Integer.toString(MonthStart);
         TextView MonthStartText = findViewById(R.id.month_start);
-        MonthStartText.setText(MonthStartString);
-
+        MonthStartText.setText(String.format("%,d", MonthStart));
 
 
         // newYear年(newMonth+1)月の合計を出して下さい。
@@ -71,23 +80,55 @@ public class Saving extends AppCompatActivity {
         // MonthAmountに合計を入れてください。
 
         // DB出来たら消す
-        int MonthAmount = 22222;
+        int MonthAmount = 3500;
 
         // 月合計を表示
-        String MonthAmountString = Integer.toString(MonthAmount);
         TextView MonthAmountText = findViewById(R.id.month_amount);
-        MonthAmountText.setText(MonthAmountString);
+        MonthAmountText.setText(String.format("%,d", MonthAmount));
 
 
         // 月末総資産計算
         int MonthEnd = MonthStart + MonthAmount;
-        String MonthEndString = Integer.toString(MonthEnd);
         TextView MonthEndText = findViewById(R.id.month_end);
-        MonthEndText.setText(MonthEndString);
+        MonthEndText.setText(String.format("%,d", MonthEnd));
+
+        // 梅雨ちゃんのImageView取得
+        ImageView tsuyu_imageView = findViewById(R.id.tsuyu_chan);
+        // セリフのTextView取得
+        TextView dialogue = findViewById(R.id.dialogue);
+
+
+        //　梅雨ちゃんの画像とセリフを設定
+        if(TargetAmountInt == -1) {
+            tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu6);
+            dialogue.setText("目標を設定してね");
+        } else if (MonthAmount >= (TargetAmountInt * 1.5)){
+            // 貯金額が目標の1.5倍以上
+            tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu1);
+            dialogue.setText("すごい！！");
+        } else if (MonthAmount >= TargetAmountInt) {
+            // 貯金額が目標以上
+            tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu2);
+            dialogue.setText("頑張ったね！");
+        } else if ((MonthAmount >= (TargetAmountInt * 0.5))) {
+            // 貯金額が目標の半分以上
+            tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu3);
+            dialogue.setText("おしい！");
+        } else if (MonthAmount >= 0) {
+            // 貯金額がマイナスでない
+            tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu4);
+            dialogue.setText("もっと頑張って！");
+        } else {
+            // 貯金額がマイナス
+            tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu5);
+            dialogue.setText("来月頑張ろう！！");
+        }
+
+
 
 
         // settingボタンの取得
-        Button settingClick = findViewById(R.id.setting);
+        ImageButton settingClick = findViewById(R.id.setting);
         // 追加ボタンのリスナクラスのインスタンスを作成
         settingClickListener setting_listener = new settingClickListener();
         // 追加ボタンにリスナを設定
