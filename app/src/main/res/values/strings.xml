@@ -20,6 +20,7 @@
     <string name="toast_radio">「支出」「収入」を選択して下さい</string>
     <string name="toast_amount">金額を入力して下さい</string>
     <string name="toast_double">金額は整数で入力して下さい</string>
+    <string name="toast_setting">未入力のデータがあります</string>
     <string name="dialog_title">確認</string>
     <string name="delete_dialog_msg">このデータを削除します。\nよろしいですか？</string>
     <string name="time_dialog_msg">家計簿のデータを編集します。\nよろしいですか？</string>
@@ -30,7 +31,7 @@
     <string name="register_date">目標設定日</string>
     <string name="target_limit">期限</string>
     <string name="month_start">先月の総資産</string>
-    <string name="month_amount">今月の合計額</string>
+    <string name="month_amount">今月の貯金額</string>
     <string name="month_end">月末総資産</string>
     <string name="register">登録</string>
     <string name="one_month">目標貯金額/月</string>

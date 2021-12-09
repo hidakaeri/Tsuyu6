@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -122,47 +123,55 @@ public class TargetSetting extends AppCompatActivity {
             TextView TargetLimitText = findViewById(R.id.target_limit);
             TargetLimit = TargetLimitText.getText().toString();
 
-            // 現在日時の取得
-            // 登録日用
-            Calendar date = Calendar.getInstance();
-            newYear = date.get(Calendar.YEAR);
-            newMonth = date.get(Calendar.MONTH);
-            newDay = date.get(Calendar.DATE);
-            String register_date = String.format("%d / %02d / %02d", newYear, newMonth+1, newDay);
-
-            // 貯金目標額/月　の計算
-            // 期限の分割
-            String[] strLimit = TargetLimit.split(" / ");
-            int  limitYear = Integer.parseInt(strLimit[0]);
-            int limitMonth = Integer.parseInt(strLimit[1]);
-
-
-            // 登録日の分割
-            String[] strRegister = register_date.split(" / ");
-            int  registerYear = Integer.parseInt(strRegister[0]);
-            int registerMonth = Integer.parseInt(strRegister[1]);
-
-            // 貯金月数を計算
-            int month_to_saving;
-            if((limitYear - registerYear) == 0) {
-                month_to_saving = limitMonth - registerMonth +1;
+            if(TargetAmount.equals("") || TargetLimit.equals("")) {
+                // 内容が入力されていない場合の処理
+                // トースト表示
+                Toast.makeText(TargetSetting.this, R.string.toast_setting, Toast.LENGTH_LONG).show();
             } else {
-                month_to_saving = (12 - registerMonth + 1) + limitMonth + 12 * (limitYear - registerYear - 1);
-            }
+                // 現在日時の取得
+                // 登録日用
+                Calendar date = Calendar.getInstance();
+                newYear = date.get(Calendar.YEAR);
+                newMonth = date.get(Calendar.MONTH);
+                newDay = date.get(Calendar.DATE);
+                String register_date = String.format("%d / %02d / %02d", newYear, newMonth+1, newDay);
 
-            int oneMonth = Integer.parseInt(TargetAmount) / month_to_saving;
+                // 貯金目標額/月　の計算
+                // 期限の分割
+                String[] strLimit = TargetLimit.split(" / ");
+                int limitYear = Integer.parseInt(strLimit[0]);
+                int limitMonth = Integer.parseInt(strLimit[1]);
 
 
-            // SQL
-            // 目標金額　TargetAmount
-            // 期限　TargetLimit
-            // 登録日　register_date
-            // 貯金目標額（int型) oneMonth　
-            // 該当のデータがあれば上書き、なければ新規登録お願いします。
+                // 登録日の分割
+                String[] strRegister = register_date.split(" / ");
+                int registerYear = Integer.parseInt(strRegister[0]);
+                int registerMonth = Integer.parseInt(strRegister[1]);
+
+                // 貯金月数を計算
+                int month_to_saving;
+                if((limitYear - registerYear) == 0) {
+                    month_to_saving = limitMonth - registerMonth +1;
+                } else {
+                    month_to_saving = (12 - registerMonth + 1) + limitMonth + 12 * (limitYear - registerYear - 1);
+                }
+
+
+                int oneMonth = Integer.parseInt(TargetAmount) / month_to_saving;
+
+
+                // SQL
+                // 目標金額　TargetAmount
+                // 期限　TargetLimit
+                // 登録日　register_date
+                // 貯金目標額（int型) oneMonth　
+                // 該当のデータがあれば上書き、なければ新規登録お願いします。
 
             Intent intent = new Intent(TargetSetting.this, Saving.class);
             startActivity(intent);
             finish();
+
+            }
 
         }
     }

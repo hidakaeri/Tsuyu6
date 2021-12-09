@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:textSize="22dp"
-            android:text="120000"/>
+            android:text=""/>
     </LinearLayout>
 
 
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:textSize="22dp"
-            android:text="2022/12/30"/>
+            android:text=""/>
     </LinearLayout>
 
     <LinearLayout
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:textSize="22dp"
-            android:text="2021/12/20"/>
+            android:text=""/>
     </LinearLayout>
 
     <LinearLayout
@@ -112,7 +112,7 @@
             android:gravity="end"
             android:layout_height="wrap_content"
             android:textSize="22dp"
-            android:text="12345"/>
+            android:text=""/>
     </LinearLayout>
 
     <LinearLayout
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textSize="22sp"
-                android:text="12345"/>
+                android:text=""/>
         </LinearLayout>
 
         <LinearLayout
@@ -165,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textSize="22sp"
-                android:text="12345"/>
+                android:text=""/>
         </LinearLayout>
 
         <LinearLayout
@@ -189,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
                 android:gravity="end"
-                android:text="12345"/>
+                android:text=""/>
         </LinearLayout>
 
         <ImageButton
@@ -217,6 +217,18 @@
                 app:layout_constraintEnd_toStartOf="@+id/tsuyu_chan"
                 android:scaleType="centerInside"
                 android:src="@drawable/speech_bubble" />
+
+            <TextView
+                android:id="@+id/dialogue"
+                android:layout_width="180dp"
+                android:layout_height="120dp"
+                android:gravity="center"
+                android:paddingRight="10dp"
+                android:textSize="15sp"
+                app:layout_constraintTop_toTopOf="@+id/speech_bubble"
+                app:layout_constraintBottom_toBottomOf="@+id/speech_bubble"
+                app:layout_constraintStart_toStartOf="@+id/speech_bubble"
+                app:layout_constraintEnd_toEndOf="@+id/speech_bubble" />
 
             <ImageView
                 android:id="@+id/tsuyu_chan"
