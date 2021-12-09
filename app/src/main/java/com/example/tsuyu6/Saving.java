@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -83,6 +84,10 @@ public class Saving extends AppCompatActivity {
         int MonthEnd = MonthStart + MonthAmount;
         TextView MonthEndText = findViewById(R.id.month_end);
         MonthEndText.setText(String.format("%,d", MonthEnd));
+
+        // 梅雨ちゃんの画像表示
+        ImageView tsuyu_imageView = findViewById(R.id.tsuyu_chan);
+        tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu1);
 
 
         // settingボタンの取得
