@@ -32,6 +32,7 @@ public class Look extends AppCompatActivity {
     static int displayMonth;
     static int displayYear;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -60,6 +61,10 @@ public class Look extends AppCompatActivity {
         if(displayReturnMonth != -1) {
             displayMonth = displayReturnMonth;
             displayYear = displayReturnYear;
+
+            // あと消して
+            TextView totalText1 = findViewById(R.id.look_total);
+            totalText1.setText(Integer.toString(displayMonth));
         } else {
             // 表示したい月
             displayMonth = nowMonth+month_count;
@@ -175,9 +180,11 @@ public class Look extends AppCompatActivity {
         TextView expenditureText = findViewById(R.id.look_expenditure);
 
         // 合計、収入、支出の内容をTextViewにセット
-        totalText.setText(String.format("%,d", total));
+        // totalText.setText(String.format("%,d", total));
         incomeText.setText(String.format("%,d", income));
         expenditureText.setText(String.format("%,d", expenditure));
+
+
 
 
         //DB操作(SELECT)
