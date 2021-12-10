@@ -80,7 +80,7 @@ public class Saving extends AppCompatActivity {
         // MonthAmountに合計を入れてください。
 
         // DB出来たら消す
-        int MonthAmount = 3500;
+        int MonthAmount = 10000;
 
         // 月合計を表示
         TextView MonthAmountText = findViewById(R.id.month_amount);
@@ -102,15 +102,15 @@ public class Saving extends AppCompatActivity {
         if(TargetAmountInt == -1) {
             tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu6);
             dialogue.setText("目標を設定してね");
-        } else if (MonthAmount >= (TargetAmountInt * 1.5)){
+        } else if (MonthAmount >= oneMonth * 1.5){
             // 貯金額が目標の1.5倍以上
             tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu1);
             dialogue.setText("すごい！！");
-        } else if (MonthAmount >= TargetAmountInt) {
+        } else if (MonthAmount >= oneMonth) {
             // 貯金額が目標以上
             tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu2);
             dialogue.setText("頑張ったね！");
-        } else if ((MonthAmount >= (TargetAmountInt * 0.5))) {
+        } else if ((MonthAmount >= (oneMonth * 0.5))) {
             // 貯金額が目標の半分以上
             tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu3);
             dialogue.setText("おしい！");

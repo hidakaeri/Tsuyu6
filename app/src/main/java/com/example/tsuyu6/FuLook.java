@@ -34,6 +34,12 @@ public class FuLook extends AppCompatActivity {
     static int FuDisplayMonth;
     static int FuDisplayYear;
 
+    static int lastNextMonth;
+    static int lastNextYear;
+
+    static int FuDisplayReturnMonth;
+    static int FuDisplayReturnYear;
+
     static String _id;
     static String fixDate;
     static String fixItem;
@@ -49,8 +55,10 @@ public class FuLook extends AppCompatActivity {
         // intentを受け取る
         Intent intent = getIntent();
         month_count = intent.getIntExtra("month_count",0);
-        int FuDisplayReturnMonth = intent.getIntExtra("FuDisplayMonth",-1);
-        int FuDisplayReturnYear = intent.getIntExtra("FuDisplayYear",-1);
+        FuDisplayReturnMonth = intent.getIntExtra("FuDisplayMonth",-1);
+        FuDisplayReturnYear = intent.getIntExtra("FuDisplayYear",-1);
+        lastNextMonth = intent.getIntExtra("lastNextMonth",-1);
+        lastNextYear = intent.getIntExtra("lastNextYear",-1);
 
         // 現在の年月を取得
         Calendar date = Calendar.getInstance();
@@ -59,10 +67,15 @@ public class FuLook extends AppCompatActivity {
 
 
 
-        // 追加、編集画面から戻ってきた場合
+
         if(FuDisplayReturnMonth != -1) {
+            // 追加、編集画面から戻ってきた場合
             FuDisplayMonth = FuDisplayReturnMonth;
             FuDisplayYear = FuDisplayReturnYear;
+        } else if (lastNextMonth != -1) {
+            // 先月、来月から戻ってきた場合
+            FuDisplayMonth = lastNextMonth;
+            FuDisplayYear = lastNextYear;
         } else {
             // 表示したい月
             FuDisplayMonth = nowMonth+month_count;
@@ -373,9 +386,41 @@ public class FuLook extends AppCompatActivity {
         public void onClick (View view) {
             month_count += 1;
 
-            Intent intent = new Intent(FuLook.this, FuLook.class);
-            intent.putExtra("month_count", month_count);
-            startActivity(intent);
+            if(FuDisplayReturnMonth != -1 ) {
+                // 追加、編集画面から戻ってきた場合
+                lastNextMonth = FuDisplayReturnMonth + 1;
+                lastNextYear = FuDisplayReturnYear;
+                if (lastNextMonth == 13 ) {
+                    lastNextMonth = 1;
+                    lastNextYear+= 1;
+                }
+
+                Intent intent = new Intent(FuLook.this, FuLook.class);
+
+                intent.putExtra("lastNextMonth", lastNextMonth);
+                intent.putExtra("lastNextYear", lastNextYear);
+                startActivity(intent);
+
+            } else if (lastNextMonth != -1) {
+                // 先月、来月から戻ってきた場合
+                lastNextMonth = lastNextMonth + 1;
+                if (lastNextMonth == 13 ) {
+                    lastNextMonth = 1;
+                    lastNextYear+= 1;
+                }
+
+                Intent intent = new Intent(FuLook.this, FuLook.class);
+
+                intent.putExtra("lastNextMonth", lastNextMonth);
+                intent.putExtra("lastNextYear", lastNextYear);
+                startActivity(intent);
+            } else {
+                // lookが最初に開かれたとき
+                Intent intent = new Intent(FuLook.this, FuLook.class);
+                intent.putExtra("month_count", month_count);
+
+                startActivity(intent);
+            }
             finish();
         }
     }
@@ -386,9 +431,41 @@ public class FuLook extends AppCompatActivity {
         public void onClick (View view) {
             month_count -= 1;
 
-            Intent intent = new Intent(FuLook.this, FuLook.class);
-            intent.putExtra("month_count", month_count);
-            startActivity(intent);
+            if(FuDisplayReturnMonth != -1 ) {
+                // 追加、編集画面から戻ってきた場合
+                lastNextMonth = FuDisplayReturnMonth - 1;
+                lastNextYear = FuDisplayReturnYear;
+                if (lastNextMonth == 0 ) {
+                    lastNextMonth = 12;
+                    lastNextYear -= 1;
+                }
+
+                Intent intent = new Intent(FuLook.this, FuLook.class);
+
+                intent.putExtra("lastNextMonth", lastNextMonth);
+                intent.putExtra("lastNextYear", lastNextYear);
+                startActivity(intent);
+
+            } else if (lastNextMonth != -1) {
+                // 先月、来月から戻ってきた場合
+                lastNextMonth = lastNextMonth - 1;
+                if (lastNextMonth == 0 ) {
+                    lastNextMonth = 12;
+                    lastNextYear -= 1;
+                }
+
+                Intent intent = new Intent(FuLook.this, FuLook.class);
+
+                intent.putExtra("lastNextMonth", lastNextMonth);
+                intent.putExtra("lastNextYear", lastNextYear);
+                startActivity(intent);
+            } else {
+                // lookが最初に開かれたとき
+                Intent intent = new Intent(FuLook.this, FuLook.class);
+                intent.putExtra("month_count", month_count);
+
+                startActivity(intent);
+            }
             finish();
         }
     }
@@ -399,7 +476,10 @@ public class FuLook extends AppCompatActivity {
         public void onClick (View view) {
 
             Intent intent = new Intent(FuLook.this, Look.class);
+            intent.putExtra("displayMonth", FuDisplayMonth);
+            intent.putExtra("displayYear", FuDisplayYear);
             startActivity(intent);
+
             finish();
         }
     }
