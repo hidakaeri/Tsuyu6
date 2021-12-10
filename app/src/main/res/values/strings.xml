@@ -34,7 +34,7 @@
     <string name="month_amount">今月の貯金額</string>
     <string name="month_end">月末総資産</string>
     <string name="register">登録</string>
-    <string name="one_month">目標貯金額/月</string>
+    <string name="one_month">今月の目標貯金額</string>
     <string name="setting">設定</string>
 
 </resources>
