@@ -83,7 +83,7 @@ public class Saving extends AppCompatActivity {
             }
 
 
-            int oneMonth = Integer.parseInt(TargetAmount) / month_to_saving;
+            oneMonth = Integer.parseInt(TargetAmount) / month_to_saving;
 
             TextView oneMonthText = findViewById(R.id.one_month);
             oneMonthText.setText(String.format("%,d",oneMonth));
@@ -94,7 +94,7 @@ public class Saving extends AppCompatActivity {
         //月を二桁表示
         Format f = new DecimalFormat("00");
 
-        // newYear年newMonth月までの総資産
+        //（MonthStart）
         String msSql = "SELECT TOTAL(amount) FROM tsuyu6 " +
                 "WHERE flag = '家計簿' " +
                 "AND date <= '" + newYear + " / " + f.format(newMonth) + " / 31'";
@@ -102,37 +102,28 @@ public class Saving extends AppCompatActivity {
         cur.moveToFirst();
         int MonthStart = cur.getInt(0);
 
-        // 先月の総資産表示
+        // 先月の総資産を表示
         TextView MonthStartText = findViewById(R.id.month_start);
         MonthStartText.setText(String.format("%,d", MonthStart));
 
 
-
-
-
-        // newYear年(newMonth+1)月の合計を出して下さい。
+        // 今月の合計額（MonthAmount）
         // 家計簿とシュミレーション両方
-        // 支出は-でお願いします。
-        // MonthAmountに合計を入れてください。
+        String maSql = "SELECT TOTAL(amount) FROM tsuyu6 " +
+                "WHERE date >= '" + newYear + " / " + f.format(newMonth+1) + " / 01' " +
+                "AND date <= '" + newYear + " / " + f.format(newMonth+1) + " / 31'";
+        cur = db.rawQuery(maSql,null);
+        cur.moveToFirst();
+        int MonthAmount = cur.getInt(0);
+        db.close();
 
 
-
-
-
-
-
-
-        // DB出来たら消す
-        int MonthAmount = 10000;
-
-        // 月合計を表示
+        // 今月の合計額を表示
         TextView MonthAmountText = findViewById(R.id.month_amount);
         MonthAmountText.setText(String.format("%,d", MonthAmount));
 
 
-
-
-        // 月末総資産計算
+        // 月末総資産の計算
         int MonthEnd = MonthStart + MonthAmount;
         TextView MonthEndText = findViewById(R.id.month_end);
         MonthEndText.setText(String.format("%,d", MonthEnd));
