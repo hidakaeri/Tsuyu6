@@ -21,9 +21,9 @@ import java.util.Calendar;
 
 public class FuInput extends AppCompatActivity {
 
-    int newYear;
-    int newMonth;
-    int newDay;
+    static int newYear;
+    static int newMonth;
+    static int newDay;
     static int FuDisplayYear;
     static int FuDisplayMonth;
 
@@ -52,7 +52,16 @@ public class FuInput extends AppCompatActivity {
         newYear = date.get(Calendar.YEAR);
         newMonth = date.get(Calendar.MONTH);
         newDay = date.get(Calendar.DATE);
-        inputDateText.setText(String.format("%d / %02d / %02d", newYear, newMonth+1, newDay));
+
+        if(FuDisplayMonth == (newMonth + 1)) {
+            // 今月のとき
+            inputDateText.setText(String.format("%d / %02d / %02d", newYear, newMonth + 1, newDay));
+        } else {
+            newYear = FuDisplayYear;
+            newMonth = FuDisplayMonth -1;
+            newDay = 1;
+            inputDateText.setText(String.format("%d / %02d / %02d", newYear, newMonth + 1, newDay));
+        }
 
         //EditTextにリスナーをつける
         inputDateText.setOnClickListener(new View.OnClickListener() {
