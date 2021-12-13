@@ -130,36 +130,6 @@ public class TargetSetting extends AppCompatActivity {
                 // トースト表示
                 Toast.makeText(TargetSetting.this, R.string.toast_setting, Toast.LENGTH_LONG).show();
             } else {
-                // 現在日時の取得
-                // 登録日用
-                Calendar date = Calendar.getInstance();
-                newYear = date.get(Calendar.YEAR);
-                newMonth = date.get(Calendar.MONTH);
-                newDay = date.get(Calendar.DATE);
-                String register_date = String.format("%d / %02d / %02d", newYear, newMonth+1, newDay);
-
-                // 貯金目標額/月　の計算
-                // 期限の分割
-                String[] strLimit = TargetLimit.split(" / ");
-                int limitYear = Integer.parseInt(strLimit[0]);
-                int limitMonth = Integer.parseInt(strLimit[1]);
-
-
-                // 登録日の分割
-                String[] strRegister = register_date.split(" / ");
-                int registerYear = Integer.parseInt(strRegister[0]);
-                int registerMonth = Integer.parseInt(strRegister[1]);
-
-                // 貯金月数を計算
-                int month_to_saving;
-                if((limitYear - registerYear) == 0) {
-                    month_to_saving = limitMonth - registerMonth +1;
-                } else {
-                    month_to_saving = (12 - registerMonth + 1) + limitMonth + 12 * (limitYear - registerYear - 1);
-                }
-
-
-                int oneMonth = Integer.parseInt(TargetAmount) / month_to_saving;
 
 
                 // SQL
@@ -178,10 +148,10 @@ public class TargetSetting extends AppCompatActivity {
                     db = helper.getReadableDatabase();
                 }
                 try {
-                    String sqlDelete = "DELETE FROM target7";
+                    String sqlDelete = "DELETE FROM target6";
                     SQLiteStatement Dstmt = db.compileStatement(sqlDelete);
                     Dstmt.executeUpdateDelete();
-                    String sqlInsert = "INSERT INTO target7 (targetamount, targetlimit) VALUES (?,?)";
+                    String sqlInsert = "INSERT INTO target6 (targetamount, targetlimit) VALUES (?,?)";
                     SQLiteStatement stmt = db.compileStatement(sqlInsert);
                     stmt.bindString(1, TargetAmount);
                     stmt.bindString(2, TargetLimit);

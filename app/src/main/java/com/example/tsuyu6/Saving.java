@@ -19,7 +19,6 @@ import java.util.Calendar;
 public class Saving extends AppCompatActivity {
     String TargetAmount = "";
     String TargetLimit;
-    String RegisterDate;
     static int oneMonth;
 
     @Override
@@ -27,11 +26,16 @@ public class Saving extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saving);
 
+        // 現在日時の取得
+        Calendar date = Calendar.getInstance();
+        int newYear = date.get(Calendar.YEAR);
+        int newMonth = date.get(Calendar.MONTH);
+
         //DB接続準備
         DatabaseHelper helper = new DatabaseHelper(Saving.this);
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        // TargetAmount TargetLimit, RegisterDate, oneMonthの取得
+        // TargetAmount TargetLimit, RegisterDate
         String sql = "SELECT * FROM target6";
         Cursor cur = db.rawQuery(sql, null);
         while(cur.moveToNext()){
@@ -60,18 +64,33 @@ public class Saving extends AppCompatActivity {
             TextView TargetLimitText = findViewById(R.id.target_limit);
             TargetLimitText.setText(TargetLimit);
 
+            // 貯金目標額/月　の計算
+            // 期限の分割
+            String[] strLimit = TargetLimit.split(" / ");
+            int limitYear = Integer.parseInt(strLimit[0]);
+            int limitMonth = Integer.parseInt(strLimit[1]);
+
+            // 計算用　現在日時の設定
+            int thisYear = newYear;
+            int thisMonth = newMonth + 1;
+
+            // 貯金月数を計算
+            int month_to_saving;
+            if((limitYear - thisYear) == 0) {
+                month_to_saving = limitMonth - thisMonth +1;
+            } else {
+                month_to_saving = (12 - thisMonth + 1) + limitMonth + 12 * (limitYear - newYear - 1);
+            }
+
+
+            int oneMonth = Integer.parseInt(TargetAmount) / month_to_saving;
 
             TextView oneMonthText = findViewById(R.id.one_month);
             oneMonthText.setText(String.format("%,d",oneMonth));
         }
 
 
-        // 総資産の取得
-        // 現在日時の取得
-        Calendar date = Calendar.getInstance();
-        int newYear = date.get(Calendar.YEAR);
-        int newMonth = date.get(Calendar.MONTH);
-
+        // 先月総資産の取得
         //月を二桁表示
         Format f = new DecimalFormat("00");
 
@@ -83,18 +102,25 @@ public class Saving extends AppCompatActivity {
         cur.moveToFirst();
         int MonthStart = cur.getInt(0);
 
-
-
-
+        // 先月の総資産表示
         TextView MonthStartText = findViewById(R.id.month_start);
         MonthStartText.setText(String.format("%,d", MonthStart));
+
+
+
 
 
         // newYear年(newMonth+1)月の合計を出して下さい。
         // 家計簿とシュミレーション両方
         // 支出は-でお願いします。
-
         // MonthAmountに合計を入れてください。
+
+
+
+
+
+
+
 
         // DB出来たら消す
         int MonthAmount = 10000;
@@ -102,6 +128,8 @@ public class Saving extends AppCompatActivity {
         // 月合計を表示
         TextView MonthAmountText = findViewById(R.id.month_amount);
         MonthAmountText.setText(String.format("%,d", MonthAmount));
+
+
 
 
         // 月末総資産計算
