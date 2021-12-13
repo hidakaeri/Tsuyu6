@@ -3,6 +3,8 @@ package com.example.tsuyu6;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -10,28 +12,38 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.Calendar;
 
 public class Saving extends AppCompatActivity {
     String TargetAmount = "";
     String TargetLimit;
     String RegisterDate;
-    int oneMonth;
+    static int oneMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saving);
 
-        // 登録データの取得
-        // SQLお願いします。
-        // TargetAmount TargetLimit, RegisterDate, oneMonth
+        //DB接続準備
+        DatabaseHelper helper = new DatabaseHelper(Saving.this);
+        SQLiteDatabase db = helper.getWritableDatabase();
 
-        // Db出来たら消す
-        TargetAmount = "120000";
-        TargetLimit = "2021  /  12  /  21";
-        RegisterDate = "2021  /  12  /  1";
-        oneMonth = 2000;
+        // TargetAmount TargetLimit, RegisterDate, oneMonthの取得
+        String sql = "SELECT * FROM target6";
+        Cursor cur = db.rawQuery(sql, null);
+        while(cur.moveToNext()){
+            int tamountId = cur.getColumnIndex("targetamount");
+            int tlimitId = cur.getColumnIndex("targetlimit");
+
+            TargetAmount = cur.getString(tamountId);
+            TargetLimit = cur.getString(tlimitId);
+
+            cur.moveToFirst();
+        }
+
 
         // 初期値
         int TargetAmountInt = -1;
@@ -48,8 +60,6 @@ public class Saving extends AppCompatActivity {
             TextView TargetLimitText = findViewById(R.id.target_limit);
             TargetLimitText.setText(TargetLimit);
 
-            TextView RegisterDateText = findViewById(R.id.register_date);
-            RegisterDateText.setText(RegisterDate);
 
             TextView oneMonthText = findViewById(R.id.one_month);
             oneMonthText.setText(String.format("%,d",oneMonth));
@@ -62,11 +72,18 @@ public class Saving extends AppCompatActivity {
         int newYear = date.get(Calendar.YEAR);
         int newMonth = date.get(Calendar.MONTH);
 
-        // newYear年newMonth月までの総資産を出して下さい。
-        // MonthStartに総資産を入れてください。
+        //月を二桁表示
+        Format f = new DecimalFormat("00");
 
-        // DB出来たら消す
-        int MonthStart = 11111;
+        // newYear年newMonth月までの総資産
+        String msSql = "SELECT TOTAL(amount) FROM tsuyu6 " +
+                "WHERE flag = '家計簿' " +
+                "AND date <= '" + newYear + " / " + f.format(newMonth) + " / 31'";
+        cur = db.rawQuery(msSql,null);
+        cur.moveToFirst();
+        int MonthStart = cur.getInt(0);
+
+
 
 
         TextView MonthStartText = findViewById(R.id.month_start);

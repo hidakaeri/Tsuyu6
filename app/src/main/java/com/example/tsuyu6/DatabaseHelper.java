@@ -26,7 +26,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb.append(");");
         String sql = sb.toString();
 
+        StringBuilder tsb = new StringBuilder();
+        tsb.append("CREATE TABLE target6 (");
+        tsb.append("targetamount INTEGER, ");
+        tsb.append("targetlimit DATE");
+        tsb.append(");");
+        String targetSql = tsb.toString();
+
         db.execSQL(sql);
+        db.execSQL(targetSql);
     }
 
     @Override

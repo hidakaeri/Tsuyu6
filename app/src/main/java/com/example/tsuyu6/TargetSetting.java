@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -165,7 +167,28 @@ public class TargetSetting extends AppCompatActivity {
                 // 期限　TargetLimit
                 // 登録日　register_date
                 // 貯金目標額（int型) oneMonth　
-                // 該当のデータがあれば上書き、なければ新規登録お願いします。
+                DatabaseHelper helper = new DatabaseHelper(TargetSetting.this);
+                SQLiteDatabase db = helper.getWritableDatabase();
+
+                if (helper == null) {
+                    helper = new DatabaseHelper(getApplicationContext());
+                }
+
+                if (db == null) {
+                    db = helper.getReadableDatabase();
+                }
+                try {
+                    String sqlDelete = "DELETE FROM target7";
+                    SQLiteStatement Dstmt = db.compileStatement(sqlDelete);
+                    Dstmt.executeUpdateDelete();
+                    String sqlInsert = "INSERT INTO target7 (targetamount, targetlimit) VALUES (?,?)";
+                    SQLiteStatement stmt = db.compileStatement(sqlInsert);
+                    stmt.bindString(1, TargetAmount);
+                    stmt.bindString(2, TargetLimit);
+                    stmt.executeInsert();
+                } finally {
+                    db.close();
+                }
 
             Intent intent = new Intent(TargetSetting.this, Saving.class);
             startActivity(intent);
@@ -180,8 +203,6 @@ public class TargetSetting extends AppCompatActivity {
     private class DeleteClickListener implements View.OnClickListener {
         @Override
         public void onClick (View view) {
-
-            // 削除SQLはSavingDeleteDialogに書いてください
 
             // ダイアログを開く
             SavingDeleteDialog dialogFragment = new SavingDeleteDialog();

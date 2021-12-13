@@ -51,10 +51,13 @@ public class SavingDeleteDialog extends DialogFragment {
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
-                    // DELETE文実行
 
                     // DBの更新処理(DELETE)
-
+                    DatabaseHelper helper = new DatabaseHelper(getActivity());
+                    SQLiteDatabase db = helper.getWritableDatabase();
+                    String sqlDelete = "DELETE FROM target6";
+                    SQLiteStatement stmt = db.compileStatement(sqlDelete);
+                    stmt.executeUpdateDelete();
 
                     // 画面遷移
                     Intent intent = new Intent(getActivity(), Saving.class);
