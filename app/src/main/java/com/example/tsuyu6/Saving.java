@@ -15,11 +15,14 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.Calendar;
+import java.util.Random;
 
 public class Saving extends AppCompatActivity {
     String TargetAmount = "";
     String TargetLimit;
     static int oneMonth;
+    static int targetFlg;
+    static int balance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +135,8 @@ public class Saving extends AppCompatActivity {
         ImageView tsuyu_imageView = findViewById(R.id.tsuyu_chan);
         // セリフのTextView取得
         TextView dialogue = findViewById(R.id.dialogue);
+        // 吹き出しの取得
+        ImageView speechBubble = findViewById(R.id.speech_bubble);
 
 
         //　梅雨ちゃんの画像とセリフを設定
@@ -140,24 +145,62 @@ public class Saving extends AppCompatActivity {
             dialogue.setText("目標を設定してね");
         } else if (MonthAmount >= oneMonth * 1.5){
             // 貯金額が目標の1.5倍以上
+            targetFlg = 1;
             tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu1);
             dialogue.setText("すごい！！");
+            balance = MonthAmount - oneMonth;
+
+            // 吹き出しのリスナクラスのインスタンスを作成
+            DialogueClick1 speech_bubble_listener = new DialogueClick1();
+            // 吹き出しにリスナを設定
+            speechBubble.setOnClickListener(speech_bubble_listener);
+
         } else if (MonthAmount >= oneMonth) {
             // 貯金額が目標以上
+            targetFlg = 2;
             tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu2);
             dialogue.setText("頑張ったね！");
+            balance = MonthAmount - oneMonth;
+
+            // 吹き出しのリスナクラスのインスタンスを作成
+            DialogueClick2 speech_bubble_listener = new DialogueClick2();
+            // 吹き出しにリスナを設定
+            speechBubble.setOnClickListener(speech_bubble_listener);
+
         } else if ((MonthAmount >= (oneMonth * 0.5))) {
             // 貯金額が目標の半分以上
+            targetFlg = 3;
             tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu3);
             dialogue.setText("おしい！");
+            balance = oneMonth - MonthAmount;
+
+            // 吹き出しのリスナクラスのインスタンスを作成
+            DialogueClick3 speech_bubble_listener = new DialogueClick3();
+            // 吹き出しにリスナを設定
+            speechBubble.setOnClickListener(speech_bubble_listener);
+
         } else if (MonthAmount >= 0) {
             // 貯金額がマイナスでない
+            targetFlg = 4;
             tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu4);
             dialogue.setText("もっと頑張って！");
+            balance = oneMonth - MonthAmount;
+
+            // 吹き出しのリスナクラスのインスタンスを作成
+            DialogueClick4 speech_bubble_listener = new DialogueClick4();
+            // 吹き出しにリスナを設定
+            speechBubble.setOnClickListener(speech_bubble_listener);
+
         } else {
             // 貯金額がマイナス
+            targetFlg = 5;
             tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu5);
             dialogue.setText("来月頑張ろう！！");
+
+            // 吹き出しのリスナクラスのインスタンスを作成
+            DialogueClick5 speech_bubble_listener = new DialogueClick5();
+            // 吹き出しにリスナを設定
+            speechBubble.setOnClickListener(speech_bubble_listener);
         }
 
 
@@ -219,6 +262,111 @@ public class Saving extends AppCompatActivity {
             Intent intent = new Intent(Saving.this, Look.class);
             startActivity(intent);
             finish();
+        }
+    }
+
+    private class DialogueClick1 implements View.OnClickListener {
+        @Override
+        public void onClick (View view) {
+            // セリフのTextView取得
+            TextView dialogue = findViewById(R.id.dialogue);
+            String dialogueText = dialogue.getText().toString();
+
+            String first = "すごい！！";
+            String second = "目標を" + balance + "円\n超えたよ";
+            String third = "素晴らしい‼\nやったね‼";
+
+            if(dialogueText.equals(first)) {
+                dialogue.setText(second);
+            } else if (dialogueText.equals(second)) {
+                dialogue.setText(third);
+            } else {
+                dialogue.setText(first);
+            }
+        }
+    }
+
+    private class DialogueClick2 implements View.OnClickListener {
+        @Override
+        public void onClick (View view) {
+            // セリフのTextView取得
+            TextView dialogue = findViewById(R.id.dialogue);
+            String dialogueText = dialogue.getText().toString();
+
+            String first = "頑張ったね！";
+            String second = "目標を" + balance + "円\n超えたよ";
+            String third = "その調子！\n目標達成！";
+
+            if(dialogueText.equals(first)) {
+                dialogue.setText(second);
+            } else if (dialogueText.equals(second)) {
+                dialogue.setText(third);
+            } else {
+                dialogue.setText(first);
+            }
+        }
+    }
+
+    private class DialogueClick3 implements View.OnClickListener {
+        @Override
+        public void onClick (View view) {
+            // セリフのTextView取得
+            TextView dialogue = findViewById(R.id.dialogue);
+            String dialogueText = dialogue.getText().toString();
+
+            String first = "おしい！";
+            String second = "目標まで\n" + balance + "円だよ";
+            String third = "あと少しがんばれ‼\nもう少し‼";
+
+            if(dialogueText.equals(first)) {
+                dialogue.setText(second);
+            } else if (dialogueText.equals(second)) {
+                dialogue.setText(third);
+            } else {
+                dialogue.setText(first);
+            }
+        }
+    }
+
+    private class DialogueClick4 implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            // セリフのTextView取得
+            TextView dialogue = findViewById(R.id.dialogue);
+            String dialogueText = dialogue.getText().toString();
+
+            String first = "もっと頑張って！";
+            String second = "目標まで\n" + balance + "円だよ";
+            String third = "まだまだ…\n頑張って…";
+
+            if(dialogueText.equals(first)) {
+                dialogue.setText(second);
+            } else if (dialogueText.equals(second)) {
+                dialogue.setText(third);
+            } else {
+                dialogue.setText(first);
+            }
+        }
+    }
+
+    private class DialogueClick5 implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            // セリフのTextView取得
+            TextView dialogue = findViewById(R.id.dialogue);
+            String dialogueText = dialogue.getText().toString();
+
+            String first = "来月頑張ろう！！";
+            String second = "貯金がマイナスだよ‼";
+            String third = "使いすぎ‼";
+
+            if(dialogueText.equals(first)) {
+                dialogue.setText(second);
+            } else if (dialogueText.equals(second)) {
+                dialogue.setText(third);
+            } else {
+                dialogue.setText(first);
+            }
         }
     }
 }

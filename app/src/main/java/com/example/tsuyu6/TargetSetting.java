@@ -23,6 +23,9 @@ public class TargetSetting extends AppCompatActivity {
     int newYear;
     int newMonth;
     int newDay;
+    static int inputYear;
+    static int inputMonth;
+    static int inputDay;
     String TargetAmount;
     String TargetLimit;
 
@@ -64,6 +67,9 @@ public class TargetSetting extends AppCompatActivity {
                                 newYear = year;
                                 newMonth = month;
                                 newDay = dayOfMonth;
+                                inputYear = year;
+                                inputMonth = month;
+                                inputDay = dayOfMonth;
                             }
                         },
                         newYear,newMonth,newDay
@@ -125,10 +131,23 @@ public class TargetSetting extends AppCompatActivity {
             TextView TargetLimitText = findViewById(R.id.target_limit);
             TargetLimit = TargetLimitText.getText().toString();
 
+            // 現在日時の取得
+            Calendar date = Calendar.getInstance();
+            newYear = date.get(Calendar.YEAR);
+            newMonth = date.get(Calendar.MONTH);
+            newDay = date.get(Calendar.DATE);
+
+
+
+
             if(TargetAmount.equals("") || TargetLimit.equals("")) {
                 // 内容が入力されていない場合の処理
                 // トースト表示
-                Toast.makeText(TargetSetting.this, R.string.toast_setting, Toast.LENGTH_LONG).show();
+                Toast.makeText(TargetSetting.this, R.string.toast_setting_null, Toast.LENGTH_LONG).show();
+            } else if (inputYear < newYear || (inputYear == newYear && inputMonth < newMonth) ||
+                    (inputYear == newYear && inputMonth == newMonth && inputDay < newDay)) {
+                // 期限に過去の日付が入力されたときの処理
+                Toast.makeText(TargetSetting.this, R.string.toast_setting_past, Toast.LENGTH_LONG).show();
             } else {
 
 

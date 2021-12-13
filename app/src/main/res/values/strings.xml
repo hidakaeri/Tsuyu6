@@ -20,7 +20,8 @@
     <string name="toast_radio">「支出」「収入」を選択して下さい</string>
     <string name="toast_amount">金額を入力して下さい</string>
     <string name="toast_double">金額は整数で入力して下さい</string>
-    <string name="toast_setting">未入力のデータがあります</string>
+    <string name="toast_setting_null">未入力のデータがあります</string>
+    <string name="toast_setting_past">期限は未来の日付にしてください</string>
     <string name="dialog_title">確認</string>
     <string name="delete_dialog_msg">このデータを削除します。\nよろしいですか？</string>
     <string name="time_dialog_msg">家計簿のデータを編集します。\nよろしいですか？</string>
