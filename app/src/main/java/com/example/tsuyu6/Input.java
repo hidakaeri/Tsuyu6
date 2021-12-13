@@ -24,9 +24,9 @@ import java.util.Date;
 
 public class Input extends AppCompatActivity {
 
-    int newYear;
-    int newMonth;
-    int newDay;
+    static int newYear;
+    static int newMonth;
+    static int newDay;
     static int displayYear;
     static int displayMonth;
 
@@ -39,7 +39,7 @@ public class Input extends AppCompatActivity {
         Intent intent = getIntent();
 
         displayYear = intent.getIntExtra("displayYear",0);
-        displayMonth = intent.getIntExtra("displayMonth",0);
+        displayMonth = intent.getIntExtra("displayMonth",-1);
 
         // 保存ボタンの取得
         Button inputClick = findViewById(R.id.inputClick);
@@ -57,7 +57,16 @@ public class Input extends AppCompatActivity {
         newYear = date.get(Calendar.YEAR);
         newMonth = date.get(Calendar.MONTH);
         newDay = date.get(Calendar.DATE);
-        inputDateText.setText(String.format("%d / %02d / %02d", newYear, newMonth+1, newDay));
+
+        if(displayMonth == (newMonth + 1)) {
+            // 今月のとき
+            inputDateText.setText(String.format("%d / %02d / %02d", newYear, newMonth + 1, newDay));
+        } else {
+            newYear = displayYear;
+            newMonth = displayMonth -1;
+            newDay = 1;
+            inputDateText.setText(String.format("%d / %02d / %02d", newYear, newMonth + 1, newDay));
+        }
 
         //EditTextにリスナーをつける
         inputDateText.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +80,7 @@ public class Input extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 //setした日付を取得して表示
-                                inputDateText.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                                inputDateText.setText(String.format("%d / %02d / %02d", year, month + 1, dayOfMonth));
                                 newYear = year;
                                 newMonth = month;
                                 newDay = dayOfMonth;
