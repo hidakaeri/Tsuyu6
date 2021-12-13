@@ -145,7 +145,7 @@ public class TargetSetting extends AppCompatActivity {
                 // トースト表示
                 Toast.makeText(TargetSetting.this, R.string.toast_setting_null, Toast.LENGTH_LONG).show();
             } else if (inputYear < newYear || (inputYear == newYear && inputMonth < newMonth) ||
-                    (inputYear == newYear && inputMonth == newMonth && inputDay < newDay)) {
+                    (inputYear == newYear && inputMonth == newMonth && inputDay <= newDay)) {
                 // 期限に過去の日付が入力されたときの処理
                 Toast.makeText(TargetSetting.this, R.string.toast_setting_past, Toast.LENGTH_LONG).show();
             } else {
