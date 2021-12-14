@@ -7,18 +7,22 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/message1"
+        android:id="@+id/message"
         android:scaleType="centerInside"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:src="@drawable/success1" />
+
+    <!-- 上のIDをmessage1に変更する -->
 
     <ImageView
         android:id="@+id/message2"
         android:scaleType="centerInside"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:src="@drawable/success2" />
 
     <ImageView
         android:id="@+id/tsuyu_chan"
