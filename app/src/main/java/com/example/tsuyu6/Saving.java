@@ -24,9 +24,9 @@ public class Saving extends AppCompatActivity {
     static int oneMonth;
     static int targetFlg;
     static int balance;
-    static int limitYear;
-    static int limitMonth;
-    static int limitDay;
+    static int limitYear = -1;
+    static int limitMonth = -1;
+    static int limitDay = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,9 @@ public class Saving extends AppCompatActivity {
             cur.moveToFirst();
         }
 
+        // 期限が当日のとき
+        // TargetLimit = (String.format("%d / %02d / %02d", 2021, 12, 25));
+
 
         // 初期値
         int TargetAmountInt = -1;
@@ -68,9 +71,6 @@ public class Saving extends AppCompatActivity {
             TextView TargetAmountText = findViewById(R.id.target_amount);
             TargetAmountInt = Integer.parseInt(TargetAmount);
             TargetAmountText.setText(String.format("%,d", TargetAmountInt));
-
-            // 期限が当日のとき
-            TargetLimit = (String.format("%d / %02d / %02d", 2021, 12, 14));
 
 
             TextView TargetLimitText = findViewById(R.id.target_limit);

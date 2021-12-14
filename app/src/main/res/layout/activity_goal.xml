@@ -4,42 +4,96 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/saving">
 
-    <ImageView
-        android:id="@+id/message"
-        android:scaleType="centerInside"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:src="@drawable/success1" />
-
-    <!-- 上のIDをmessage1に変更する -->
-
-    <ImageView
-        android:id="@+id/message2"
-        android:scaleType="centerInside"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:src="@drawable/success2" />
-
-    <ImageView
-        android:id="@+id/tsuyu_chan"
-        android:scaleType="centerInside"
-        android:layout_width="200dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center" />
-
-
-    <Button
-        android:id="@+id/target_clear"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginLeft="0dp"
-        android:text="@string/target_clear"/>
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22dp"
+            android:text="@string/target_amount"/>
+        <TextView
+            android:id="@+id/target_amount"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textSize="22dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22dp"
+            android:text="@string/now_saving"/>
+        <TextView
+            android:id="@+id/now_saving"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textSize="22dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="20dp"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/message1"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center" />
+
+        <ImageView
+            android:id="@+id/message2"
+            android:layout_width="270dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center" />
+
+        <ImageView
+            android:id="@+id/tsuyu_chan"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center" />
+
+
+        <Button
+            android:id="@+id/target_clear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginLeft="70dp"
+            android:text="@string/target_clear"/>
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

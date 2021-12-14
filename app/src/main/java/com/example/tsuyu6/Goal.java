@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.text.Format;
@@ -54,17 +55,27 @@ public class Goal extends AppCompatActivity {
 
         int nowSaving;
 
-        // newYear年newMonth月newDay日時点の総資産
+        // newYear年(newMonth+1)月newDay日時点の総資産
         String nsSql = "SELECT TOTAL(amount) FROM tsuyu6 " +
                 "WHERE flag = '家計簿' " +
-                "AND date <= '" + newYear + " / " + f.format(newMonth) + " / " + f.format(newDay) + " '";
+                "AND date <= '" + newYear + " / " + f.format(newMonth + 1) + " / " + f.format(newDay) + " '";
         cur = db.rawQuery(nsSql,null);
         cur.moveToFirst();
         nowSaving = cur.getInt(0);
 
+        // 目標貯金額のTextView取得
+        TextView target_amount_textView = findViewById(R.id.target_amount);
+        target_amount_textView.setText(TargetAmount);
+
+        // 現在の貯金額のTextView取得
+        TextView now_saving_textView = findViewById(R.id.now_saving);
+        now_saving_textView.setText(Integer.toString(nowSaving));
 
         // messageのImageView取得
-        ImageView message_imageView = findViewById(R.id.message);
+        ImageView message_imageView1 = findViewById(R.id.message1);
+
+        // messageのImageView取得
+        ImageView message_imageView2 = findViewById(R.id.message2);
 
         // 梅雨ちゃんのImageView取得
         ImageView tsuyu_imageView = findViewById(R.id.tsuyu_chan);
@@ -73,13 +84,15 @@ public class Goal extends AppCompatActivity {
         if(nowSaving >= TargetAmountInt) {
             // 貯金目標達成
 
-            message_imageView.setBackgroundResource(R.drawable.tsuyu1);
+            message_imageView1.setBackgroundResource(R.drawable.success1);
+            message_imageView2.setBackgroundResource(R.drawable.success2);
             tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu1);
 
         } else {
             // 目標達成できず...
 
-            message_imageView.setBackgroundResource(R.drawable.tsuyu4);
+            message_imageView1.setBackgroundResource(R.drawable.failture1);
+            message_imageView2.setBackgroundResource(R.drawable.failture2);
             tsuyu_imageView.setBackgroundResource(R.drawable.tsuyu4);
 
         }
