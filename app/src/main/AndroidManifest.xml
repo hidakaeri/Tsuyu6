@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/icon_tsuyu_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.main">
-
+        <activity
+            android:name=".Goal"
+            android:exported="false"
+            android:theme="@style/saving" />
         <activity
             android:name=".Saving"
             android:exported="false"
@@ -46,7 +49,7 @@
         <activity
             android:name=".Look"
             android:exported="false"
-            android:theme="@style/currently"/>
+            android:theme="@style/currently" />
         <activity
             android:name=".SplashScreen"
             android:exported="true"

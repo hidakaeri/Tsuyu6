@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -23,6 +24,9 @@ public class Saving extends AppCompatActivity {
     static int oneMonth;
     static int targetFlg;
     static int balance;
+    static int limitYear;
+    static int limitMonth;
+    static int limitDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,7 @@ public class Saving extends AppCompatActivity {
         Calendar date = Calendar.getInstance();
         int newYear = date.get(Calendar.YEAR);
         int newMonth = date.get(Calendar.MONTH);
+        int newDay = date.get(Calendar.DAY_OF_MONTH);
 
         //DB接続準備
         DatabaseHelper helper = new DatabaseHelper(Saving.this);
@@ -64,14 +69,19 @@ public class Saving extends AppCompatActivity {
             TargetAmountInt = Integer.parseInt(TargetAmount);
             TargetAmountText.setText(String.format("%,d", TargetAmountInt));
 
+            // 期限が当日のとき
+            TargetLimit = (String.format("%d / %02d / %02d", 2021, 12, 14));
+
+
             TextView TargetLimitText = findViewById(R.id.target_limit);
             TargetLimitText.setText(TargetLimit);
 
             // 貯金目標額/月　の計算
             // 期限の分割
             String[] strLimit = TargetLimit.split(" / ");
-            int limitYear = Integer.parseInt(strLimit[0]);
-            int limitMonth = Integer.parseInt(strLimit[1]);
+            limitYear = Integer.parseInt(strLimit[0]);
+            limitMonth = Integer.parseInt(strLimit[1]);
+            limitDay = Integer.parseInt(strLimit[2]);
 
             // 計算用　現在日時の設定
             int thisYear = newYear;
@@ -90,6 +100,13 @@ public class Saving extends AppCompatActivity {
 
             TextView oneMonthText = findViewById(R.id.one_month);
             oneMonthText.setText(String.format("%,d",oneMonth));
+        }
+
+        // 期限当日の時の処理
+        if(newYear == limitYear && (newMonth + 1) == limitMonth && newDay == limitDay) {
+            Intent intent = new Intent(Saving.this,Goal.class);
+            startActivity(intent);
+            finish();
         }
 
 
@@ -208,9 +225,9 @@ public class Saving extends AppCompatActivity {
 
         // settingボタンの取得
         ImageButton settingClick = findViewById(R.id.setting);
-        // 追加ボタンのリスナクラスのインスタンスを作成
+        // settingボタンのリスナクラスのインスタンスを作成
         settingClickListener setting_listener = new settingClickListener();
-        // 追加ボタンにリスナを設定
+        // settingボタンにリスナを設定
         settingClick.setOnClickListener(setting_listener);
 
         // HouseholdAccountBook radio buttonの取得

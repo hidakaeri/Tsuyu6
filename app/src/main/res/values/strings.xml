@@ -37,5 +37,6 @@
     <string name="register">登録</string>
     <string name="one_month">今月の目標貯金額</string>
     <string name="setting">設定</string>
+    <string name="target_clear">目標貯金額をクリア</string>
 
 </resources>
