@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.Calendar;
 
 public class Goal extends AppCompatActivity {
@@ -32,7 +34,6 @@ public class Goal extends AppCompatActivity {
         Cursor cur = db.rawQuery(sql, null);
         while(cur.moveToNext()){
             int tamountId = cur.getColumnIndex("targetamount");
-
             TargetAmount = cur.getString(tamountId);
 
             cur.moveToFirst();
@@ -48,14 +49,19 @@ public class Goal extends AppCompatActivity {
         int newMonth = date.get(Calendar.MONTH);
         int newDay = date.get(Calendar.DAY_OF_MONTH);
 
+        //月を二桁表示
+        Format f = new DecimalFormat("00");
+
         int nowSaving;
-        // newYear年newMonth月newDay日時点の総資産を出してください
-        // 符号はそのままで大丈夫です
-        // nowSavingに入れてください。
 
+        // newYear年newMonth月newDay日時点の総資産
+        String nsSql = "SELECT TOTAL(amount) FROM tsuyu6 " +
+                "WHERE flag = '家計簿' " +
+                "AND date <= '" + newYear + " / " + f.format(newMonth) + " / " + f.format(newDay) + " '";
+        cur = db.rawQuery(nsSql,null);
+        cur.moveToFirst();
+        nowSaving = cur.getInt(0);
 
-        // DB出来たら消す
-        nowSaving = 11000;
 
         // messageのImageView取得
         ImageView message_imageView = findViewById(R.id.message);
