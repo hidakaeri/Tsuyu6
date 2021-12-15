@@ -4,7 +4,7 @@
     <item android:state_checked="true">
         <shape android:shape="rectangle">
             <!-- 背景色 -->
-            <solid android:color="@color/currently_accent" />
+            <solid android:color="@color/currently" />
             <!-- 枠色 -->
             <stroke
                 android:width="1dp"
