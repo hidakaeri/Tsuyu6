@@ -28,6 +28,10 @@ public class Saving extends AppCompatActivity {
     static int limitMonth = -1;
     static int limitDay = -1;
 
+    static int newYear;
+    static int newMonth;
+    static int newDay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +39,9 @@ public class Saving extends AppCompatActivity {
 
         // 現在日時の取得
         Calendar date = Calendar.getInstance();
-        int newYear = date.get(Calendar.YEAR);
-        int newMonth = date.get(Calendar.MONTH);
-        int newDay = date.get(Calendar.DAY_OF_MONTH);
+        newYear = date.get(Calendar.YEAR);
+        newMonth = date.get(Calendar.MONTH);
+        newDay = date.get(Calendar.DAY_OF_MONTH);
 
         //DB接続準備
         DatabaseHelper helper = new DatabaseHelper(Saving.this);
@@ -55,10 +59,6 @@ public class Saving extends AppCompatActivity {
 
             cur.moveToFirst();
         }
-
-        // 期限が当日のとき
-        // TargetLimit = (String.format("%d / %02d / %02d", 2021, 12, 25));
-
 
         // 初期値
         int TargetAmountInt = -1;
@@ -100,14 +100,16 @@ public class Saving extends AppCompatActivity {
 
             TextView oneMonthText = findViewById(R.id.one_month);
             oneMonthText.setText(String.format("%,d",oneMonth));
+
+            // 期限当日の時の処理
+            if(newYear == limitYear && (newMonth + 1) == limitMonth && newDay == limitDay) {
+                Intent intent = new Intent(Saving.this,Goal.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
-        // 期限当日の時の処理
-        if(newYear == limitYear && (newMonth + 1) == limitMonth && newDay == limitDay) {
-            Intent intent = new Intent(Saving.this,Goal.class);
-            startActivity(intent);
-            finish();
-        }
+
 
 
         // 先月総資産の取得
