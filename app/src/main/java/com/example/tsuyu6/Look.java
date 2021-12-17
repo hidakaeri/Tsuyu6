@@ -63,6 +63,7 @@ public class Look extends AppCompatActivity {
         int nowYear = date.get(Calendar.YEAR);
 
 
+
         if(displayReturnMonth != -1 ) {
             // 追加、編集画面から戻ってきた場合
             displayMonth = displayReturnMonth;
