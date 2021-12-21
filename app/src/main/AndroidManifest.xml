@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.main">
         <activity
+            android:name=".EventDetail"
+            android:exported="false"
+            android:theme="@style/share"/>
+        <activity
+            android:name=".Event"
+            android:exported="false"
+            android:theme="@style/share" />
+        <activity
+            android:name=".Start"
+            android:exported="false"
+            android:theme="@style/saving" />
+        <activity
             android:name=".Goal"
             android:exported="false"
             android:theme="@style/saving" />

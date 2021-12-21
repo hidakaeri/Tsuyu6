@@ -29,11 +29,11 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 wait_time = true;
-                Intent intent = new Intent(SplashScreen.this, Look.class);
+                Intent intent = new Intent(SplashScreen.this, Start.class);
                 startActivity(intent);
 
                 finish();
             }
-        }, 1000);
+        }, 500);
     }
 }

@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:layout_weight="1">
+
     <LinearLayout
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
