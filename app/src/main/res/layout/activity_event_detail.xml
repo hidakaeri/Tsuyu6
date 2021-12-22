@@ -123,16 +123,7 @@
             android:layout_marginLeft="10dp"
             android:text="@string/fix"/>
 
-        <Button
-            android:id="@+id/deleteClick"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="10dp"
-            android:text="@string/delete"/>
+
 
 
     </LinearLayout>

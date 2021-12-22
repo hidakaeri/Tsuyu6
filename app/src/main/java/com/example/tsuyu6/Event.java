@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -38,6 +39,22 @@ public class Event extends AppCompatActivity {
         lvMenu.setAdapter(adapter);
 
         lvMenu.setOnItemClickListener(new ListItemClickListener());
+
+        // 作成ボタンの取得
+        Button createClick = findViewById(R.id.create);
+        // 作成ボタンのリスナクラスのインスタンスを作成
+        CreateClickListener create_listener = new CreateClickListener();
+        // 作成ボタンにリスナを設定
+        createClick.setOnClickListener(create_listener);
+
+
+        // 参加ボタンの取得
+        Button participationClick = findViewById(R.id.participation);
+        // 参加ボタンのリスナクラスのインスタンスを作成
+        ParticipationClickListenerListener participation_listener = new ParticipationClickListenerListener();
+        // 参加ボタンにリスナを設定
+        participationClick.setOnClickListener(participation_listener);
+
     }
 
     //　リストがクリックされた時の処理
@@ -55,6 +72,33 @@ public class Event extends AppCompatActivity {
 
             startActivity(intent);
             finish();
+        }
+    }
+
+    // 作成ボタンを押した場合の処理
+    private class CreateClickListener implements View.OnClickListener {
+        @Override
+        public void onClick (View view) {
+
+            Intent intent = new Intent(Event.this, EventFix.class);
+            intent.putExtra("backFlg",0);
+            startActivity(intent);
+
+            finish();
+
+        }
+    }
+
+    // 参加ボタンを押した場合の処理
+    private class ParticipationClickListenerListener implements View.OnClickListener {
+        @Override
+        public void onClick (View view) {
+
+            Intent intent = new Intent(Event.this, EventParticipation.class);
+            startActivity(intent);
+
+            finish();
+
         }
     }
 }

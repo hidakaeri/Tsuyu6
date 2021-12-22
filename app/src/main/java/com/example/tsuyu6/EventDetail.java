@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -50,16 +51,16 @@ public class EventDetail extends AppCompatActivity {
         // 修正ボタンの取得
         Button fixClick = findViewById(R.id.fixClick);
         // 修正ボタンのリスナクラスのインスタンスを作成
-        FixClickListenerListener fix_listener = new FixClickListenerListener();
+        FixClickListener fix_listener = new FixClickListener();
         // 修正ボタンにリスナを設定
         fixClick.setOnClickListener(fix_listener);
 
-        // 削除ボタンの取得
-        Button deleteClick = findViewById(R.id.deleteClick);
-        // 削除ボタンのリスナクラスのインスタンスを作成
-        DeleteClickListener delete_listener = new DeleteClickListener();
-        // 削除ボタンにリスナを設定
-        deleteClick.setOnClickListener(delete_listener);
+        // 追加ボタンの取得
+        ImageButton addClick = findViewById(R.id.addClick);
+        // 追加ボタンのリスナクラスのインスタンスを作成
+        AddClickListener add_listener = new AddClickListener();
+        // 追加ボタンにリスナを設定
+        addClick.setOnClickListener(add_listener);
 
     }
 
@@ -72,19 +73,14 @@ public class EventDetail extends AppCompatActivity {
     }
 
     // 修正ボタンを押した場合の処理
-    private class FixClickListenerListener implements View.OnClickListener {
+    private class FixClickListener implements View.OnClickListener {
         @Override
         public void onClick (View view) {
 
-        }
-    }
-
-    // 削除ボタンを押した場合の処理
-    private class DeleteClickListener implements View.OnClickListener {
-        @Override
-        public void onClick (View view) {
-
-
+            Intent intent = new Intent(EventDetail.this, EventFix.class);
+            intent.putExtra("backFlg",1);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -97,10 +93,22 @@ public class EventDetail extends AppCompatActivity {
             String _id = item.get("_id").toString();
 
 
-            Intent intent = new Intent(EventDetail.this, Look.class);
+            Intent intent = new Intent(EventDetail.this, IndividualFix.class);
 
             intent.putExtra("listId",_id);
 
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    // 追加ボタンを押した場合の処理
+    private class AddClickListener implements View.OnClickListener {
+        @Override
+        public void onClick (View view) {
+
+            // 入力画面に遷移
+            Intent intent = new Intent(EventDetail.this, IndividualFix.class);
             startActivity(intent);
             finish();
         }

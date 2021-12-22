@@ -18,6 +18,7 @@
     <string name="amount">金額</string>
     <string name="memo">メモ</string>
     <string name="member">メンバー</string>
+    <string name="schedule_name">予定名</string>
     <string name="toast_radio">「支出」「収入」を選択して下さい</string>
     <string name="toast_amount">金額を入力して下さい</string>
     <string name="toast_double">金額は整数で入力して下さい</string>
