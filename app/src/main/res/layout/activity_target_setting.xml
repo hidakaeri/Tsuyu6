@@ -85,6 +85,7 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:inputType="number"
+                android:textColor="@color/text"
                 android:textSize="25sp"
                 android:text="2021/12/21"
                 android:background="#00000000"/>

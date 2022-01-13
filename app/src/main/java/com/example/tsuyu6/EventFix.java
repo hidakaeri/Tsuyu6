@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,11 +18,15 @@ import java.util.Calendar;
 
 public class EventFix extends AppCompatActivity {
 
-    static int backFlg;
+    static String moveFlg;
 
     int newYear;
     int newMonth;
     int newDay;
+
+    static String _id = "";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +34,10 @@ public class EventFix extends AppCompatActivity {
         setContentView(R.layout.activity_event_fix);
 
         Intent intent = getIntent();
-        backFlg = intent.getIntExtra("backFlg",-1);
+        _id = intent.getStringExtra("listId");
+        moveFlg = intent.getStringExtra("moveFlg");
 
-        TextView TargetLimitText = findViewById(R.id.target_limit);
+        TextView TargetLimitText = findViewById(R.id.limit);
 
         // 現在日時の取得
         Calendar date = Calendar.getInstance();
@@ -96,19 +103,18 @@ public class EventFix extends AppCompatActivity {
 
     // 戻るボタンを押した場合の処理
     public void onBackButtonClick(View view) {
-        switch (backFlg){
-            case 0:
+        switch (moveFlg){
+            case "event":
                 Intent intent = new Intent(EventFix.this, Event.class);
                 startActivity(intent);
                 finish();
                 break;
-            case 1:
+            case "eventDetail":
                 Intent intent1 = new Intent(EventFix.this, EventDetail.class);
                 startActivity(intent1);
                 finish();
                 break;
         }
-
 
     }
 
@@ -117,13 +123,93 @@ public class EventFix extends AppCompatActivity {
         @Override
         public void onClick (View view) {
 
+            TextView eventText = findViewById(R.id.event);
+            TextView amountText = findViewById(R.id.amount);
+            TextView limitText = findViewById(R.id.limit);
+            TextView memberText = findViewById(R.id.member);
 
-            Intent intent = new Intent(EventFix.this, EventDetail.class);
-            startActivity(intent);
-            finish();
+            String event = eventText.getText().toString();
+            String amount = amountText.getText().toString();
+            String limit = limitText.getText().toString();
+            String member = memberText.getText().toString();
+
+            DatabaseHelper helper = new DatabaseHelper(EventFix.this);
+            SQLiteDatabase db = helper.getWritableDatabase();
+
+            switch (moveFlg) {
+                case "event":
+
+                    // 入力制限toast
 
 
+                    // 登録
+
+                    // DBの更新処理(INSERT)
+
+
+                    if (helper == null) {
+                        helper = new DatabaseHelper(getApplicationContext());
+                    }
+
+                    if (db == null) {
+                        db = helper.getReadableDatabase();
+                    }
+                    try {
+                        String sqlInsert = "INSERT INTO event6 (_id, eventname, eventamount, eventlimit, eventmember) VALUES (?,?,?,?,?)";
+                        SQLiteStatement stmt = db.compileStatement(sqlInsert);
+
+                        stmt.bindString(2, event);
+                        stmt.bindString(3, amount);
+                        stmt.bindString(4, limit);
+                        stmt.bindString(5, member);
+
+                        stmt.executeInsert();
+                    } finally {
+                        db.close();
+                    }
+
+                    // Intent intent = new Intent(EventFix.this, Event.class);
+
+                    Intent intent = new Intent(EventFix.this, Look.class);
+                    startActivity(intent);
+                    finish();
+
+                    break;
+                case "eventDetail":
+
+                    // 入力制限toast
+
+                    // 修正
+                    // DB更新処理(UPDATE)
+                    int id = Integer.parseInt(_id);
+
+                    try {
+                        String sqlUpdate = "UPDATE event6 SET eventname = ?, eventamount = ?, eventlimit = ?, eventmember = ?, WHERE eventid = " + id;
+                        SQLiteStatement stmt = db.compileStatement(sqlUpdate);
+                        stmt.bindString(1, event);
+                        stmt.bindString(2, amount);
+                        stmt.bindString(3, limit);
+                        stmt.bindString(4, member);
+
+                        stmt.executeInsert();
+
+                    } finally {
+                        db.close();
+                    }
+
+                    // Intent intent1 = new Intent(EventFix.this, EventDetail.class);
+
+                    Intent intent1 = new Intent(EventFix.this, FuLook.class);
+                    intent1.putExtra("listId", _id);
+
+                    startActivity(intent1);
+                    finish();
+
+                    break;
+            }
         }
+
+
     }
 
     // 削除ボタンを押した場合の処理

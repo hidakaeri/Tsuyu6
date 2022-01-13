@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
@@ -37,6 +38,23 @@ public class TargetSetting extends AppCompatActivity {
         // 登録データの取得
         // SQLお願いします。
         // TargetAmount TargetLimitに入れてください。
+
+        //DB接続準備
+        DatabaseHelper helper = new DatabaseHelper(TargetSetting.this);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        // TargetAmount TargetLimit, RegisterDate
+        String sql = "SELECT * FROM target6";
+        Cursor cur = db.rawQuery(sql, null);
+        while(cur.moveToNext()){
+            int tamountId = cur.getColumnIndex("targetamount");
+            int tlimitId = cur.getColumnIndex("targetlimit");
+
+            TargetAmount = cur.getString(tamountId);
+            TargetLimit = cur.getString(tlimitId);
+
+            cur.moveToFirst();
+        }
 
         // すでに登録されているデータを表示
         EditText TargetAmountText = findViewById(R.id.target_amount);

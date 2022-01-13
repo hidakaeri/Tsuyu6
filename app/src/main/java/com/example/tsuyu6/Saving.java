@@ -96,13 +96,18 @@ public class Saving extends AppCompatActivity {
             }
 
 
-            oneMonth = Integer.parseInt(TargetAmount) / month_to_saving;
+            if(month_to_saving != 0) {
+                oneMonth = Integer.parseInt(TargetAmount) / month_to_saving;
+            }
+
 
             TextView oneMonthText = findViewById(R.id.one_month);
             oneMonthText.setText(String.format("%,d",oneMonth));
 
             // 期限当日の時の処理
-            if(newYear == limitYear && (newMonth + 1) == limitMonth && newDay == limitDay) {
+            if(newYear > limitYear ||
+                    (newYear == limitYear) && ((newMonth + 1) > limitMonth) ||
+                    (newYear == limitYear) && ((newMonth + 1) == limitMonth) && (newDay >= limitDay)) {
                 Intent intent = new Intent(Saving.this,Goal.class);
                 startActivity(intent);
                 finish();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tsuyu6" >
+    package="com.example.tsuyu6">
 
     <application
         android:allowBackup="true"
@@ -8,19 +8,27 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon_tsuyu_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.main" >
+        android:theme="@style/Theme.main">
+        <activity
+            android:name=".Login"
+            android:exported="false"
+            android:theme="@style/share"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".EventParticipation"
             android:exported="false"
-            android:theme="@style/share"/>
+            android:theme="@style/share"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".EventFix"
             android:exported="false"
-            android:theme="@style/share" />
+            android:theme="@style/share"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".IndividualFix"
             android:exported="false"
-            android:theme="@style/share" />
+            android:theme="@style/share"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".EventDetail"
             android:exported="false"
@@ -58,8 +66,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".FuLook"
-            android:exported="false"
-            android:theme="@style/future" />
+            android:exported="false" />
         <activity
             android:name=".Fix"
             android:exported="false"
@@ -77,7 +84,7 @@
         <activity
             android:name=".SplashScreen"
             android:exported="true"
-            android:theme="@style/splash" >
+            android:theme="@style/splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

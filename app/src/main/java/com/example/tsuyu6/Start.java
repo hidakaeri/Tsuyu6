@@ -46,7 +46,7 @@ public class Start extends AppCompatActivity {
         public void onClick (View view) {
 
             // 画面遷移
-            Intent intent = new Intent(Start.this, Event.class);
+            Intent intent = new Intent(Start.this, Login.class);
             startActivity(intent);
         }
     }

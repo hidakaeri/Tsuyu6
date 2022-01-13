@@ -41,7 +41,7 @@
                 android:textSize="25sp"
                 android:text="@string/schedule_name"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/schedule_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 android:textSize="25sp"
                 android:text="@string/amount"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/amount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                 android:textSize="25sp"
                 android:text="@string/member"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/member"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

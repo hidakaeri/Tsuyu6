@@ -42,7 +42,7 @@ public class EventDetail extends AppCompatActivity {
 
 
         String[] from = {"_id","date","member","amount"};
-        int[] to = {R.id._id,R.id.date, R.id.member, R.id.amount};
+        int[] to = {R.id.display_id,R.id.date, R.id.member, R.id.amount};
         SimpleAdapter adapter = new SimpleAdapter(EventDetail.this,menuList,R.layout.row3,from,to);
         lvMenu.setAdapter(adapter);
 
@@ -78,7 +78,7 @@ public class EventDetail extends AppCompatActivity {
         public void onClick (View view) {
 
             Intent intent = new Intent(EventDetail.this, EventFix.class);
-            intent.putExtra("backFlg",1);
+            intent.putExtra("moveFlg","eventDetail");
             startActivity(intent);
             finish();
         }

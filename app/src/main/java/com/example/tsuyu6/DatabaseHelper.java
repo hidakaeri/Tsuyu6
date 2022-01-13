@@ -33,8 +33,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         tsb.append(");");
         String targetSql = tsb.toString();
 
+        StringBuilder lsb = new StringBuilder();
+        lsb.append("CREATE TABLE login6 (");
+        lsb.append("loginid TEXT, ");
+        lsb.append("loginpass TEXT");
+        lsb.append(");");
+        String loginSql = lsb.toString();
+
+        StringBuilder esb = new StringBuilder();
+        esb.append("CREATE TABLE event6 (");
+        esb.append("_id TEXT, ");
+        esb.append("eventname TEXT, ");
+        esb.append("eventamount TEXT, ");
+        esb.append("eventlimit DATE, ");
+        esb.append("eventmember TEXT");
+        esb.append(");");
+        String eventSql = esb.toString();
+
         db.execSQL(sql);
         db.execSQL(targetSql);
+        db.execSQL(loginSql);
+        db.execSQL(eventSql);
     }
 
     @Override

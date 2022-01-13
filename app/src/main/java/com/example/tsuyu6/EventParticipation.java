@@ -32,7 +32,6 @@ public class EventParticipation extends AppCompatActivity {
             startActivity(intent);
             finish();
 
-
         }
     }
 }
