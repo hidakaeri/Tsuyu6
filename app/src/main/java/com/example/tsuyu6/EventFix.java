@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -45,6 +46,8 @@ public class EventFix extends AppCompatActivity {
         newMonth = date.get(Calendar.MONTH);
         newDay = date.get(Calendar.DATE);
 
+        TextView limitText = findViewById(R.id.limit);
+        limitText.setText(String.format("%d / %02d / %02d", newYear, newMonth + 1, newDay));
 
         //EditTextにリスナーをつける
         TargetLimitText.setOnClickListener(new View.OnClickListener() {
@@ -133,79 +136,87 @@ public class EventFix extends AppCompatActivity {
             String limit = limitText.getText().toString();
             String member = memberText.getText().toString();
 
-            DatabaseHelper helper = new DatabaseHelper(EventFix.this);
-            SQLiteDatabase db = helper.getWritableDatabase();
+            if (event.equals("") || amount.equals("") || member.equals("")) {
+                // 未入力の項目があるとき
+                // トースト表示
+                Toast.makeText(EventFix.this, R.string.toast_setting_null, Toast.LENGTH_LONG).show();
 
-            switch (moveFlg) {
-                case "event":
+            } else {
 
-                    // 入力制限toast
+                DatabaseHelper helper = new DatabaseHelper(EventFix.this);
+                SQLiteDatabase db = helper.getWritableDatabase();
+
+                switch (moveFlg) {
+                    case "event":
+
+                        // 入力制限toast
 
 
-                    // 登録
+                        // 登録
 
-                    // DBの更新処理(INSERT)
+                        // DBの更新処理(INSERT)
 
 
-                    if (helper == null) {
-                        helper = new DatabaseHelper(getApplicationContext());
-                    }
+                        if (helper == null) {
+                            helper = new DatabaseHelper(getApplicationContext());
+                        }
 
-                    if (db == null) {
-                        db = helper.getReadableDatabase();
-                    }
-                    try {
-                        String sqlInsert = "INSERT INTO event6 (_id, eventname, eventamount, eventlimit, eventmember) VALUES (?,?,?,?,?)";
-                        SQLiteStatement stmt = db.compileStatement(sqlInsert);
+                        if (db == null) {
+                            db = helper.getReadableDatabase();
+                        }
+                        try {
+                            String sqlInsert = "INSERT INTO event6 (_id, eventname, eventamount, eventlimit, eventmember) VALUES (?,?,?,?,?)";
+                            SQLiteStatement stmt = db.compileStatement(sqlInsert);
 
-                        stmt.bindString(2, event);
-                        stmt.bindString(3, amount);
-                        stmt.bindString(4, limit);
-                        stmt.bindString(5, member);
+                            stmt.bindString(2, event);
+                            stmt.bindString(3, amount);
+                            stmt.bindString(4, limit);
+                            stmt.bindString(5, member);
 
-                        stmt.executeInsert();
-                    } finally {
-                        db.close();
-                    }
+                            stmt.executeInsert();
+                        } finally {
+                            db.close();
+                        }
 
-                    // Intent intent = new Intent(EventFix.this, Event.class);
+                        // Intent intent = new Intent(EventFix.this, Event.class);
 
-                    Intent intent = new Intent(EventFix.this, Look.class);
-                    startActivity(intent);
-                    finish();
+                        Intent intent = new Intent(EventFix.this, Look.class);
+                        startActivity(intent);
+                        finish();
 
-                    break;
-                case "eventDetail":
+                        break;
+                    case "eventDetail":
 
-                    // 入力制限toast
+                        // 入力制限toast
 
-                    // 修正
-                    // DB更新処理(UPDATE)
-                    int id = Integer.parseInt(_id);
+                        // 修正
+                        // DB更新処理(UPDATE)
+                        int id = Integer.parseInt(_id);
 
-                    try {
-                        String sqlUpdate = "UPDATE event6 SET eventname = ?, eventamount = ?, eventlimit = ?, eventmember = ?, WHERE eventid = " + id;
-                        SQLiteStatement stmt = db.compileStatement(sqlUpdate);
-                        stmt.bindString(1, event);
-                        stmt.bindString(2, amount);
-                        stmt.bindString(3, limit);
-                        stmt.bindString(4, member);
+                        try {
+                            String sqlUpdate = "UPDATE event6 SET eventname = ?, eventamount = ?, eventlimit = ?, eventmember = ?, WHERE eventid = " + id;
+                            SQLiteStatement stmt = db.compileStatement(sqlUpdate);
+                            stmt.bindString(1, event);
+                            stmt.bindString(2, amount);
+                            stmt.bindString(3, limit);
+                            stmt.bindString(4, member);
 
-                        stmt.executeInsert();
+                            stmt.executeInsert();
 
-                    } finally {
-                        db.close();
-                    }
+                        } finally {
+                            db.close();
+                        }
 
-                    // Intent intent1 = new Intent(EventFix.this, EventDetail.class);
+                        // Intent intent1 = new Intent(EventFix.this, EventDetail.class);
 
-                    Intent intent1 = new Intent(EventFix.this, FuLook.class);
-                    intent1.putExtra("listId", _id);
+                        Intent intent1 = new Intent(EventFix.this, FuLook.class);
+                        intent1.putExtra("listId", _id);
 
-                    startActivity(intent1);
-                    finish();
+                        startActivity(intent1);
+                        finish();
 
-                    break;
+                        break;
+                }
             }
         }
 
