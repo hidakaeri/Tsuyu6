@@ -26,7 +26,10 @@ public class EventFix extends AppCompatActivity {
     int newDay;
 
     static String _id = "";
-
+    static String event = "";
+    static String amount = "";
+    static String limit = "";
+    static String member = "";
 
 
     @Override
@@ -35,22 +38,50 @@ public class EventFix extends AppCompatActivity {
         setContentView(R.layout.activity_event_fix);
 
         Intent intent = getIntent();
-        _id = intent.getStringExtra("listId");
         moveFlg = intent.getStringExtra("moveFlg");
+        _id = intent.getStringExtra("_id");
+        event = intent.getStringExtra("event");
+        amount = intent.getStringExtra("amount");
+        limit = intent.getStringExtra("limit");
+        member = intent.getStringExtra("member");
 
-        TextView TargetLimitText = findViewById(R.id.limit);
 
-        // 現在日時の取得
-        Calendar date = Calendar.getInstance();
-        newYear = date.get(Calendar.YEAR);
-        newMonth = date.get(Calendar.MONTH);
-        newDay = date.get(Calendar.DATE);
-
+        // 修正の場合の初期値表示
+        TextView eventText = findViewById(R.id.event);
+        eventText.setText(event);
+        TextView amountText = findViewById(R.id.amount);
+        amountText.setText(amount);
+        TextView memberText = findViewById(R.id.member);
+        memberText.setText(member);
         TextView limitText = findViewById(R.id.limit);
-        limitText.setText(String.format("%d / %02d / %02d", newYear, newMonth + 1, newDay));
+
+
+        switch (moveFlg){
+            case "event":
+                // 登録の時
+                // 現在日時の取得
+                Calendar date = Calendar.getInstance();
+                newYear = date.get(Calendar.YEAR);
+                newMonth = date.get(Calendar.MONTH);
+                newDay = date.get(Calendar.DATE);
+
+                limitText.setText(String.format("%d / %02d / %02d", newYear, newMonth + 1, newDay));
+                break;
+            case "eventDetail": {
+                // 修正の時
+                limitText.setText(limit);
+                // DBの日時の分割（初期値用）
+                String[] strDate = limit.split(" / ");
+                newYear = Integer.parseInt(strDate[0]);
+                int month = Integer.parseInt(strDate[1]);
+                newMonth = month - 1;
+                newDay = Integer.parseInt(strDate[2]);
+                break;
+            }
+        }
 
         //EditTextにリスナーをつける
-        TargetLimitText.setOnClickListener(new View.OnClickListener() {
+        limitText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -61,7 +92,7 @@ public class EventFix extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 //setした日付を取得して表示
-                                TargetLimitText.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                                limitText.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
                                 newYear = year;
                                 newMonth = month;
                                 newDay = dayOfMonth;
@@ -114,6 +145,11 @@ public class EventFix extends AppCompatActivity {
                 break;
             case "eventDetail":
                 Intent intent1 = new Intent(EventFix.this, EventDetail.class);
+                intent1.putExtra("_id",_id);
+                intent1.putExtra("event",event);
+                intent1.putExtra("amount",amount);
+                intent1.putExtra("limit",limit);
+                intent1.putExtra("member",member);
                 startActivity(intent1);
                 finish();
                 break;
@@ -131,10 +167,10 @@ public class EventFix extends AppCompatActivity {
             TextView limitText = findViewById(R.id.limit);
             TextView memberText = findViewById(R.id.member);
 
-            String event = eventText.getText().toString();
-            String amount = amountText.getText().toString();
-            String limit = limitText.getText().toString();
-            String member = memberText.getText().toString();
+            event = eventText.getText().toString();
+            amount = amountText.getText().toString();
+            limit = limitText.getText().toString();
+            member = memberText.getText().toString();
 
             if (event.equals("") || amount.equals("") || member.equals("")) {
                 // 未入力の項目があるとき
@@ -148,8 +184,6 @@ public class EventFix extends AppCompatActivity {
 
                 switch (moveFlg) {
                     case "event":
-
-                        // 入力制限toast
 
 
                         // 登録
@@ -178,24 +212,21 @@ public class EventFix extends AppCompatActivity {
                             db.close();
                         }
 
-                        // Intent intent = new Intent(EventFix.this, Event.class);
-
-                        Intent intent = new Intent(EventFix.this, Look.class);
+                        Intent intent = new Intent(EventFix.this, Event.class);
                         startActivity(intent);
                         finish();
 
                         break;
                     case "eventDetail":
 
-                        // 入力制限toast
-
                         // 修正
                         // DB更新処理(UPDATE)
                         int id = Integer.parseInt(_id);
 
                         try {
-                            String sqlUpdate = "UPDATE event6 SET eventname = ?, eventamount = ?, eventlimit = ?, eventmember = ?, WHERE eventid = " + id;
+                            String sqlUpdate = "UPDATE event6 SET eventname = ?, eventamount = ?, eventlimit = ?, eventmember = ? WHERE _id =" + id;
                             SQLiteStatement stmt = db.compileStatement(sqlUpdate);
+
                             stmt.bindString(1, event);
                             stmt.bindString(2, amount);
                             stmt.bindString(3, limit);
@@ -207,10 +238,12 @@ public class EventFix extends AppCompatActivity {
                             db.close();
                         }
 
-                        // Intent intent1 = new Intent(EventFix.this, EventDetail.class);
-
-                        Intent intent1 = new Intent(EventFix.this, FuLook.class);
-                        intent1.putExtra("listId", _id);
+                        Intent intent1 = new Intent(EventFix.this, EventDetail.class);
+                        intent1.putExtra("_id",_id);
+                        intent1.putExtra("event",event);
+                        intent1.putExtra("amount",amount);
+                        intent1.putExtra("limit",limit);
+                        intent1.putExtra("member",member);
 
                         startActivity(intent1);
                         finish();

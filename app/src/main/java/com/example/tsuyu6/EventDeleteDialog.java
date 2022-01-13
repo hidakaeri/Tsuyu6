@@ -63,7 +63,7 @@ public class EventDeleteDialog extends DialogFragment  {
                     SQLiteDatabase db = helper.getWritableDatabase();
 
                     try {
-                        String sqlDelete = "DELETE FROM event6 WHERE eventid = " + _id;
+                        String sqlDelete = "DELETE FROM event6 WHERE _id = " + _id;
                         SQLiteStatement stmt = db.compileStatement(sqlDelete);
                         stmt.executeUpdateDelete();
                     }finally {

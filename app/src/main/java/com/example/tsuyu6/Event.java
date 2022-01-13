@@ -21,7 +21,6 @@ import java.util.Map;
 
 public class Event extends AppCompatActivity {
 
-    static String _id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +48,12 @@ public class Event extends AppCompatActivity {
         }
         try {
 
-            String sql = "SELECT * FROM event6";
-            Cursor cur = db.rawQuery(sql, null);
-
-            //DBの_idをリストに渡す
-            /*String[] from = {"_id","eventname","eventamount","eventlimit","eventmember"};
-            int[] to = {R.id.eventid,R.id.event, R.id.amount, R.id.limit,R.id.member};
-            SimpleCursorAdapter adapter = new SimpleCursorAdapter(Event.this, R.layout.row2, cur, from, to,0);
-            lvMenu.setAdapter(adapter);*/
-
             //1行ずつDBからリストへ
             long Count = DatabaseUtils.queryNumEntries(db,"event6", null,null);
             for (int i = 0; i <= Count; i++){
+
+                String sql = "SELECT * FROM event6 LIMIT " + i + "," +1;
+                Cursor cur = db.rawQuery(sql, null);
 
                 String _id = "";
                 String event = "";
@@ -110,32 +103,6 @@ public class Event extends AppCompatActivity {
         lvMenu.setOnItemClickListener(new ListItemClickListener());
 
 
-        /*
-        menu = new HashMap<>();
-        menu.put("_id", "_id");
-        menu.put("event", "event");
-        menu.put("amount", "amount");
-        menu.put("limit","limit");
-        menu.put("member", "member");
-        menuList.add(menu);
-
-        menu = new HashMap<>();
-        menu.put("_id", "_id");
-        menu.put("event", "event");
-        menu.put("amount", "amount");
-        menu.put("limit","limit");
-        menu.put("member", "member");
-        menuList.add(menu);
-
-        String[] from = {"_id","event","amount","limit","member"};
-        int[] to = {R.id.eventid,R.id.event, R.id.amount, R.id.limit,R.id.member};
-        SimpleAdapter adapter = new SimpleAdapter(Event.this,menuList,R.layout.row2,from,to);
-        lvMenu.setAdapter(adapter);
-
-         */
-
-
-
         // 作成ボタンの取得
         Button createClick = findViewById(R.id.create);
         // 作成ボタンのリスナクラスのインスタンスを作成
@@ -160,11 +127,20 @@ public class Event extends AppCompatActivity {
             Map<String, Object> item = (Map<String, Object>)parent.getItemAtPosition(position);
 
             String _id = item.get("_id").toString();
+            String event = item.get("event").toString();
+            String amount = item.get("amount").toString();
+            String limit = item.get("limit").toString();
+            String member = item.get("member").toString();
 
 
             Intent intent = new Intent(Event.this, EventDetail.class);
 
-            intent.putExtra("listId",_id);
+            intent.putExtra("_id",_id);
+            intent.putExtra("event",event);
+            intent.putExtra("amount",amount);
+            intent.putExtra("limit",limit);
+            intent.putExtra("member",member);
+
 
             startActivity(intent);
             finish();

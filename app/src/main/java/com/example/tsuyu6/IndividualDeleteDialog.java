@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -51,8 +53,39 @@ public class IndividualDeleteDialog extends DialogFragment {
                     // DELETE文実行
                     // DBの更新処理(DELETE)
 
+                    // DELETE文実行
+                    IndividualFix fix = new IndividualFix();
+
+                    String listId = fix._id;
+                    String _id1 = fix._id1;
+                    String event1 = fix.event1;
+                    String amount1 = fix.amount1;
+                    String limit1 = fix.limit1;
+                    String member1 = fix.member1;
+
+
+                    // DBの更新処理(DELETE)
+                    int _id = Integer.parseInt(listId);
+                    DatabaseHelper helper = new DatabaseHelper(getActivity());
+                    SQLiteDatabase db = helper.getWritableDatabase();
+
+                    try {
+                        String sqlDelete = "DELETE FROM individual6 WHERE _id = " + _id;
+                        SQLiteStatement stmt = db.compileStatement(sqlDelete);
+                        stmt.executeUpdateDelete();
+                    }finally {
+                        db.close();
+                    }
+
                     // 画面遷移
                     Intent intent = new Intent(getActivity(), EventDetail.class);
+
+                    intent.putExtra("_id",_id1);
+                    intent.putExtra("event",event1);
+                    intent.putExtra("amount",amount1);
+                    intent.putExtra("limit",limit1);
+                    intent.putExtra("member",member1);
+
                     startActivity(intent);
                     getActivity().finish();
                     break;

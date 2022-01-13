@@ -11,7 +11,13 @@
     android:paddingEnd="10dp">
 
     <TextView
-        android:id="@+id/display_id"
+        android:id="@+id/_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="0sp"/>
+
+    <TextView
+        android:id="@+id/event_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="0sp"/>

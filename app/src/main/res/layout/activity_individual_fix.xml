@@ -24,7 +24,7 @@
             android:textSize="20sp"
             android:layout_gravity="center"
             android:background="@color/share_accent"
-            android:text="Login"/>
+            android:text=""/>
 
 
         <LinearLayout

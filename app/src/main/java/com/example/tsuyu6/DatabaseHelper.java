@@ -42,7 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         StringBuilder esb = new StringBuilder();
         esb.append("CREATE TABLE event6 (");
-        esb.append("_id TEXT, ");
+        esb.append("_id INTEGER PRIMARY KEY,");
         esb.append("eventname TEXT, ");
         esb.append("eventamount TEXT, ");
         esb.append("eventlimit DATE, ");
@@ -50,10 +50,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         esb.append(");");
         String eventSql = esb.toString();
 
+        StringBuilder isb = new StringBuilder();
+        isb.append("CREATE TABLE individual6 (");
+        isb.append("_id INTEGER PRIMARY KEY,");
+        isb.append("event_id TEXT, ");
+        isb.append("date DATE, ");
+        isb.append("member TEXT, ");
+        isb.append("amount TEXT");
+        isb.append(");");
+        String individualSql = isb.toString();
+
         db.execSQL(sql);
         db.execSQL(targetSql);
         db.execSQL(loginSql);
         db.execSQL(eventSql);
+        db.execSQL(individualSql);
     }
 
     @Override

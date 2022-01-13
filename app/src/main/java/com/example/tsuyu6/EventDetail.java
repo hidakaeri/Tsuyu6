@@ -3,6 +3,8 @@ package com.example.tsuyu6;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
@@ -24,6 +26,15 @@ import java.util.Map;
 
 public class EventDetail extends AppCompatActivity {
 
+    static String _id1 = "";
+    static String event1 = "";
+    static String amount1 = "";
+    static String limit1 = "";
+    static String member1 = "";
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,22 +42,94 @@ public class EventDetail extends AppCompatActivity {
 
         ListView lvMenu = findViewById(R.id.eventDetail_list);
         List<Map<String,Object>> menuList = new ArrayList<>();
+
+        //DB接続準備
+        DatabaseHelper helper = new DatabaseHelper(EventDetail.this);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+
         Map<String,Object> menu = new HashMap<>();
 
-        menu = new HashMap<>();
-        menu.put("_id", "12345");
-        menu.put("date", "2021/12/21");
-        menu.put("member","はなまる");
-        menu.put("amount", "3000");
-        menuList.add(menu);
+        Intent intent = getIntent();
+        _id1 = intent.getStringExtra("_id");
+        event1 = intent.getStringExtra("event");
+        amount1 = intent.getStringExtra("amount");
+        limit1 = intent.getStringExtra("limit");
+        member1 = intent.getStringExtra("member");
 
 
-        String[] from = {"_id","date","member","amount"};
-        int[] to = {R.id.display_id,R.id.date, R.id.member, R.id.amount};
+        TextView eventText = findViewById(R.id.event);
+        eventText.setText(event1);
+
+        TextView amountText = findViewById(R.id.amount);
+        amountText.setText(amount1);
+
+        TextView limitText = findViewById(R.id.limit);
+        limitText.setText(limit1);
+
+        //DB操作(SELECT)
+        if(helper == null){
+            helper = new DatabaseHelper(getApplicationContext());
+        }
+        if(db == null){
+            db = helper.getReadableDatabase();
+        }
+        try {
+
+            //1行ずつDBからリストへ
+            long Count = DatabaseUtils.queryNumEntries(db,"individual6", null,null);
+            for (int i = 0; i <= Count; i++){
+
+                String sql = "SELECT * FROM individual6 LIMIT " + i + "," +1;
+                Cursor cur = db.rawQuery(sql, null);
+
+                String _id = "";
+                String event_id = "";
+                String date = "";
+                String member = "";
+                String amount = "";
+
+                while(cur.moveToNext()){
+                    //DBの列番号(index)を取得
+                    int idxId = cur.getColumnIndex("_id");
+                    int idxEventId = cur.getColumnIndex("event_id");
+                    int idxDate = cur.getColumnIndex("date");
+                    int idxMember = cur.getColumnIndex("member");
+                    int idxAmount = cur.getColumnIndex("amount");
+
+                    //列番号(index)にあるデータを取得
+                    _id = cur.getString(idxId);
+                    event_id = cur.getString(idxEventId);
+                    date = cur.getString(idxDate);
+                    member = cur.getString(idxMember);
+                    amount = cur.getString(idxAmount);
+
+
+                    //取得したデータをリストのmapに入れる
+                    menu = new HashMap<>();
+                    menu.put("_id", _id);
+                    menu.put("event_id", event_id);
+                    menu.put("date", date);
+                    menu.put("member",member);
+                    menu.put("amount", amount);
+                    menuList.add(menu);
+
+                    cur.moveToFirst();
+                }
+            }
+
+
+        }finally {
+            db.close();
+        }
+
+        String[] from = {"_id","event_id","date","member","amount"};
+        int[] to = {R.id._id,R.id.event_id, R.id.date, R.id.member,R.id.amount};
         SimpleAdapter adapter = new SimpleAdapter(EventDetail.this,menuList,R.layout.row3,from,to);
         lvMenu.setAdapter(adapter);
 
         lvMenu.setOnItemClickListener(new ListItemClickListener());
+
 
         // 修正ボタンの取得
         Button fixClick = findViewById(R.id.fixClick);
@@ -79,6 +162,11 @@ public class EventDetail extends AppCompatActivity {
 
             Intent intent = new Intent(EventDetail.this, EventFix.class);
             intent.putExtra("moveFlg","eventDetail");
+            intent.putExtra("_id",_id1);
+            intent.putExtra("amount",amount1);
+            intent.putExtra("limit",limit1);
+            intent.putExtra("member",member1);
+
             startActivity(intent);
             finish();
         }
@@ -91,11 +179,27 @@ public class EventDetail extends AppCompatActivity {
             Map<String, Object> item = (Map<String, Object>)parent.getItemAtPosition(position);
 
             String _id = item.get("_id").toString();
+            String event_id = item.get("event_id").toString();
+            String date = item.get("date").toString();
+            String member = item.get("member").toString();
+            String amount = item.get("amount").toString();
 
 
             Intent intent = new Intent(EventDetail.this, IndividualFix.class);
 
-            intent.putExtra("listId",_id);
+            intent.putExtra("_id",_id);
+            intent.putExtra("event_id",event_id);
+            intent.putExtra("date",date);
+            intent.putExtra("member",member);
+            intent.putExtra("amount",amount);
+
+            intent.putExtra("moveFlg","fix");
+
+            intent.putExtra("_id1",_id1);
+            intent.putExtra("event1",event1);
+            intent.putExtra("amount1",amount1);
+            intent.putExtra("limit1",limit1);
+            intent.putExtra("member1",member1);
 
             startActivity(intent);
             finish();
@@ -109,6 +213,15 @@ public class EventDetail extends AppCompatActivity {
 
             // 入力画面に遷移
             Intent intent = new Intent(EventDetail.this, IndividualFix.class);
+            intent.putExtra("event_id",_id1);
+            intent.putExtra("moveFlg","input");
+
+            intent.putExtra("_id1",_id1);
+            intent.putExtra("event1",event1);
+            intent.putExtra("amount1",amount1);
+            intent.putExtra("limit1",limit1);
+            intent.putExtra("member1",member1);
+
             startActivity(intent);
             finish();
         }

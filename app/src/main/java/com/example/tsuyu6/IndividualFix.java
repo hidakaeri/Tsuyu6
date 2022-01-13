@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
@@ -24,19 +25,71 @@ public class IndividualFix extends AppCompatActivity {
     int newMonth;
     int newDay;
 
+    static String moveFlg = "";
+    static String _id = "";
+    static String event_id = "";
+    static String date = "";
+    static String member = "";
+    static String amount = "";
+
+    static String _id1 = "";
+    static String event1 = "";
+    static String amount1 = "";
+    static String limit1 = "";
+    static String member1 = "";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_fix);
 
-        // 現在日時の取得
-        Calendar date = Calendar.getInstance();
-        newYear = date.get(Calendar.YEAR);
-        newMonth = date.get(Calendar.MONTH);
-        newDay = date.get(Calendar.DATE);
+        Intent intent = getIntent();
+        moveFlg = intent.getStringExtra("moveFlg");
+        _id = intent.getStringExtra("_id");
+        event_id = intent.getStringExtra("event_id");
+        date = intent.getStringExtra("date");
+        member = intent.getStringExtra("member");
+        amount = intent.getStringExtra("amount");
 
+        _id1 = intent.getStringExtra("_id1");
+        event1 = intent.getStringExtra("event1");
+        amount1 = intent.getStringExtra("amount1");
+        limit1 = intent.getStringExtra("limit1");
+        member1 = intent.getStringExtra("member1");
+
+
+        // 修正の場合の初期値表示
         TextView DateText = findViewById(R.id.date);
+        TextView AmountText = findViewById(R.id.amount);
+        AmountText.setText(amount);
+
+
+        switch (moveFlg){
+            case "input":
+                // 登録の時
+                // 現在日時の取得
+                Calendar inputDate = Calendar.getInstance();
+                newYear = inputDate.get(Calendar.YEAR);
+                newMonth = inputDate.get(Calendar.MONTH);
+                newDay = inputDate.get(Calendar.DATE);
+                DateText.setText(String.format("%d / %02d / %02d", newYear, newMonth + 1, newDay));
+                break;
+            case "fix":
+                // 修正の時
+                DateText.setText(date);
+                // DBの日時の分割（初期値用）
+                String[] strDate = date.split(" / ");
+                newYear = Integer.parseInt(strDate[0]);
+                int month = Integer.parseInt(strDate[1]);
+                newMonth = month - 1;
+                newDay = Integer.parseInt(strDate[2]);
+                break;
+
+
+        }
+
 
         //EditTextにリスナーをつける
         DateText.setOnClickListener(new View.OnClickListener() {
@@ -105,10 +158,106 @@ public class IndividualFix extends AppCompatActivity {
         @Override
         public void onClick (View view) {
 
+            TextView DateText = findViewById(R.id.date);
+            TextView AmountText = findViewById(R.id.amount);
 
-                Intent intent = new Intent(IndividualFix.this, EventDetail.class);
-                startActivity(intent);
-                finish();
+            date = DateText.getText().toString();
+            amount = AmountText.getText().toString();
+
+            // メンバー(自分のID)入力
+            DatabaseHelper helper = new DatabaseHelper(IndividualFix.this);
+            SQLiteDatabase db = helper.getWritableDatabase();
+
+            String sql = "SELECT * FROM login6";
+            Cursor cur = db.rawQuery(sql, null);
+            while(cur.moveToNext()){
+                int loginIdId = cur.getColumnIndex("loginid");
+
+                String loginId;
+                loginId = cur.getString(loginIdId);
+                member = loginId;
+                cur.moveToFirst();
+            }
+
+
+
+            if (amount.equals("")) {
+                // 金額未入力
+                // トースト表示
+                Toast.makeText(IndividualFix.this, R.string.toast_amount, Toast.LENGTH_LONG).show();
+
+            } else {
+
+
+
+                switch (moveFlg) {
+                    case "input":
+
+
+                        // 登録
+                        // DBの更新処理(INSERT)
+
+
+                        if (helper == null) {
+                            helper = new DatabaseHelper(getApplicationContext());
+                        }
+
+                        if (db == null) {
+                            db = helper.getReadableDatabase();
+                        }
+                        try {
+                            String sqlInsert = "INSERT INTO individual6 (_id, event_id, date, member, amount) VALUES (?,?,?,?,?)";
+                            SQLiteStatement stmt = db.compileStatement(sqlInsert);
+
+                            stmt.bindString(2, event_id);
+                            stmt.bindString(3, date);
+                            stmt.bindString(4, member);
+                            stmt.bindString(5, amount);
+
+                            stmt.executeInsert();
+
+                        } finally {
+                            db.close();
+                        }
+
+                        break;
+                    case "fix":
+
+                        // 修正
+                        // DB更新処理(UPDATE)
+                        int id = Integer.parseInt(_id);
+
+                        try {
+                            String sqlUpdate = "UPDATE individual6 SET event_id = ?, date = ?, member = ?, amount = ? WHERE _id =" + id;
+                            SQLiteStatement stmt = db.compileStatement(sqlUpdate);
+
+                            stmt.bindString(1, event_id);
+                            stmt.bindString(2, date);
+                            stmt.bindString(3, member);
+                            stmt.bindString(4, amount);
+
+                            stmt.executeInsert();
+
+                        } finally {
+                            db.close();
+                        }
+                        break;
+
+                }
+            }
+
+
+
+            Intent intent = new Intent(IndividualFix.this, EventDetail.class);
+
+            intent.putExtra("_id",_id1);
+            intent.putExtra("event",event1);
+            intent.putExtra("amount",amount1);
+            intent.putExtra("limit",limit1);
+            intent.putExtra("member",member1);
+
+            startActivity(intent);
+            finish();
 
 
         }
