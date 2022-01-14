@@ -67,6 +67,21 @@ public class EventDetail extends AppCompatActivity {
         TextView limitText = findViewById(R.id.limit);
         limitText.setText(limit1);
 
+        TextView SavingText = findViewById(R.id.now_saving);
+
+
+        int id = Integer.parseInt(_id1);
+
+        // 貯金額計算
+        String totalSql = "SELECT TOTAL(amount) FROM individual6 " +
+                "WHERE event_id = " + id;
+
+        Cursor cur = db.rawQuery(totalSql,null);
+        cur.moveToFirst();
+        int total = cur.getInt(0);
+
+        SavingText.setText(Integer.toString(total));
+
         //DB操作(SELECT)
         if(helper == null){
             helper = new DatabaseHelper(getApplicationContext());
@@ -80,8 +95,8 @@ public class EventDetail extends AppCompatActivity {
             long Count = DatabaseUtils.queryNumEntries(db,"individual6", null,null);
             for (int i = 0; i <= Count; i++){
 
-                String sql = "SELECT * FROM individual6 LIMIT " + i + "," +1;
-                Cursor cur = db.rawQuery(sql, null);
+                String sql = "SELECT * FROM individual6 WHERE event_id = " + id + " LIMIT " + i + "," +1;
+                cur = db.rawQuery(sql, null);
 
                 String _id = "";
                 String event_id = "";
