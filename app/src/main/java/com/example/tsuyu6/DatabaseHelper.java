@@ -56,7 +56,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         isb.append("event_id TEXT, ");
         isb.append("date DATE, ");
         isb.append("member TEXT, ");
-        isb.append("amount TEXT");
+        isb.append("amount TEXT,");
+        isb.append("kakeibo_id TEXT");
         isb.append(");");
         String individualSql = isb.toString();
 

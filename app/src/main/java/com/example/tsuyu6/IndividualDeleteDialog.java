@@ -57,6 +57,7 @@ public class IndividualDeleteDialog extends DialogFragment {
                     IndividualFix fix = new IndividualFix();
 
                     String listId = fix._id;
+                    String kakeibo_id = fix.kakeibo_id;
                     String _id1 = fix._id1;
                     String event1 = fix.event1;
                     String amount1 = fix.amount1;
@@ -65,14 +66,22 @@ public class IndividualDeleteDialog extends DialogFragment {
 
 
                     // DBの更新処理(DELETE)
-                    int _id = Integer.parseInt(listId);
                     DatabaseHelper helper = new DatabaseHelper(getActivity());
                     SQLiteDatabase db = helper.getWritableDatabase();
 
+
                     try {
-                        String sqlDelete = "DELETE FROM individual6 WHERE _id = " + _id;
+
+                        // 家計簿
+                        String sqlDelete = "DELETE FROM tsuyu6 WHERE _id = " + kakeibo_id;
                         SQLiteStatement stmt = db.compileStatement(sqlDelete);
                         stmt.executeUpdateDelete();
+
+                        // individual
+                        int _id = Integer.parseInt(listId);
+                        String sqlDelete2 = "DELETE FROM individual6 WHERE _id = " + _id;
+                        SQLiteStatement stmt2 = db.compileStatement(sqlDelete2);
+                        stmt2.executeUpdateDelete();
                     }finally {
                         db.close();
                     }

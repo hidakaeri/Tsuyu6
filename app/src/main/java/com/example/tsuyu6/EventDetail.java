@@ -103,6 +103,7 @@ public class EventDetail extends AppCompatActivity {
                 String date = "";
                 String member = "";
                 String amount = "";
+                String kakeibo_id = "";
 
                 while(cur.moveToNext()){
                     //DBの列番号(index)を取得
@@ -111,6 +112,7 @@ public class EventDetail extends AppCompatActivity {
                     int idxDate = cur.getColumnIndex("date");
                     int idxMember = cur.getColumnIndex("member");
                     int idxAmount = cur.getColumnIndex("amount");
+                    int idxKakeiboId = cur.getColumnIndex("kakeibo_id");
 
                     //列番号(index)にあるデータを取得
                     _id = cur.getString(idxId);
@@ -118,6 +120,7 @@ public class EventDetail extends AppCompatActivity {
                     date = cur.getString(idxDate);
                     member = cur.getString(idxMember);
                     amount = cur.getString(idxAmount);
+                    kakeibo_id = cur.getString(idxKakeiboId);
 
 
                     //取得したデータをリストのmapに入れる
@@ -127,6 +130,7 @@ public class EventDetail extends AppCompatActivity {
                     menu.put("date", date);
                     menu.put("member",member);
                     menu.put("amount", amount);
+                    menu.put("kakeibo_id", kakeibo_id);
                     menuList.add(menu);
 
                     cur.moveToFirst();
@@ -138,8 +142,8 @@ public class EventDetail extends AppCompatActivity {
             db.close();
         }
 
-        String[] from = {"_id","event_id","date","member","amount"};
-        int[] to = {R.id._id,R.id.event_id, R.id.date, R.id.member,R.id.amount};
+        String[] from = {"_id","event_id","date","member","amount","kakeibo_id"};
+        int[] to = {R.id._id,R.id.event_id, R.id.date, R.id.member,R.id.amount,R.id.kakeibo_id};
         SimpleAdapter adapter = new SimpleAdapter(EventDetail.this,menuList,R.layout.row3,from,to);
         lvMenu.setAdapter(adapter);
 
@@ -178,6 +182,7 @@ public class EventDetail extends AppCompatActivity {
             Intent intent = new Intent(EventDetail.this, EventFix.class);
             intent.putExtra("moveFlg","eventDetail");
             intent.putExtra("_id",_id1);
+            intent.putExtra("event",event1);
             intent.putExtra("amount",amount1);
             intent.putExtra("limit",limit1);
             intent.putExtra("member",member1);
@@ -198,6 +203,8 @@ public class EventDetail extends AppCompatActivity {
             String date = item.get("date").toString();
             String member = item.get("member").toString();
             String amount = item.get("amount").toString();
+            String kakeibo_id = item.get("kakeibo_id").toString();
+
 
 
             Intent intent = new Intent(EventDetail.this, IndividualFix.class);
@@ -207,6 +214,7 @@ public class EventDetail extends AppCompatActivity {
             intent.putExtra("date",date);
             intent.putExtra("member",member);
             intent.putExtra("amount",amount);
+            intent.putExtra("kakeibo_id",kakeibo_id);
 
             intent.putExtra("moveFlg","fix");
 

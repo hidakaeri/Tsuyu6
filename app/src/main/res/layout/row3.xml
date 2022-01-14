@@ -55,6 +55,12 @@
             android:text="@string/amount"
             android:textSize="20sp" />
 
+        <TextView
+            android:id="@+id/kakeibo_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="0sp"/>
+
     </LinearLayout>
 
 </LinearLayout>

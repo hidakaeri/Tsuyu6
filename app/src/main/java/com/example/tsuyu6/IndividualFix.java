@@ -31,6 +31,7 @@ public class IndividualFix extends AppCompatActivity {
     static String date = "";
     static String member = "";
     static String amount = "";
+    static String kakeibo_id = "";
 
     static String _id1 = "";
     static String event1 = "";
@@ -70,10 +71,11 @@ public class IndividualFix extends AppCompatActivity {
             case "input":
                 // 登録の時
                 // 現在日時の取得
-                Calendar inputDate = Calendar.getInstance();
-                newYear = inputDate.get(Calendar.YEAR);
-                newMonth = inputDate.get(Calendar.MONTH);
-                newDay = inputDate.get(Calendar.DATE);
+                Calendar Date = Calendar.getInstance();
+
+                newYear = Date.get(Calendar.YEAR);
+                newMonth = Date.get(Calendar.MONTH);
+                newDay = Date.get(Calendar.DATE);
                 DateText.setText(String.format("%d / %02d / %02d", newYear, newMonth + 1, newDay));
                 break;
             case "fix":
@@ -149,6 +151,13 @@ public class IndividualFix extends AppCompatActivity {
     public void onBackButtonClick(View view) {
 
         Intent intent = new Intent(IndividualFix.this, EventDetail.class);
+
+        intent.putExtra("_id",_id1);
+        intent.putExtra("event",event1);
+        intent.putExtra("amount",amount1);
+        intent.putExtra("limit",limit1);
+        intent.putExtra("member",member1);
+
         startActivity(intent);
         finish();
     }
@@ -164,10 +173,27 @@ public class IndividualFix extends AppCompatActivity {
             date = DateText.getText().toString();
             amount = AmountText.getText().toString();
 
-            // メンバー(自分のID)入力
+            // DB更新準備
             DatabaseHelper helper = new DatabaseHelper(IndividualFix.this);
             SQLiteDatabase db = helper.getWritableDatabase();
 
+            // 現在日時の取得
+            Calendar Date = Calendar.getInstance();
+
+            newYear = Date.get(Calendar.YEAR);
+            newMonth = Date.get(Calendar.MONTH);
+            newDay = Date.get(Calendar.DATE);
+
+            String inputDate = String.format("%d / %02d / %02d", newYear, newMonth + 1, newDay);
+
+
+            // 更新内容を変数に代入
+            String inputItem = event1;
+            int inputAmount = (Integer.parseInt(amount)) * -1;
+            String inputMemo = "共有";
+            String inputFlg = "家計簿";
+
+            // メンバー(自分のID)入力
             String sql = "SELECT * FROM login6";
             Cursor cur = db.rawQuery(sql, null);
             while(cur.moveToNext()){
@@ -179,8 +205,6 @@ public class IndividualFix extends AppCompatActivity {
                 cur.moveToFirst();
             }
 
-
-
             if (amount.equals("")) {
                 // 金額未入力
                 // トースト表示
@@ -188,62 +212,95 @@ public class IndividualFix extends AppCompatActivity {
 
             } else {
 
-
-
                 switch (moveFlg) {
                     case "input":
 
-
                         // 登録
-                        // DBの更新処理(INSERT)
 
 
-                        if (helper == null) {
+                        if(helper == null){
                             helper = new DatabaseHelper(getApplicationContext());
                         }
 
-                        if (db == null) {
+                        if(db == null){
                             db = helper.getReadableDatabase();
                         }
                         try {
-                            String sqlInsert = "INSERT INTO individual6 (_id, event_id, date, member, amount) VALUES (?,?,?,?,?)";
-                            SQLiteStatement stmt = db.compileStatement(sqlInsert);
+                            // DBの更新処理(INSERT)
 
-                            stmt.bindString(2, event_id);
-                            stmt.bindString(3, date);
-                            stmt.bindString(4, member);
-                            stmt.bindString(5, amount);
+                            // 家計簿
+                            String sqlInsert = "INSERT INTO tsuyu6 (_id, date, item, amount, memo, flag) VALUES (?,?,?,?,?,?)";
+                            SQLiteStatement stmt = db.compileStatement(sqlInsert);
+                            stmt.bindString(2, inputDate);
+                            stmt.bindString(3, inputItem);
+                            stmt.bindLong(4, inputAmount);
+                            stmt.bindString(5, inputMemo);
+                            stmt.bindString(6,inputFlg);
 
                             stmt.executeInsert();
 
-                        } finally {
+
+
+                            // tsuyu6 DB のid取得
+                            String sql1 = "SELECT _id FROM tsuyu6 WHERE _id = (SELECT max(_id) FROM tsuyu6)";
+                            cur = db.rawQuery(sql1, null);
+                            while(cur.moveToNext()){
+                                int idId = cur.getColumnIndex("_id");
+
+                                kakeibo_id = cur.getString(idId);
+
+                                cur.moveToFirst();
+                            }
+
+                            // individual6
+
+                            String sqlInsert2 = "INSERT INTO individual6 (_id, event_id, date, member, amount, kakeibo_id) VALUES (?,?,?,?,?,?)";
+                            SQLiteStatement stmt2 = db.compileStatement(sqlInsert2);
+
+                            stmt2.bindString(2, event_id);
+                            stmt2.bindString(3, date);
+                            stmt2.bindString(4, member);
+                            stmt2.bindString(5, amount);
+                            stmt2.bindString(6, kakeibo_id);
+
+                            stmt2.executeInsert();
+                        }finally {
                             db.close();
                         }
+
 
                         break;
                     case "fix":
 
-                        // 修正
-                        // DB更新処理(UPDATE)
-                        int id = Integer.parseInt(_id);
+                        int id = Integer.parseInt(kakeibo_id);
 
                         try {
-                            String sqlUpdate = "UPDATE individual6 SET event_id = ?, date = ?, member = ?, amount = ? WHERE _id =" + id;
+                            String sqlUpdate = "UPDATE tsuyu6 SET date = ?, amount = ? WHERE _id = " + id;
                             SQLiteStatement stmt = db.compileStatement(sqlUpdate);
-
-                            stmt.bindString(1, event_id);
-                            stmt.bindString(2, date);
-                            stmt.bindString(3, member);
-                            stmt.bindString(4, amount);
+                            stmt.bindString(1, inputDate);
+                            stmt.bindLong(2, inputAmount);
 
                             stmt.executeInsert();
 
-                        } finally {
-                            db.close();
-                        }
-                        break;
+                            // 修正
+                            // DB更新処理(UPDATE)
+                            id = Integer.parseInt(_id);
 
-                }
+                            String sqlUpdate2 = "UPDATE individual6 SET event_id = ?, date = ?, member = ?, amount = ? WHERE _id =" + id;
+                            SQLiteStatement stmt2 = db.compileStatement(sqlUpdate2);
+
+                            stmt2.bindString(1, event_id);
+                            stmt2.bindString(2, date);
+                            stmt2.bindString(3, member);
+                            stmt2.bindString(4, amount);
+
+                            stmt.executeInsert();
+
+                            } finally {
+                                db.close();
+                            }
+                            break;
+                        }
             }
 
 
