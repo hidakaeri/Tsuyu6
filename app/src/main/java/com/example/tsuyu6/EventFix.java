@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
@@ -24,6 +25,10 @@ public class EventFix extends AppCompatActivity {
     int newYear;
     int newMonth;
     int newDay;
+
+    static int inputYear;
+    static int inputMonth;
+    static int inputDay;
 
     static String _id = "";
     static String event = "";
@@ -96,6 +101,9 @@ public class EventFix extends AppCompatActivity {
                                 newYear = year;
                                 newMonth = month;
                                 newDay = dayOfMonth;
+                                inputYear = year;
+                                inputMonth = month;
+                                inputDay = dayOfMonth;
                             }
                         },
                         newYear,newMonth,newDay
@@ -172,11 +180,21 @@ public class EventFix extends AppCompatActivity {
             limit = limitText.getText().toString();
             member = memberText.getText().toString();
 
+
+            // 現在日時の取得
+            Calendar date = Calendar.getInstance();
+            newYear = date.get(Calendar.YEAR);
+            newMonth = date.get(Calendar.MONTH);
+            newDay = date.get(Calendar.DATE);
+
             if (event.equals("") || amount.equals("") || member.equals("")) {
                 // 未入力の項目があるとき
                 // トースト表示
                 Toast.makeText(EventFix.this, R.string.toast_setting_null, Toast.LENGTH_LONG).show();
-
+            } else if (inputYear < newYear || (inputYear == newYear && inputMonth < newMonth) ||
+                    (inputYear == newYear && inputMonth == newMonth && inputDay <= newDay)) {
+                // 期限に過去の日付が入力されたときの処理
+                Toast.makeText(EventFix.this, R.string.toast_setting_past, Toast.LENGTH_LONG).show();
             } else {
 
                 DatabaseHelper helper = new DatabaseHelper(EventFix.this);
@@ -224,6 +242,8 @@ public class EventFix extends AppCompatActivity {
                         int id = Integer.parseInt(_id);
 
                         try {
+
+
                             String sqlUpdate = "UPDATE event6 SET eventname = ?, eventamount = ?, eventlimit = ?, eventmember = ? WHERE _id =" + id;
                             SQLiteStatement stmt = db.compileStatement(sqlUpdate);
 
@@ -233,6 +253,17 @@ public class EventFix extends AppCompatActivity {
                             stmt.bindString(4, member);
 
                             stmt.executeInsert();
+
+
+                            // イベント名で家計簿内のデータを更新
+
+                            String sqlUpdate2 = "UPDATE tsuyu6 SET item = ? WHERE _id IN (SELECT kakeibo_id FROM individual6 WHERE event_id = " + id + ")";
+                            SQLiteStatement stmt2 = db.compileStatement(sqlUpdate2);
+
+                            stmt2.bindString(1, event);
+
+                            stmt2.executeInsert();
+
 
                         } finally {
                             db.close();

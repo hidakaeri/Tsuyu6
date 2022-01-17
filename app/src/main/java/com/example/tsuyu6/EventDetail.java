@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,18 +59,6 @@ public class EventDetail extends AppCompatActivity {
         member1 = intent.getStringExtra("member");
 
 
-        TextView eventText = findViewById(R.id.event);
-        eventText.setText(event1);
-
-        TextView amountText = findViewById(R.id.amount);
-        amountText.setText(amount1);
-
-        TextView limitText = findViewById(R.id.limit);
-        limitText.setText(limit1);
-
-        TextView SavingText = findViewById(R.id.now_saving);
-
-
         int id = Integer.parseInt(_id1);
 
         // 貯金額計算
@@ -80,7 +69,67 @@ public class EventDetail extends AppCompatActivity {
         cur.moveToFirst();
         int total = cur.getInt(0);
 
+        if(total >= Integer.parseInt(amount1)) {
+            // 目標達成時の処理
+            Intent intent3 = new Intent(EventDetail.this, ShareGoal.class);
+            intent3.putExtra("moveFlg","eventDetail");
+            intent3.putExtra("_id",_id1);
+            intent3.putExtra("event",event1);
+            intent3.putExtra("amount",amount1);
+            intent3.putExtra("limit",limit1);
+            intent3.putExtra("member",member1);
+            intent3.putExtra("flg","success");
+            intent3.putExtra("total",total);
+
+            startActivity(intent3);
+            finish();
+        }
+
+        // 現在日時の取得
+        Calendar date1 = Calendar.getInstance();
+        int newYear = date1.get(Calendar.YEAR);
+        int newMonth = date1.get(Calendar.MONTH);
+        int newDay = date1.get(Calendar.DAY_OF_MONTH);
+
+        // 期限の分割
+        String[] strLimit = limit1.split(" / ");
+        int limitYear = Integer.parseInt(strLimit[0]);
+        int limitMonth = Integer.parseInt(strLimit[1]);
+        int limitDay = Integer.parseInt(strLimit[2]);
+
+        // 期限当日の時の処理
+        if(newYear > limitYear ||
+                (newYear == limitYear) && ((newMonth + 1) > limitMonth) ||
+                (newYear == limitYear) && ((newMonth + 1) == limitMonth) && (newDay >= limitDay)) {
+            Intent intent4 = new Intent(EventDetail.this, ShareGoal.class);
+            intent4.putExtra("moveFlg","eventDetail");
+            intent4.putExtra("_id",_id1);
+            intent4.putExtra("event",event1);
+            intent4.putExtra("amount",amount1);
+            intent4.putExtra("limit",limit1);
+            intent4.putExtra("member",member1);
+            intent4.putExtra("flg","time_over");
+            intent4.putExtra("total",total);
+
+            startActivity(intent4);
+            finish();
+        }
+
+
+
+        TextView eventText = findViewById(R.id.event);
+        eventText.setText(event1);
+
+        TextView amountText = findViewById(R.id.amount);
+        amountText.setText(amount1);
+
+        TextView limitText = findViewById(R.id.limit);
+        limitText.setText(limit1);
+
+        TextView SavingText = findViewById(R.id.now_saving);
         SavingText.setText(Integer.toString(total));
+
+
 
         //DB操作(SELECT)
         if(helper == null){

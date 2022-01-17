@@ -52,20 +52,31 @@ public class EventDeleteDialog extends DialogFragment  {
                     // DELETE文実行
                     // DBの更新処理(DELETE)
 
-                    // DELETE文実行
                     EventFix fix = new EventFix();
 
                     String listId = fix._id;
 
-                    // DBの更新処理(DELETE)
                     int _id = Integer.parseInt(listId);
                     DatabaseHelper helper = new DatabaseHelper(getActivity());
                     SQLiteDatabase db = helper.getWritableDatabase();
 
                     try {
+
+                        // event
                         String sqlDelete = "DELETE FROM event6 WHERE _id = " + _id;
                         SQLiteStatement stmt = db.compileStatement(sqlDelete);
                         stmt.executeUpdateDelete();
+
+                        // 家計簿
+                        String sqlDelete2 = "DELETE FROM tsuyu6  WHERE _id IN (SELECT kakeibo_id FROM individual6 WHERE event_id = " + _id + ")";
+                        SQLiteStatement stmt2 = db.compileStatement(sqlDelete2);
+                        stmt2.executeUpdateDelete();
+
+                        // individual
+                        String sqlDelete3 = "DELETE FROM individual6  WHERE event_id =" + _id;
+                        SQLiteStatement stmt3= db.compileStatement(sqlDelete3);
+                        stmt3.executeUpdateDelete();
+
                     }finally {
                         db.close();
                     }

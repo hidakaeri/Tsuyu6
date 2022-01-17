@@ -7,6 +7,7 @@
     <string name="edit">編集</string>
     <string name="fix">修正</string>
     <string name="delete">削除</string>
+
     <string name="input">保存</string>
     <string name="positive_button">ＯＫ</string>
     <string name="negative_button">キャンセル</string>
@@ -49,5 +50,8 @@
     <string name="login">ログイン</string>
     <string name="id">ID</string>
     <string name="password">パスワード</string>
+
+    <string name="event_delete">イベント削除</string>
+    <string name="all_delete">家計簿も削除</string>
 
 </resources>

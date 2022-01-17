@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.main">
         <activity
+            android:name=".ShareGoal"
+            android:exported="false"
+            android:theme="@style/share"/>
+        <activity
             android:name=".Login"
             android:exported="false"
             android:theme="@style/share"

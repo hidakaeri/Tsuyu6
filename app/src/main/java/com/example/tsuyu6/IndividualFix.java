@@ -189,7 +189,6 @@ public class IndividualFix extends AppCompatActivity {
 
             // 更新内容を変数に代入
             String inputItem = event1;
-            int inputAmount = (Integer.parseInt(amount)) * -1;
             String inputMemo = "共有";
             String inputFlg = "家計簿";
 
@@ -211,6 +210,8 @@ public class IndividualFix extends AppCompatActivity {
                 Toast.makeText(IndividualFix.this, R.string.toast_amount, Toast.LENGTH_LONG).show();
 
             } else {
+                int inputAmount = (Integer.parseInt(amount)) * -1;
+
 
                 switch (moveFlg) {
                     case "input":
