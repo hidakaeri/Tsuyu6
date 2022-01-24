@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class IndividualFix extends AppCompatActivity {
 
@@ -31,6 +33,8 @@ public class IndividualFix extends AppCompatActivity {
     static String date = "";
     static String member = "";
     static String amount = "";
+
+    static String kakeibo_id_input = "";
     static String kakeibo_id = "";
 
     static String _id1 = "";
@@ -120,6 +124,10 @@ public class IndividualFix extends AppCompatActivity {
 
         });
 
+
+
+
+
         // 登録ボタンの取得
         Button registerClick = findViewById(R.id.registerClick);
         // 登録ボタンのリスナクラスのインスタンスを作成
@@ -167,15 +175,13 @@ public class IndividualFix extends AppCompatActivity {
         @Override
         public void onClick (View view) {
 
+
+
             TextView DateText = findViewById(R.id.date);
             TextView AmountText = findViewById(R.id.amount);
 
             date = DateText.getText().toString();
             amount = AmountText.getText().toString();
-
-            // DB更新準備
-            DatabaseHelper helper = new DatabaseHelper(IndividualFix.this);
-            SQLiteDatabase db = helper.getWritableDatabase();
 
             // 現在日時の取得
             Calendar Date = Calendar.getInstance();
@@ -189,8 +195,14 @@ public class IndividualFix extends AppCompatActivity {
 
             // 更新内容を変数に代入
             String inputItem = event1;
-            String inputMemo = "共有";
+            String inputMemo = "シェア";
             String inputFlg = "家計簿";
+
+            // DB更新準備
+            DatabaseHelper helper = new DatabaseHelper(IndividualFix.this);
+            SQLiteDatabase db = helper.getWritableDatabase();
+
+
 
             // メンバー(自分のID)入力
             String sql = "SELECT * FROM login6";
@@ -243,12 +255,13 @@ public class IndividualFix extends AppCompatActivity {
 
 
                             // tsuyu6 DB のid取得
+                            // 一番最後のデータ取得
                             String sql1 = "SELECT _id FROM tsuyu6 WHERE _id = (SELECT max(_id) FROM tsuyu6)";
                             cur = db.rawQuery(sql1, null);
                             while(cur.moveToNext()){
                                 int idId = cur.getColumnIndex("_id");
 
-                                kakeibo_id = cur.getString(idId);
+                                kakeibo_id_input = cur.getString(idId);
 
                                 cur.moveToFirst();
                             }
@@ -262,7 +275,7 @@ public class IndividualFix extends AppCompatActivity {
                             stmt2.bindString(3, date);
                             stmt2.bindString(4, member);
                             stmt2.bindString(5, amount);
-                            stmt2.bindString(6, kakeibo_id);
+                            stmt2.bindString(6, kakeibo_id_input);
 
                             stmt2.executeInsert();
                         }finally {
@@ -271,12 +284,29 @@ public class IndividualFix extends AppCompatActivity {
 
 
                         break;
+
                     case "fix":
 
-                        int id = Integer.parseInt(kakeibo_id);
+
+
+                        int id = Integer.parseInt(_id);
+
+                        // kakeibo_id取得
+                        String sql3 = "SELECT kakeibo_id FROM individual6 WHERE _id = " + id;
+                        cur = db.rawQuery(sql3, null);
+                        while(cur.moveToNext()){
+                            int IdxKakeibo_id = cur.getColumnIndex("kakeibo_id");
+
+                            kakeibo_id = cur.getString(IdxKakeibo_id);
+
+                            cur.moveToFirst();
+                        }
+
+
+                        int kakeibo_id_int  = Integer.parseInt(kakeibo_id);
 
                         try {
-                            String sqlUpdate = "UPDATE tsuyu6 SET date = ?, amount = ? WHERE _id = " + id;
+                            String sqlUpdate = "UPDATE tsuyu6 SET date = ?, amount = ? WHERE _id = " + kakeibo_id_int;
                             SQLiteStatement stmt = db.compileStatement(sqlUpdate);
                             stmt.bindString(1, inputDate);
                             stmt.bindLong(2, inputAmount);
@@ -285,7 +315,7 @@ public class IndividualFix extends AppCompatActivity {
 
                             // 修正
                             // DB更新処理(UPDATE)
-                            id = Integer.parseInt(_id);
+                            // int id = Integer.parseInt(_id);
 
                             String sqlUpdate2 = "UPDATE individual6 SET event_id = ?, date = ?, member = ?, amount = ? WHERE _id =" + id;
                             SQLiteStatement stmt2 = db.compileStatement(sqlUpdate2);
@@ -295,11 +325,13 @@ public class IndividualFix extends AppCompatActivity {
                             stmt2.bindString(3, member);
                             stmt2.bindString(4, amount);
 
-                            stmt.executeInsert();
+                            stmt2.executeInsert();
 
                             } finally {
                                 db.close();
                             }
+
+
                             break;
                         }
             }
@@ -325,6 +357,25 @@ public class IndividualFix extends AppCompatActivity {
     private class DeleteClickListener implements View.OnClickListener {
         @Override
         public void onClick (View view) {
+
+
+            // DB更新準備
+            DatabaseHelper helper = new DatabaseHelper(IndividualFix.this);
+            SQLiteDatabase db = helper.getWritableDatabase();
+
+            int id = Integer.parseInt(_id);
+
+            // kakeibo_id取得
+            String sql3 = "SELECT kakeibo_id FROM individual6 WHERE _id = " + id;
+            Cursor cur = db.rawQuery(sql3, null);
+            while(cur.moveToNext()){
+                int IdxKakeibo_id = cur.getColumnIndex("kakeibo_id");
+
+                kakeibo_id = cur.getString(IdxKakeibo_id);
+
+                cur.moveToFirst();
+            }
+
             // ダイアログを開く
             IndividualDeleteDialog dialogFragment = new IndividualDeleteDialog();
             dialogFragment.show(getSupportFragmentManager(),"IndividualDeleteDialog");
