@@ -189,7 +189,7 @@ public class Look extends AppCompatActivity {
         TextView expenditureText = findViewById(R.id.look_expenditure);
 
         // 合計、収入、支出の内容をTextViewにセット
-        // totalText.setText(String.format("%,d", total));
+        totalText.setText(String.format("%,d", total));
         incomeText.setText(String.format("%,d", income));
         expenditureText.setText(String.format("%,d", expenditure));
 
